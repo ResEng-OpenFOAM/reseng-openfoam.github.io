@@ -1,0 +1,755 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reservoir Engineering With OpenFOAM – 1.03 OpenFOAM Workflow: The meshing step</title>
+    <link>/docs/part1/03.openfoam-workflow-the-meshing-step/</link>
+    <description>Recent content in 1.03 OpenFOAM Workflow: The meshing step on Reservoir Engineering With OpenFOAM</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 15 Nov 2020 00:00:00 +0000</lastBuildDate>
+    
+	  <atom:link href="/docs/part1/03.openfoam-workflow-the-meshing-step/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: 01 - Meshing for Reservoir Engineering tasks</title>
+      <link>/docs/part1/03.openfoam-workflow-the-meshing-step/01-meshing-for-reservoir-engineering/</link>
+      <pubDate>Sun, 15 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/03.openfoam-workflow-the-meshing-step/01-meshing-for-reservoir-engineering/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;an-introduction-to-openfoam-meshing&#34;&gt;An introduction to OpenFOAM meshing&lt;/h2&gt;
+&lt;h3 id=&#34;a-quick-note-about-openfoam-mesh-regions&#34;&gt;A quick note about OpenFOAM Mesh Regions&lt;/h3&gt;
+&lt;p&gt;You should already know that, by default, OpenFOAM mesh data is stored under
+&lt;code&gt;constant/polyMesh&lt;/code&gt; directory in each case. In fact, &lt;strong&gt;polyMesh&lt;/strong&gt; here refers to
+the mesh &amp;ldquo;region name&amp;rdquo;. So, if you have multiple mesh regions (region0, region1)
+, their data will be stored in &lt;code&gt;constant/region0&lt;/code&gt;, &lt;code&gt;constant/region1&lt;/code&gt;
+respectively.&lt;/p&gt;
+&lt;p&gt;These mesh regions can be totally isolated, or coupled through some coupled
+interfces, depending on the solver to be used. Of course, each region will
+require initial and boundary conditions for its fields.&lt;/p&gt;
+&lt;p&gt;The rest of the unit assumes we are working on the default single-&lt;strong&gt;polyMesh&lt;/strong&gt;
+region, but everything applies also to multi-region meshes.&lt;/p&gt;
+&lt;h3 id=&#34;openfoam-mesh-files&#34;&gt;OpenFOAM Mesh files&lt;/h3&gt;
+&lt;p&gt;The following diagram briefly presents OpenFOAM&amp;rsquo;s basic mesh files with the most
+important notes about the contents of each file:&lt;/p&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+  
+graph LR;
+    A[&#34;constant/polyMesh&#34;];
+    style A fill:orange,stroke:red
+
+    A --&gt; B(fa:fa-grip-vertical points);
+    A --&gt; F(fa:fa-square-full faces);
+    A --&gt; C(fa:fa-vector-square boundary);
+    A --&gt; D(fa:fa-level-down-alt owner);
+    A --&gt; E(fa:fa-level-up-alt neighbor);
+
+
+    subgraph &#34;Faces Information&#34;
+    F --- Q(&#34;Connections between vertices as faces&lt;br&gt;Each face is a list of
+    connected vertex indices&lt;br&gt;The order of vertices provides a manifold
+    representation of the face&#34;)
+
+    C --- K(&#34;Boundary patches&lt;br&gt;Boundary faces are grouped into &lt;b&gt;patches&lt;/b&gt;
+    of different types&#34;)
+
+    D --- M(&#34;Owner cells for faces&lt;br&gt; Downstream cell index according
+    to face normals is associated&lt;br&gt; with each internal and boundary face&#34;)
+
+    E --- O(&#34;Neighbor cells for internal faces&lt;br&gt; Upstream cell index
+    according to face normals is associated&lt;br&gt; with each internal face&lt;br&gt;
+    Boundary faces have only owner cells!&#34;)
+    end
+
+    subgraph &#34;Points Information&#34;
+    B --- I(&#34;Mesh Vertex 3D-Coordinates&lt;br&gt;Each vertex gains an &lt;b&gt;index&lt;/b&gt; in
+    the order it appears in&lt;br&gt;No vertex duplication allowed&#34;)
+    end
+
+    style I fill:lightgreen,stroke:lightgreen
+    style Q fill:lightgreen,stroke:lightgreen
+    style K fill:lightgreen,stroke:lightgreen
+    style M fill:lightgreen,stroke:lightgreen
+    style O fill:lightgreen,stroke:lightgreen
+
+
+&lt;/div&gt;
+
+
+
+&lt;div class=&#34;alert alert-success&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Example&lt;/h4&gt;
+&lt;p&gt;Assume &lt;code&gt;constant/polyMesh/points&lt;/code&gt; starts with:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;2142&lt;/span&gt;        &lt;span style=&#34;color:#6272a4&#34;&gt;// Number of mesh points
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;(
+(&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;)     &lt;span style=&#34;color:#6272a4&#34;&gt;// Vertex 0
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;(&lt;span style=&#34;color:#bd93f9&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;)   &lt;span style=&#34;color:#6272a4&#34;&gt;// Vertex 1
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;(&lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;)     &lt;span style=&#34;color:#6272a4&#34;&gt;// Vertex 2
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;.....
+(&lt;span style=&#34;color:#bd93f9&#34;&gt;25&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.1&lt;/span&gt;) &lt;span style=&#34;color:#6272a4&#34;&gt;// Vertex 2141
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A face list can then specify any type of faces:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;4071&lt;/span&gt;              &lt;span style=&#34;color:#6272a4&#34;&gt;// Number of mesh faces
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;(
+&lt;span style=&#34;color:#bd93f9&#34;&gt;4&lt;/span&gt;(&lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;52&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1123&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1072&lt;/span&gt;) &lt;span style=&#34;color:#6272a4&#34;&gt;// face 0 from vertices 1, 52, 1123 and 1072
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;.....
+&lt;span style=&#34;color:#bd93f9&#34;&gt;3&lt;/span&gt;(&lt;span style=&#34;color:#bd93f9&#34;&gt;1018&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1069&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1070&lt;/span&gt;) &lt;span style=&#34;color:#6272a4&#34;&gt;// face 4069 is a triangle
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;3&lt;/span&gt;(&lt;span style=&#34;color:#bd93f9&#34;&gt;1018&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1070&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1019&lt;/span&gt;) &lt;span style=&#34;color:#6272a4&#34;&gt;// face 4070
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And each face will have at least an owner cell
+(and potentially a neighbor cell):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;4071&lt;/span&gt;              &lt;span style=&#34;color:#6272a4&#34;&gt;// Number of mesh faces
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;(
+&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;                 &lt;span style=&#34;color:#6272a4&#34;&gt;// face 0 has cell 0 as its owner
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;                 &lt;span style=&#34;color:#6272a4&#34;&gt;// face 1 also has cell 0 as its owner
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;.....
+);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;meshing-workflow-with-blockmesh&#34;&gt;Meshing workflow with &lt;code&gt;blockMesh&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Up until now, we have interacted with only a single mesh generation tool:
+&lt;code&gt;blockMesh&lt;/code&gt;, let&amp;rsquo;s review some concepts to keep in mind while composing the
+&lt;code&gt;blockMeshDict&lt;/code&gt;:&lt;/p&gt;
+&lt;h3 id=&#34;fundamentals-of-meshing-with-blockmesh-utility&#34;&gt;Fundamentals of meshing with &lt;code&gt;blockMesh&lt;/code&gt; utility&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;The mesh is built out of &amp;ldquo;hex blocks&amp;rdquo;, which allows for each block to have
+cell size and grading settings.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Naturally, because these blocks will be next to each other, shared faces
+must be consistent (Watch out for grading problems!)&lt;/li&gt;
+&lt;li&gt;If two blocks are to share a face, &lt;strong&gt;they at least share one full edge&lt;/strong&gt;.
+This is especially important because in the hex block specification, you&amp;rsquo;re
+actually allowed to duplicate point indices to produce a wedge shape!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Always run &lt;code&gt;checkMesh&lt;/code&gt; right after mesh generation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;It&amp;rsquo;s hard to blindly choose vertex indices to use in &lt;code&gt;blockMeshDict.blocks&lt;/code&gt;,
+but, fortunately, there are some tools to help us with this issue:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;paraFoam -block&lt;/code&gt; will show a representation of the contents of
+&lt;code&gt;blockMeshDict&lt;/code&gt; and not the generated mesh (if this utility is available).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pyFoamDisplayBlockMesh.py&lt;/code&gt; (from PyFoam) will do the same job.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;For Reservoir Enginnering tasks:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Complex block-structured meshes are possible (and relatively easy actually)
+to achieve by using a &lt;strong&gt;Macro Language&lt;/strong&gt; (Eg. M4) to automate the generation
+of complex &lt;code&gt;blockMeshDict&lt;/code&gt; files.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;For complex geometries, it&amp;rsquo;s recommended to prefer (in this order):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Mesh conversion tools (from VTK, Salome, GMSH &amp;hellip; etc).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cfMesh&lt;/code&gt; for easy-n-fast mesh genration from geometry files (Eg. STL).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;snappyHexMesh&lt;/code&gt; as a last resort for greater control over the mesh.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Again, always check your mesh&amp;rsquo;s quality right after each mesh generation
+process!&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;how-to-choose-the-cell-size&#34;&gt;How to choose the cell size&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Now, let&amp;rsquo;s get away from all the utilities and discuss the actual meshing
+concept.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The question is: &lt;strong&gt;what cell size should we choose for our domain?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s going to depend on the specific simulated problem, but the rule is:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Finer mesh&lt;/strong&gt; in flow-critical regions of the domain&lt;/li&gt;
+&lt;li&gt;Coarser mesh can be &lt;strong&gt;tolerated&lt;/strong&gt; in less important regions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;but &lt;strong&gt;How fine the flow-critical regions should be?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;There is no general rule but:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Too-small cell size introduces numerical instability&lt;/li&gt;
+&lt;li&gt;The more you increase it, the &lt;strong&gt;even more&lt;/strong&gt; accuracy will be lost.&lt;/li&gt;
+&lt;li&gt;In transient simulations, mesh size is closly related to time step length.
+&lt;ul&gt;
+&lt;li&gt;It&amp;rsquo;s common practice to fix the mesh size, then decide on a good
+&lt;code&gt;$\Delta t$&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To illustrate, let&amp;rsquo;s go through a simplified problem for seismic waves.&lt;/p&gt;
+&lt;p&gt;These waves can propagate at a speed of 3 km/s, with a maximum frequency on 1Hz:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/01-seismic-waves.gif&#34; alt=&#34;Visualization of Global Seismic Wave PropagationSimulation&#34;&gt;&lt;/p&gt;
+&lt;p&gt;From &lt;code&gt;$c = \lambda f$&lt;/code&gt;, we deduce that the wave&amp;rsquo;s length
+&lt;code&gt;$\lambda = 3 \mathrm{m}$&lt;/code&gt;. Now, let&amp;rsquo;s assume we have a PDE modeling how such
+waves propagate; and the domain on which the study is performed is the
+&lt;strong&gt;&amp;ldquo;whole planet Earth&amp;rdquo;&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;In order to get (somewhat) accurate results, say:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;We consider 10 grid cells &lt;strong&gt;per wave length&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;This leads to a cell size of 300 m (also assume Hexagonal cells).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now we face a number of problems:&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-danger&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Problem 1&lt;/h4&gt;
+&lt;p&gt;Recall that the wave&amp;rsquo;s propagation speed is &lt;code&gt;$c = 3 \mathrm{km.s^{-1}}$&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;After &lt;strong&gt;1 second&lt;/strong&gt;, the wave would have passed by &lt;strong&gt;10 grid cells&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;This will surely generate continuity errors and all sorts of numerical
+instabilities.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Solution to Problem 1&lt;/h4&gt;
+&lt;p&gt;Simply put, choose a smaller time step length&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$\Delta t = 0.1 \mathrm{s}$&lt;/code&gt; seems a reasonable maximum value&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+
+
+&lt;div class=&#34;alert alert-danger&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Problem 2&lt;/h4&gt;
+&lt;p&gt;Cell volumes would have the value of &lt;code&gt;$V_c = 0.3^3 \mathrm{km^3}$&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Earch Volume: &lt;code&gt;$V_E = \frac{4}{3} \pi (6371)^3 \mathrm{km^3}$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Number of cells needed to mesh the whole earth:
+&lt;code&gt;$\frac{V_E}{V_c} \approx 4 \times 10^{13}$&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;So, for &lt;strong&gt;each&lt;/strong&gt; scalar field (assuming C&amp;rsquo;s double), we would need around
+&lt;strong&gt;320 TeraBytes&lt;/strong&gt; as storage space (RAM &amp;amp; Hard Disk)!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Solution to Problem 2&lt;/h4&gt;
+&lt;p&gt;Even &lt;strong&gt;10 grid cells per wave length&lt;/strong&gt; doesn&amp;rsquo;t seem achieveable now, huh?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Coarsen the mesh and go back to Problem 1&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+&lt;h3 id=&#34;meshing-complex-geometries-for-reservoir-engineering&#34;&gt;Meshing complex geometries for Reservoir Engineering&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Tools to convert mesh from industry-standard formats (Eg. ECLIPSE&amp;rsquo;s Corner
+grids) are currently under development!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Thus, we have two options:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Either convert to-and-from VTK as intermediate step&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Works well if the original grid is mostly compatible with OpenFOAM mesh
+standards&lt;/li&gt;
+&lt;li&gt;Need to re-select faults faces into &lt;code&gt;faceSets&lt;/code&gt; after conversion&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use &lt;code&gt;snappyHexMesh&lt;/code&gt; or &lt;code&gt;cfMesh&lt;/code&gt; on the original &lt;code&gt;geometry&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Produces very similar, but not identical, meshes (to the original grid)&lt;/li&gt;
+&lt;li&gt;Permeability Upscaling may pose a problem because cells do not have the
+same topology as the original grid!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;learn-more&#34;&gt;Learn more&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;The
+&lt;a href=&#34;https://commons.wikimedia.org/wiki/File:Global_Seismic_Wave_Propagation_Simulation.gif&#34;&gt;Visualization of Global Seismic Wave Propagation Simulation&lt;/a&gt;
+is created by Greg Abram and released under the Creative Commons Attribution
+4.0 International license.&lt;/li&gt;
+&lt;li&gt;Storage calculations are based on C&amp;rsquo;s &lt;code&gt;double&lt;/code&gt; type on a 64-bits machines,
+which is a typical setup in today&amp;rsquo;s simulations.&lt;/li&gt;
+&lt;li&gt;Head to this
+&lt;a href=&#34;https://classroom.github.com/a/rWU_VhMC&#34;&gt;quick assignment to practice near-well meshing with &lt;code&gt;blockMesh&lt;/code&gt;&lt;/a&gt;
+before continuing to the next unit.&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 02 - OpenFOAM Mesh Quality</title>
+      <link>/docs/part1/03.openfoam-workflow-the-meshing-step/02-mesh-quality/</link>
+      <pubDate>Tue, 17 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/03.openfoam-workflow-the-meshing-step/02-mesh-quality/</guid>
+      <description>
+        
+        
+        &lt;p&gt;We have seen that, more often than not, it&amp;rsquo;s not feasible to use perfectly
+dense mesh. So, we are &lt;strong&gt;forced&lt;/strong&gt; fall back to a coarser one; where &lt;strong&gt;its
+quality&lt;/strong&gt; becomes an important factor:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Our approximations can easily go wrong on degenerate meshes&lt;/li&gt;
+&lt;li&gt;You lose some &amp;ldquo;solution accuracy&amp;rdquo; while coarsening the mesh&lt;/li&gt;
+&lt;li&gt;And you may even lose some efficiency because of the attempts to compensate
+for lost accuracy by doing some corrections!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;That&amp;rsquo;s why (almost) all CFD packages have some &lt;strong&gt;mesh quality standards&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;In OpenFOAM context, for our simulations to converge to correct solution, we
+at least need a &amp;ldquo;good&amp;rdquo; mesh:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;- Which is associated with accpetable errors
+- Passes the checks made by `checkMesh` utility which evaluates the mesh&#39;s
+  quality using a set of metrics.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;quality-metrics-for-checkmesh&#34;&gt;Quality metrics for &lt;code&gt;checkMesh&lt;/code&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;non-orthogonality&#34;&gt;Non-Orthogonality&lt;/h3&gt;
+&lt;p&gt;Non-Orthogonality is an angle measuring how slated the face normal is relative
+to the vector between cell centers. This angle is especially important when we
+approximate gradients in the direction of cell centers by the gradient
+calculated in the &lt;strong&gt;face normal&lt;/strong&gt; (most commonly in the diffusion operator).&lt;/p&gt;
+&lt;p&gt;These approximations can seriously go wrong if the maximal non-orthogonality
+reaches 70 degrees for hexagonal meshes (and around 80 in tetrahedral ones).&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In the case of boundary faces, we just use the face center.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/02-nonorthogonality.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;skewness&#34;&gt;Skewness&lt;/h3&gt;
+&lt;p&gt;The skewness is a measure of how far the face center is placed in respect to
+the intersection of the vector connecting cell centers with the face, normalized
+against the distance between cell centers.&lt;/p&gt;
+&lt;p&gt;The rule of thumb is to have a max skewness of (at most) 4. If skewed faces
+present a very small percentage of total face numbers (say &amp;lt; 0.01%) and are
+randomly distributed, it&amp;rsquo;s probably OK even if the skewness reaches 4 and
+beyond. But, if they are clustered around some mesh feature (eg. a locally
+refined region which is important to the flow), it&amp;rsquo;s recommended to fix them!
+Especially if some divergence schemes are involved.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In the case of boundary faces, we use the orthogonal projection of the cell
+center on the face instead of the intersection point.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/02-skewness.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;aspect-ratio&#34;&gt;Aspect Ratio&lt;/h3&gt;
+&lt;p&gt;This metric expresses the ratio of the largest &lt;strong&gt;cell edge&lt;/strong&gt; to the smallest
+one, thus, it might be useful to consider the reciprocal of this number as it
+can become very big.&lt;/p&gt;
+&lt;p&gt;Assume a triangle ABC, where C can move freely on a half-plane:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/02-aspectratio.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;You can see that the optimum position of C is where the triangle becomes an
+equilateral one (aspect ratio of 1).&lt;/p&gt;
+&lt;p&gt;This metric is particularly important if the aspect ratio is increasing rapidly
+in a single mesh direction (which will cause interpolation schemes to
+artificially favorite cells with larger volumes and lead to interpolation
+errors)&lt;/p&gt;
+&lt;h3 id=&#34;face-convexity&#34;&gt;Face convexity&lt;/h3&gt;
+&lt;p&gt;To understand the importance of this metric, we first need to review how faces
+are treated in OpenFOAM:&lt;/p&gt;
+&lt;h4 id=&#34;triangle-faces-in-openfoam&#34;&gt;Triangle faces in OpenFOAM&lt;/h4&gt;
+&lt;p&gt;Computationally, &lt;strong&gt;triangles&lt;/strong&gt; are the only 2D geometries with
+directly-determined surface area (because they are the simplest).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If the surface of any triangle &lt;code&gt;$\mathrm{A_0A_1A_2}$&lt;/code&gt; where
+&lt;code&gt;$\mathrm{A_m}\ (\mathrm{x_m, y_m, z_m}),\ \mathrm{m} = 0,1,2$&lt;/code&gt; is needed:
+&lt;code&gt;$S=\frac{1}{2}|\mathbf{A_0A_1} \times \mathbf{A_0A_2}|=\frac{1}{2}  \begin{vmatrix} \mathbf{i} &amp;amp; \mathbf{j} &amp;amp; \mathbf{k} \\ x_1-x_0 &amp;amp; y_1-y_0 &amp;amp; z_1-z_2 \\ x_2-x_0 &amp;amp; y_2-y_0 &amp;amp; z_2-z_2 \\ \end{vmatrix}$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Then, the area of a quad can be calculated using two triangles&lt;/li&gt;
+&lt;li&gt;Similarly,  a &lt;strong&gt;tetrahedron&lt;/strong&gt; volume is obtained directly and it&amp;rsquo;s used to
+determine the volume of pentahedrons (three tets) and hexahedrons
+(five or six tets)!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This makes tetrahedral meshes the most efficient ones when it comes to
+mesh-related calculations.&lt;/p&gt;
+&lt;h4 id=&#34;quad-faces-in-openfoam&#34;&gt;Quad faces in OpenFOAM&lt;/h4&gt;
+&lt;p&gt;Another popular mesh type is the hexahedral one. OpenFOAM treats the quad faces
+of such cells in (roughly) the following way:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Figure out the &lt;strong&gt;4&lt;/strong&gt; triangles formed by the quad&amp;rsquo;s diagonal and two the
+quads edges and then compute their areas in a specified direction (Let&amp;rsquo;s
+assume the anti-clockwise way):&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/02-quad01.png&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/02-quad02.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If all 4 areas are positive, the quad is convex.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If one of these areas is null, the quad is degenerate (triangle 123):&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/02-quad03.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If exactly one of these areas is negative (again, the triangle 123):&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/02-quad04.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If two of these areas the quad is either a self-intersection, or a negative
+one:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/02-quad05.png&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/02-quad06.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In short, OpenFOAM does not allow &lt;strong&gt;self-intersecting&lt;/strong&gt; quads and may fix the
+rest to obtain only convex faces.&lt;/p&gt;
+&lt;h2 id=&#34;checkmesh-check-types&#34;&gt;&lt;code&gt;checkMesh&lt;/code&gt; check types&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s now move on to the checks performed by &lt;code&gt;checkMesh&lt;/code&gt; utility.&lt;/p&gt;
+&lt;h3 id=&#34;topology-checks&#34;&gt;Topology checks&lt;/h3&gt;
+&lt;p&gt;The best way to present these checks is by using a diagram:&lt;/p&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+  
+graph LR;
+
+    subgraph &#34;if -allTopology option is supplied&#34;
+
+    E(&#34;Over-Used edges&#34;) --- o(&#34;Presence of edges used by too-many cells&#34;)
+    F(&#34;Boundary cells&#34;) --- n(&#34;Cells with 0 or 1 &#39;internal&#39; faces&lt;br&gt;
+    (Isolated cells, cells with too many boundary faces)&#34;)
+    G(&#34;Non-Manifold points&#34;) --- p(&#34;Vertices which participate in cell
+    definition&lt;br&gt;in a non-manifold way&#34;)
+    end
+
+    A(&#34;Boundary Definition&#34;) --- q(&#34;Things like:&lt;br&gt;
+    Whether boundary faces belong exclusively to patches&lt;br&gt;
+    Wether boundary patches are correctly defined&#34;)
+
+    B(&#34;Illegal Cells&#34;) --- k(&#34;Cells with less than 4 faces&lt;br&gt;
+    Cells with out-of-range faces!&#34;)
+
+    C(&#34;Unused points&lt;br&gt;Unordered faces&#34;) --- m(&#34;Vertices defined but not used
+    in faces definition&lt;br&gt;and incorrectly-ordered faces&#34;)
+
+    style q fill:lightgreen,stroke:lightgreen
+    style k fill:lightgreen,stroke:lightgreen
+    style m fill:lightgreen,stroke:lightgreen
+    style o fill:lightgreen,stroke:lightgreen
+    style n fill:lightgreen,stroke:lightgreen
+    style p fill:lightgreen,stroke:lightgreen
+
+
+&lt;/div&gt;
+
+&lt;h3 id=&#34;geometry-checks&#34;&gt;Geometry checks&lt;/h3&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+  
+graph LR;
+
+    subgraph &#34;if -allGeometry option is supplied&#34;
+    H(&#34;Points on short edges&#34;) --- K(&#34;Warped faces&#34;) 
+    K --- L(&#34;Under-determined cells&#34;)
+    R(&#34;Faces and cells with&lt;br&gt;low interpolation weights&#34;)
+    end
+
+    A(&#34;Bounding box&#34;) --- B(&#34;Smallest Cell Size&#34;)
+    B --- C(&#34;Geometrical &amp;&lt;br&gt;Solution directions&#34;)
+
+    D(&#34;Non-Closed Cless &amp;&lt;br&gt;Aspect Ratio&#34;) --- E(&#34;Zero-Area Faces&lt;br&gt;Zero-Volume Cells&#34;)
+    F(&#34;NonOrthogonality &amp;&lt;br&gt;Skewness&#34;) --- G(&#34;Face Orientation&#34;)
+
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;learn-more&#34;&gt;Learn more&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Each software package has (should have) its own &amp;ldquo;set of mesh quality
+standards&amp;rdquo;, based on the numerical methods used to solve the equations.
+The metrics explained here along with their &amp;ldquo;calculation methods&amp;rdquo; are
+&lt;strong&gt;OpenFOAM-specific&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;If you want a &lt;strong&gt;second-order&lt;/strong&gt;-accurate FVM simulations (which are
+usually hard to achieve when it comes to reservoir simulations), stick
+with the following metrics:
+&lt;ul&gt;
+&lt;li&gt;For hex-based meshes:
+&lt;ul&gt;
+&lt;li&gt;Maximal Non-Orthogonality &amp;lt; 70 degrees&lt;/li&gt;
+&lt;li&gt;Maximal skewness &amp;lt; 4  for internal faces&lt;/li&gt;
+&lt;li&gt;Maximal skewness &amp;lt; 20 for boundary faces&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;For tetrahedral meshes, you can allow up to 80 degrees as the maximal
+Non-Orthogonality.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 03 - Meshing Utilities</title>
+      <link>/docs/part1/03.openfoam-workflow-the-meshing-step/03-meshing-utilities/</link>
+      <pubDate>Thu, 19 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/03.openfoam-workflow-the-meshing-step/03-meshing-utilities/</guid>
+      <description>
+        
+        
+        &lt;p&gt;In this unit, we&amp;rsquo;ll take a quick look on some of the most important OpenFOAM
+meshing utilities besides &lt;code&gt;blockMesh&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;cfmesh&#34;&gt;cfMesh&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;cfMesh&lt;/code&gt; is not actually an official OpenFOAM utility, it&amp;rsquo;s a set of utilties
+and libraries built on top of OpenFOAM.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;It is developed by Creative Fields Ltd.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hosted at their &lt;a href=&#34;https://cfmesh.com/cfmesh&#34;&gt;cfmesh.com/cfmesh&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;It requires only&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A &lt;strong&gt;geometry file&lt;/strong&gt; (in .STL, .FTR, or .FMS format).&lt;/li&gt;
+&lt;li&gt;and a (short) dictionary file (&lt;code&gt;system/meshDict&lt;/code&gt;) specifying meshing settings.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The typical workflow a chMesh utility involves:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Start from a basic auto-generated hex-based mesh&lt;/li&gt;
+&lt;li&gt;Incrementally improve it until it meats user requirementsusing specific
+meshing workflows:
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;cartesianMesh:&lt;/strong&gt; for 2D hex meshes&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;cartesianMesh, tetMesh, pMesh:&lt;/strong&gt; for 3D hex-based, tetrahedral and
+polyhedral meshes respectively&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This process is controled by some settings mentioned in &lt;code&gt;system/meshDict&lt;/code&gt;, which
+must contain at least:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A &lt;code&gt;surfaceFile&lt;/code&gt; entry, pointing to the geometry to be meshed&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;maxCellSize&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;meshing-example&#34;&gt;Meshing example&lt;/h3&gt;
+
+
+&lt;div class=&#34;alert alert-success&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Example&lt;/h4&gt;
+&lt;p&gt;Let&amp;rsquo;s illustrate by going through a meshing process of a pore-scale
+representation of a 2D porous medium:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The first step is to grab 2D images for the domain (which can also be
+artificially generated using the &lt;strong&gt;PoresPy&lt;/strong&gt; library - More on this in the
+assignment)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/03-porous-medium.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The yellow region represents the grains and the medium&amp;rsquo;s porosity is roughly
+0.6&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Then, we can use somem image processing software to extract SVG paths defining
+grains boundaries, which can be later extruded using a CAD software to produce
+an STL surface as shown is the following figure:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/03-porous-medium-stl.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;cartesian2DMesh&lt;/code&gt; requiresthat no faces with normals in the z-direction are
+present in the surface file, so, we remove those faces from our surface:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/03-porous-medium-2d.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;code&gt;system/meshDict&lt;/code&gt; should then look like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;surfaceFile &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;porousMedia2D.stl&amp;#34;&lt;/span&gt;;
+minCellSize &lt;span style=&#34;color:#bd93f9&#34;&gt;0.5&lt;/span&gt;;
+maxCellSize &lt;span style=&#34;color:#bd93f9&#34;&gt;3.5&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;All that remains is to actually running the meshing command:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@case&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; cartesian2DMesh | tee log.mesh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To finally produce something like:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/03-porous-medium-mesh.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+&lt;h3 id=&#34;cfmesh-workflow-steps&#34;&gt;cfMesh workflow steps&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;If the surface has some patches defined, they are automatically picked up&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If not, you have to define them as OpenFOAM boundary patches&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Also, the same dictionary file can be used for different meshing workflows&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Possibly with some cell size adjustments&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can control at which workflow step the meshing utility stops using an
+entry in &lt;code&gt;system/meshDict&lt;/code&gt; (You can also resume from previous meshing
+operations):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;workflowControls
+{
+    stopAfter templateGeneration;
+    restartFromLatestStep &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The previous settings will cause the meshing command to stop right after
+generating the base mesh; which is a hex-based mesh surrounding the input
+geometry. The &lt;code&gt;minCellSize&lt;/code&gt; setting greatly affects cell size at this stage.&lt;/p&gt;
+&lt;p&gt;Another useful step is &lt;strong&gt;surfaceProjection&lt;/strong&gt;, where mesh points are projected on
+the provided surface. I usually stop here to check how well the mesh is
+projected on a low-quality surface.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Check cfMesh&amp;rsquo;s User guide for a list of available workflow controls&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;snappyhexmesh&#34;&gt;snappyHexMesh&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;snappyHexMesh&lt;/code&gt; is the official utility for generating complex Hex-based meshes&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Works on an &lt;strong&gt;existing (user-supplied)&lt;/strong&gt; mesh, so it’s perfect for modifying
+meshes.&lt;/li&gt;
+&lt;li&gt;The utility then snaps mesh vertices to a surface (STL or OBJ file)&lt;/li&gt;
+&lt;li&gt;If the user requires it, boundary layers are generated as the last step&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Some common features with &lt;code&gt;cfMesh&lt;/code&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Parallel meshing&lt;/li&gt;
+&lt;li&gt;Local mesh refinement&lt;/li&gt;
+&lt;li&gt;Similar workflow controls&lt;/li&gt;
+&lt;li&gt;But it is driven by a lengthy dictionary file &lt;code&gt;system/snappyHexMeshDict&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The utility performs three actions in order:&lt;/p&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+  
+graph LR;
+
+    subgraph &#34;boundaryLayer [optional]&#34;
+
+    F(&#34;Additional number of cells &lt;br&gt;added in layers near wall patches&#34;) 
+
+    end
+
+    subgraph &#34;snapMesh [optional]&#34;
+
+    D(&#34;Align mesh vertices&lt;br&gt;with the geometry&#34;) --- E(&#34;Hex-cells get transformed to polyhedrons,&lt;br&gt;merged and/or deleted&#34;)
+
+    end
+
+
+    subgraph &#34;castellatedMesh&#34;
+
+    A(&#34;Delete everything outside&lt;br&gt;of the flow domain&#34;) --- B(&#34;Local mesh refinements&#34;)
+
+    B --- C(&#34;Produces a fully hex-based mesh,&lt;br&gt;similar to ECLIPSE-Like Grids&#34;)
+
+    end
+
+
+&lt;/div&gt;
+
+&lt;hr&gt;
+&lt;p&gt;Surface (generally Stereo-lithography .STL, Nastran .NAS or .OBJ) files are
+looked up in &lt;code&gt;constant/triSurface&lt;/code&gt; directory of the case.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;ALWAYS check the geometry file&lt;/strong&gt; before doing anything else. You can simply
+use &lt;code&gt;surfaceCheck&lt;/code&gt; for this (an OpenFOAM utility).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Common CAD geometry problems you should be concerned with include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Overlapping triangles (A serious one, absolutely fix these before meshing)&lt;/li&gt;
+&lt;li&gt;Open geometries (where there is no &amp;ldquo;inside&amp;rdquo; and &amp;ldquo;outside&amp;rdquo;; tools will get
+confused about which regions to mesh).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;With &lt;code&gt;snappyHexMesh&lt;/code&gt;, you get one huge advantage:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Custom mesh quality metrics&lt;/strong&gt; can be provided in a separate dictionary file
+to use during mesh generation (The resulting mesh will meet those
+requirements)!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;mesh-refinement-in-snappyhexmesh&#34;&gt;Mesh refinement in &lt;code&gt;snappyHexMesh&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;Mesh refinement is measured in &amp;ldquo;Levels&amp;rdquo;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Level 0: the original mesh refinement&lt;/li&gt;
+&lt;li&gt;Level 1: splits each cell to four (&lt;code&gt;$2^2$&lt;/code&gt;) cells&lt;/li&gt;
+&lt;li&gt;Level 2: splits each cell to eight (&lt;code&gt;$2^3$&lt;/code&gt;) cells and so on&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Each time we increase the refinement level, the edges are &lt;strong&gt;halved&lt;/strong&gt;! This is,
+of course, valid only for hexahedrons (That&amp;rsquo;s why &lt;code&gt;snappyHexMesh&lt;/code&gt; needs a fully
+hex-based background mesh).&lt;/p&gt;
+&lt;h2 id=&#34;miscellaneous-mesh-tools&#34;&gt;Miscellaneous mesh tools&lt;/h2&gt;
+&lt;p&gt;OpenFOAM also provides some mesh manipulation tools:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;autoPatch&lt;/strong&gt;: which automatically extracts boundary patches based on a feature
+angle.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;cellSet, faceSet&lt;/strong&gt;: which create and manipulate cell and face &amp;ldquo;groups&amp;rdquo;
+respectively.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;transformPoints&lt;/strong&gt;: which moves, rotates and/or scales the mesh in any
+direction&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The next set of tools OpenFOAM provides is the conversion tools; &lt;code&gt;gmshToFoam&lt;/code&gt;
+and &lt;code&gt;ansysToFoam&lt;/code&gt; being the most popular ones.&lt;/p&gt;
+&lt;p&gt;And lastly, there are some advanced tools for even finer control over the mesh.
+Examples include &lt;strong&gt;refineHexMesh&lt;/strong&gt;, &lt;strong&gt;splitMesh&lt;/strong&gt; and &lt;strong&gt;collapseMesh&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;learn-more&#34;&gt;Learn more&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;There is a
+&lt;a href=&#34;https://openfoamwiki.net/images/f/f0/Final-AndrewJacksonSlidesOFW7.pdf&#34;&gt;Comprehensive Tour of &lt;code&gt;snappyHexMesh&lt;/code&gt;&lt;/a&gt;
+, created by Engys Ltd. (Specifically: Andrew Jackson), so I see no point in
+replicating what they did there! &lt;strong&gt;When&lt;/strong&gt; you absolutely need to learn
+how to work with &lt;code&gt;snappyHexMesh&lt;/code&gt;, use their slides!!&lt;/li&gt;
+&lt;li&gt;You can skim through this
+&lt;a href=&#34;http://cfmesh.com/wp-content/uploads/2015/09/User_Guide-cfMesh_v1.1.pdf&#34;&gt;&lt;code&gt;cfMesh&lt;/code&gt; User Guide&lt;/a&gt;
+to get a grasp of what&amp;rsquo;s available.&lt;/li&gt;
+&lt;li&gt;At this stage, It&amp;rsquo;s recommended that you go through the detailed
+&lt;a href=&#34;https://classroom.github.com/a/2fPp0s4c&#34;&gt;Meshing Tools Individual Assignment&lt;/a&gt;
+to gain some hands-on experience.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;oh-there-is-a-group-assignment&#34;&gt;Oh! There is a group assignment&lt;/h2&gt;
+&lt;p&gt;To conclude this module, you are asked to participate in the &lt;strong&gt;hunt&lt;/strong&gt;
+for the best mesh, which must be &lt;strong&gt;produced&lt;/strong&gt; using OpenFOAM utilities
+(&lt;code&gt;blockMesh&lt;/code&gt;, &lt;code&gt;cfMesh&lt;/code&gt;, &lt;code&gt;snappyHexMesh&lt;/code&gt;, NO conversions), for a well-known
+domain in your field of study.&lt;/p&gt;
+&lt;h3 id=&#34;for-reservoir-engineering-practitioners&#34;&gt;For Reservoir Engineering practitioners&lt;/h3&gt;
+&lt;p&gt;Each group should pick a domain to mesh (we are &lt;strong&gt;only&lt;/strong&gt; interested in the mesh
+here) from the following list of cases:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.mufits.imec.msu.ru/example-egg-model.html&#34;&gt;The Egg Model&lt;/a&gt;
+from MUFITS examples page.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.mufits.imec.msu.ru/example-well-placement.html&#34;&gt;The Optimal well placement case&lt;/a&gt;
+from MUFITS examples page.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.mufits.imec.msu.ru/example-example-h3.html&#34;&gt;The Benchmark study for CO2 storage&lt;/a&gt;
+from MUFITS examples page.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://opm-project.org/?page_id=559&#34;&gt;The Norne Field case&lt;/a&gt;
+from OPM Open Datasets.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;for-other-fields&#34;&gt;For Other fields&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;You are free to choose any geometry for any well-known problem in your field
+and mesh it using OpenFOAM utilities. The only requirement is that your
+meshing shouldn&amp;rsquo;t be easy enough for a &lt;strong&gt;one newcomer&lt;/strong&gt; to OpenFOAM to build
+quickly. In short, look for challenging mesh requirements.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Follow this &lt;a href=&#34;https://classroom.github.com/g/s1bNX2JV&#34;&gt;Github Classroom&lt;/a&gt;
+link to participate, get your meshing files and mesh stats into your repo
+and wait for feedback and improvements from your team :)&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

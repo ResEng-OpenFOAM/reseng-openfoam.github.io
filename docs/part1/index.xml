@@ -1,0 +1,160 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reservoir Engineering With OpenFOAM – Part 1: OpenFOAM for novices</title>
+    <link>/docs/part1/</link>
+    <description>Recent content in Part 1: OpenFOAM for novices on Reservoir Engineering With OpenFOAM</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 01 Jan 2020 00:00:00 +0000</lastBuildDate>
+    
+	  <atom:link href="/docs/part1/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: 1.01 Introduction</title>
+      <link>/docs/part1/01.introduction/</link>
+      <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/01.introduction/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+&lt;p&gt;If you haven&amp;rsquo;t done so already, please, go through the following pages
+before continuing:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/&#34;&gt;Course Homepage&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/part1/&#34;&gt;Part 1 Homepage&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;module-objectives&#34;&gt;Module Objectives&lt;/h2&gt;
+&lt;p&gt;In this first modules, we&amp;rsquo;ll (not in this order though, but it&amp;rsquo;s really
+your call!):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Set up a &lt;strong&gt;LinuxOne Community server&lt;/strong&gt; to try our light
+(but possibly parallel) simulations on.&lt;/li&gt;
+&lt;li&gt;Learn how OpenFOAM represents fluid flow problems.&lt;/li&gt;
+&lt;li&gt;Learn how OpenFOAM files are structured.&lt;/li&gt;
+&lt;li&gt;Get introduced to few terms we use frequently.&lt;/li&gt;
+&lt;li&gt;Browse around OpenFOAM&amp;rsquo;s installation and make a distinction between
+different versions and forks of the software.&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 1.02 OpenFOAM Simulation in a Nutshell</title>
+      <link>/docs/part1/02.openfoam-simulation-in-a-nutshell/</link>
+      <pubDate>Fri, 23 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/02.openfoam-simulation-in-a-nutshell/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+Make sure you have solved all (two) assignments (at least up to the
+&lt;strong&gt;intermediate-level&lt;/strong&gt;) of the previous module before attempting to continue!
+&lt;/div&gt;
+
+&lt;p&gt;Welcome to the second module of this part of the course, which tries to provide
+a 10000-foot view onhow OpenFOAM simulations work. We&amp;rsquo;ll do that by actually
+simulating a simple transport problem, both manually and with the help of
+OpenFOAM solvers; then comparing both methods even in how results should be
+visualized in each case.&lt;/p&gt;
+&lt;h2 id=&#34;module-objectives&#34;&gt;Module Objectives&lt;/h2&gt;
+&lt;p&gt;In this modules, we&amp;rsquo;ll&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Attempt to simulate a simplified fluid flow problem with OpenFOAM.&lt;/li&gt;
+&lt;li&gt;Compare OpenFOAM workflow to a manual solution to the same problem using the
+Finite Volume Method.&lt;/li&gt;
+&lt;li&gt;Get to know the very basics of visualizing OpenFOAM results with ParaView.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let&amp;rsquo;s get started.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 1.03 OpenFOAM Workflow: The meshing step</title>
+      <link>/docs/part1/03.openfoam-workflow-the-meshing-step/</link>
+      <pubDate>Sun, 15 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/03.openfoam-workflow-the-meshing-step/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+&lt;p&gt;Make sure you went through all mesh-related parts of the previous 3 assignments
+(at least up to the intermediate-level) before attempting to continue!&lt;/p&gt;
+&lt;p&gt;Typically, you should have attempted a number of meshing processes with
+&lt;code&gt;blockMesh&lt;/code&gt; at this point.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;Welcome back to the third module in Part 1 of the &amp;ldquo;Reservoir engineering with
+OpenFOAM&amp;rdquo; course.&lt;/p&gt;
+&lt;p&gt;Enough with the introductions and let&amp;rsquo;s get to the real deal!!&lt;/p&gt;
+&lt;p&gt;The first step in OpenFOAM&amp;rsquo;s simulation workflow which we are eager to learn is
+the &lt;strong&gt;meshing process&lt;/strong&gt; (Let&amp;rsquo;s forget about &amp;ldquo;Mathematical modeling of the
+problem at hand&amp;rdquo; for now because it&amp;rsquo;s really beyond the scope of this course).&lt;/p&gt;
+&lt;p&gt;In this module, we&amp;rsquo;ll&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Discuss meshing for Reservoir Engineering tasks and meshing for FVM simulations.&lt;/li&gt;
+&lt;li&gt;Assess mesh quality according to OpenFOAM metrics.&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;cfMesh&lt;/code&gt; meshing workflows to mesh a pore-scale representation of a sample porous medium&lt;/li&gt;
+&lt;li&gt;Learn about different meshing utilities (generators and manipulators) that are available in
+Foam-Extend.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let&amp;rsquo;s get started.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: OpenFOAM Workflow: Equation Discretisation</title>
+      <link>/docs/part1/openfoam-workflow-equation-discretisation/</link>
+      <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/openfoam-workflow-equation-discretisation/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+This module depends on the &amp;ldquo;&lt;strong&gt;OpenFOAM Simulations in a nutshell&lt;/strong&gt;&amp;rdquo; module.
+Make sure you&amp;rsquo;ve completed all assignments of that module before
+attempting to continue.
+&lt;/div&gt;
+
+&lt;p&gt;In this module, we&amp;rsquo;ll&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Discuss Advection and Diffusion phenomenons.&lt;/li&gt;
+&lt;li&gt;Discover new Numerical Schemes and how they work.&lt;/li&gt;
+&lt;li&gt;Assemble a set of good schemes for Reservoir Engineering Simulations.&lt;/li&gt;
+&lt;li&gt;See what properties the governing equations and their solutions have.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let&amp;rsquo;s get started.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1143 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reservoir Engineering With OpenFOAM – 1.02 OpenFOAM Simulation in a Nutshell</title>
+    <link>/docs/part1/02.openfoam-simulation-in-a-nutshell/</link>
+    <description>Recent content in 1.02 OpenFOAM Simulation in a Nutshell on Reservoir Engineering With OpenFOAM</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 23 Oct 2020 00:00:00 +0000</lastBuildDate>
+    
+	  <atom:link href="/docs/part1/02.openfoam-simulation-in-a-nutshell/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: 01 - Problem Description</title>
+      <link>/docs/part1/02.openfoam-simulation-in-a-nutshell/01-problem-description/</link>
+      <pubDate>Sat, 24 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/02.openfoam-simulation-in-a-nutshell/01-problem-description/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The first step in OpenFOAM&amp;rsquo;s workflow is actually &amp;ldquo;Describing the transport
+problem with mathematical expressions&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;This first unit of the module is a brief summary to the assumptions and
+simplifications made to model our sample transport problem.&lt;/p&gt;
+&lt;h2 id=&#34;governing-equations&#34;&gt;Governing equations&lt;/h2&gt;
+&lt;p&gt;We intend to numerically solve a basic &lt;strong&gt;steady-state&lt;/strong&gt; and &lt;strong&gt;incompressible&lt;/strong&gt;
+transport of a passive scalar &lt;code&gt;$\phi$&lt;/code&gt;; which basically accounts for the
+dirvergence and diffusion terms (No source terms for simlicity).&lt;/p&gt;
+&lt;p&gt;The flow can then be modeled with the following equation:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi)$&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Where:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$\rho$&lt;/code&gt; Fluid density&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$\mathbf{U}$&lt;/code&gt; Velocity vector&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$K$&lt;/code&gt; Diffusivity coefficient&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$\nabla$&lt;/code&gt; Gradient operator&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$\nabla \cdot$&lt;/code&gt; Divergence operator&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;With some additional simplifications:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Unidirectional flow&lt;/li&gt;
+&lt;li&gt;The diffusivity coefficient is homogeneous and constant in time&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The equation then becomes:
+&lt;code&gt;$$\frac{\partial (\rho \mathbf{U} \phi)}{\partial x} = K \frac{\partial^2 \phi}{\partial^2 x}$$&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;problem-description&#34;&gt;Problem Description&lt;/h2&gt;
+&lt;p&gt;The general worklfow of solving such equations consists of descretizing both the
+flow domain and the equation itself in order to obtain a system of algebraic
+equations (one per cell):&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/02-get-algebraic-eqns.svg&#34; alt=&#34;Get algebraic equations&#34;&gt;&lt;/p&gt;
+&lt;p&gt;By way of explanation, we take the continuous domain (the green-ish one) and
+mesh into a set of cells. We then supply initial field values at cell centers
+&lt;code&gt;$\phi_0, \phi_1, \phi_2, ...$&lt;/code&gt; and define the boundary conditions (specifying
+&lt;code&gt;$\phi_b$&lt;/code&gt; for example).&lt;/p&gt;
+&lt;p&gt;The next step is to transform the continuous flow equation into a set of
+algebraic ones; Basically, relating field value at a cell center to boundary
+faces and adjacent cells.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;We&amp;rsquo;ll discuss the details of how OpenFOAM usually derives theses algebraic
+systems in upcoming modules&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;In our illustration case, the flow domain is&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A &amp;ldquo;line&amp;rdquo;, extending from &lt;code&gt;$x_r = 0$&lt;/code&gt; to &lt;code&gt;$x_l = 0.9\mathrm{m}$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Split into 9 segments (cells, where &lt;code&gt;cellSize&lt;/code&gt; is 0.1m)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;On both ends of the &amp;ldquo;line&amp;rdquo;, we apply Dirichlet-type (fixed-value) boundary
+conditions on &lt;code&gt;$phi$&lt;/code&gt;, where:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$\phi (x_r) = 1$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$\phi (x_l) = 0$&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;learn-more&#34;&gt;Learn more&lt;/h2&gt;
+&lt;p&gt;It&amp;rsquo;s recommended that &lt;strong&gt;you&lt;/strong&gt; go through this advective-diffusive transport
+problem both manually and with the help of OpenFOAM.&lt;/p&gt;
+&lt;p&gt;From here, you can head strait to the next unit.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 02 - Manual Solution for the transport problem</title>
+      <link>/docs/part1/02.openfoam-simulation-in-a-nutshell/02-manual-solution-for-transport-equation/</link>
+      <pubDate>Thu, 29 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/02.openfoam-simulation-in-a-nutshell/02-manual-solution-for-transport-equation/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Let&amp;rsquo;s first start by solving the example transport problem using  amanual
+approach.&lt;/p&gt;
+&lt;h2 id=&#34;mesh-generation&#34;&gt;Mesh generation&lt;/h2&gt;
+&lt;p&gt;The flow domain is meshed into 9 cells (labeled from 0 to 8) and we are
+interested in &lt;code&gt;$\phi$&lt;/code&gt; values at each cell center.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/02-mesh-cells.png&#34; alt=&#34;1D Mesh cells&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Notice that each cell has many faces and each face has a corresponing surface
+normal vector.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/02-mesh-surface-normals.png&#34; alt=&#34;1D Mesh surface normals&#34;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;By a &amp;ldquo;surface normal vector&amp;rdquo;, we mean a vector which is normal to the face
+and has the face&amp;rsquo;s area as its module&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;To apply the finite volume method, it&amp;rsquo;s important to have the boundary faces
+point outwards. Note also that all faces that are &amp;ldquo;shared&amp;rdquo; between cells are
+called &lt;strong&gt;internal faces&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;OpenFOAM then labels these &amp;ldquo;cells&amp;rdquo; in a special way:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A cell is said to be an &lt;strong&gt;owner&lt;/strong&gt; of a face if the face&amp;rsquo;s normal is going
+&lt;strong&gt;out of the cell&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;A cell is said to be a &lt;strong&gt;neighbor&lt;/strong&gt; of a face if the face&amp;rsquo;s normal is going
+&lt;strong&gt;into the cell&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-success&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Example&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/02-mesh-surface-normals.png&#34; alt=&#34;OpenFOAM owner and neighbor&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The owner of the face &lt;code&gt;$f_{34}$&lt;/code&gt; is cell &lt;code&gt;4&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Its neighbor is cell &lt;code&gt;3&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note that Boundary faces have only owning cells&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;governing-equation-discretization&#34;&gt;Governing equation discretization&lt;/h2&gt;
+&lt;p&gt;Now that the mesh is discretized properly, we need to discertize the flow
+equation; mainly, applying it on each cell to derive a relationship of &lt;code&gt;$\phi$&lt;/code&gt;
+values at the cell center with its adjacent cells:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi) \qquad \longrightarrow \qquad \phi_c = f({\phi_{nearby\ cells}})$$&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Throughout the development of this equation, we do make some assumptions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;$\phi$&lt;/code&gt; is considered to vary linearly between a cell center and a face
+center.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The mesh must be constructed so that boundary faces are pointing &lt;strong&gt;out&lt;/strong&gt; of
+the domain.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;$\phi$&lt;/code&gt; (value at cell center) is considered to be the &lt;strong&gt;mean value&lt;/strong&gt; of
+&lt;code&gt;$\phi$&lt;/code&gt; in that cell (with second order accuracy).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;cellSize&lt;/code&gt; has to be small enough for approximations to be accurate (to some
+extent).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Write the governing equation in integral form for a single cell volume
+(&lt;code&gt;$V_c$&lt;/code&gt;):&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;$$\int_{V_c} \nabla \cdot (\rho \mathbf{U} \phi)\ \mathrm{d}V_c -  \int_{V_c} \nabla \cdot (K \nabla \phi)\ \mathrm{d}V_c $$&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Use the divergence theorem:
+&lt;code&gt;$\int_{V_c} \nabla \phi\ \mathrm{d}V_c = \int{\partial V_c} \phi\ \mathrm{d}(\partial V_c)$&lt;/code&gt; to convert volume integrals
+into surface ones. The transport equation then becomes:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;$$\int_{\partial V_c} [\rho \mathbf{U} \phi - K \nabla \phi]\  \mathrm{d}(\partial V_c) = 0$$&lt;/code&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;$\partial V_c$&lt;/code&gt; denotes the closed, normal-outwarding, surface of the volume
+&lt;code&gt;$V_c$&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;If the closed surface &lt;code&gt;$\partial V_c$&lt;/code&gt; is split into a set of faces we can
+approximate the integral over the whole surface as a sum of face-based
+integrals:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;$$\sum_{cell\ faces} [\int_{f} (\rho \mathbf{U} \phi)_f -  \int_{f} (K \nabla \phi)_f ]\ \mathrm{d}\mathbf{S}_f= 0$$&lt;/code&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;$\bar{\phi_f}$&lt;/code&gt; is the mean value of &lt;code&gt;$\phi$&lt;/code&gt; over the face &lt;code&gt;$f$&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;We can then introduce the relationship of the mean value over the face:
+&lt;code&gt;$|\mathbf{S}_f|\bar{\phi_f} = \int_f \phi\ \mathrm{d}\mathbf{S}_f$&lt;/code&gt;
+to produce the following discrete equation:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;$$\sum_{cell\ faces} [\overline{(\rho \mathbf{U} \phi)}_f - \overline{(K \nabla \phi)}_f]|\mathbf{S}_f| = 0$$&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;obtaining-the-system-of-algrebraic-equations&#34;&gt;Obtaining the system of algrebraic equations&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Apply the previous equation to all 9 cells.&lt;/li&gt;
+&lt;li&gt;Considering &lt;code&gt;$K = 0.01$&lt;/code&gt; and &lt;code&gt;$\rho \mathbf{U} = \begin{bmatrix} 0.03 \\ 0 \\ 0 \end{bmatrix}$&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;But the previous equation relates &lt;strong&gt;face values&lt;/strong&gt; to each other, and we are
+interested in &lt;strong&gt;cell values&lt;/strong&gt; instead. That&amp;rsquo;s why there is a need for defining
+a scheme to convert face values to cell-centered ones (an interpolation scheme).&lt;/p&gt;
+&lt;p&gt;Assuming a linear evolution, a second-order accurate Central Difference Scheme
+can do the job (Example for cell 4):&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$$\phi_{f_{45}} = \phi_4 + \frac{\phi_5 - \phi_4}{c_{4}-c_{5}} (x_{f_{45}} - c_{4})$$&lt;/code&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;c_i&lt;/code&gt; is the position of cell &lt;code&gt;$i$&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Which can be further simplified to an average because of the uniform grid
+spacing:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$$\rho_{f_{45}} = \frac{\phi_5 + \phi_4}{2}$$&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It remains to process the gradients in the face-normal direction for us to
+get to the final discrete equation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;$$[(\rho u \phi)_{f45}  -(K \frac{d\ \phi}{dx})_{f45}] - [(\rho u \phi)_{f34}  -(K \frac{d\ \phi}{dx})_{f34}] = 0$$&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Which can be simplified to (Remember, this equation is for cell 4):
+&lt;code&gt;$$-0.115\ \phi_3 + 0.2\ \phi_4 - 0.085\ \phi_5 = 0$$&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;For the boundary faces, at least the &lt;strong&gt;value&lt;/strong&gt; or the &lt;strong&gt;gradient&lt;/strong&gt; of &lt;code&gt;$\phi$&lt;/code&gt;
+has to be supplied.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For our purpose, set &lt;code&gt;$\phi_0 = 1$&lt;/code&gt; and &lt;code&gt;$\phi_9 = 0$&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The system for all 9 cells should then look like this:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$$ \begin{bmatrix} 0.315\phi_0 &amp;amp; - 0.085\phi_1 &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; = 0.23\\ -0.115\phi_0 &amp;amp; + 0.2\phi_1 &amp;amp; - 0.085\phi_2          &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; = 0\\ &amp;amp; -0.115\phi_1 &amp;amp; + 0.2\phi_2 &amp;amp; - 0.085\phi_3        &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; = 0\\ &amp;amp; &amp;amp; -0.115\phi_2 &amp;amp; + 0.2\phi_3 &amp;amp; - 0.085\phi_4      &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; = 0\\ &amp;amp; &amp;amp; &amp;amp; -0.115\phi_3 &amp;amp; + 0.2\phi_4 &amp;amp; - 0.085\phi_5    &amp;amp; &amp;amp; &amp;amp; &amp;amp; = 0\\ &amp;amp; &amp;amp; &amp;amp; &amp;amp; -0.115\phi_4 &amp;amp; + 0.2\phi_5 &amp;amp; - 0.085\phi_6  &amp;amp; &amp;amp; &amp;amp; = 0\\ &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; -0.115\phi_5 &amp;amp; + 0.2\phi_6 &amp;amp;- 0.085\phi_7 &amp;amp; &amp;amp; =0\\ &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; -0.115\phi_6 &amp;amp; + 0.2\phi_7 &amp;amp; - 0.085\phi_8 &amp;amp;=0\\ &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; -0.115\phi_7 &amp;amp; + 0.285\phi_8 &amp;amp; = 0   \end{bmatrix} $$&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;solving-the-system-of-equations&#34;&gt;Solving the system of equations&lt;/h3&gt;
+&lt;p&gt;For simplicity, I have opted for the &lt;strong&gt;Gauss-Seidel&lt;/strong&gt; iterative method for
+solving the resulting system of equation (although the direct approach is
+sufficient in this case):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Start with an initial solution vector for &lt;code&gt;$\phi$&lt;/code&gt; values&lt;/li&gt;
+&lt;li&gt;Update the solution of &lt;code&gt;$A \phi = B$&lt;/code&gt; for the new iteration (&lt;code&gt;$k+1$&lt;/code&gt;) with:
+&lt;code&gt;$$\phi_i^{(k+1)} = \frac{1}{a_{ii}} (b_i -\sum_{j=1}^{i-1}a_{ij}\phi_j^{(k+1)} -\sum_{j=i+1}^{n}a_{ij}\phi_j^{(k)} )$$&lt;/code&gt;
+Where &lt;code&gt;$A = [a_{ij}],\ B = [b_i]$&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We can then obtain the final steady-state solution (&lt;code&gt;$\phi$&lt;/code&gt; values at cell
+centers):&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Iteration&lt;/th&gt;
+&lt;th&gt;Cell 0&lt;/th&gt;
+&lt;th&gt;Cell 1&lt;/th&gt;
+&lt;th&gt;Cell 2&lt;/th&gt;
+&lt;th&gt;Cell 3&lt;/th&gt;
+&lt;th&gt;Cell 4&lt;/th&gt;
+&lt;th&gt;Cell 5&lt;/th&gt;
+&lt;th&gt;Cell 6&lt;/th&gt;
+&lt;th&gt;Cell 7&lt;/th&gt;
+&lt;th&gt;Cell 8&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;00&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;01&lt;/td&gt;
+&lt;td&gt;0.7301&lt;/td&gt;
+&lt;td&gt;0.4198&lt;/td&gt;
+&lt;td&gt;0.2414&lt;/td&gt;
+&lt;td&gt;0.1388&lt;/td&gt;
+&lt;td&gt;0.0798&lt;/td&gt;
+&lt;td&gt;0.0458&lt;/td&gt;
+&lt;td&gt;0.0263&lt;/td&gt;
+&lt;td&gt;0.0151&lt;/td&gt;
+&lt;td&gt;0.0061&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;02&lt;/td&gt;
+&lt;td&gt;0.8434&lt;/td&gt;
+&lt;td&gt;0.5875&lt;/td&gt;
+&lt;td&gt;0.3968&lt;/td&gt;
+&lt;td&gt;0.2621&lt;/td&gt;
+&lt;td&gt;0.1702&lt;/td&gt;
+&lt;td&gt;0.1090&lt;/td&gt;
+&lt;td&gt;0.0691&lt;/td&gt;
+&lt;td&gt;0.0423&lt;/td&gt;
+&lt;td&gt;0.0171&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;03&lt;/td&gt;
+&lt;td&gt;0.8887&lt;/td&gt;
+&lt;td&gt;0.6796&lt;/td&gt;
+&lt;td&gt;0.5022&lt;/td&gt;
+&lt;td&gt;0.3611&lt;/td&gt;
+&lt;td&gt;0.2540&lt;/td&gt;
+&lt;td&gt;0.1754&lt;/td&gt;
+&lt;td&gt;0.1188&lt;/td&gt;
+&lt;td&gt;0.0756&lt;/td&gt;
+&lt;td&gt;0.0305&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;04&lt;/td&gt;
+&lt;td&gt;0.9135&lt;/td&gt;
+&lt;td&gt;0.7387&lt;/td&gt;
+&lt;td&gt;0.5782&lt;/td&gt;
+&lt;td&gt;0.4404&lt;/td&gt;
+&lt;td&gt;0.3278&lt;/td&gt;
+&lt;td&gt;0.2390&lt;/td&gt;
+&lt;td&gt;0.1695&lt;/td&gt;
+&lt;td&gt;0.1104&lt;/td&gt;
+&lt;td&gt;0.0445&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;05&lt;/td&gt;
+&lt;td&gt;0.9295&lt;/td&gt;
+&lt;td&gt;0.7802&lt;/td&gt;
+&lt;td&gt;0.6358&lt;/td&gt;
+&lt;td&gt;0.5049&lt;/td&gt;
+&lt;td&gt;0.3919&lt;/td&gt;
+&lt;td&gt;0.2974&lt;/td&gt;
+&lt;td&gt;0.2179&lt;/td&gt;
+&lt;td&gt;0.1442&lt;/td&gt;
+&lt;td&gt;0.0582&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;35&lt;/td&gt;
+&lt;td&gt;0.9888&lt;/td&gt;
+&lt;td&gt;0.9588&lt;/td&gt;
+&lt;td&gt;0.9188&lt;/td&gt;
+&lt;td&gt;0.8653&lt;/td&gt;
+&lt;td&gt;0.7938&lt;/td&gt;
+&lt;td&gt;0.6978&lt;/td&gt;
+&lt;td&gt;0.5687&lt;/td&gt;
+&lt;td&gt;0.3946&lt;/td&gt;
+&lt;td&gt;0.1592&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;36&lt;/td&gt;
+&lt;td&gt;0.9888&lt;/td&gt;
+&lt;td&gt;0.9591&lt;/td&gt;
+&lt;td&gt;0.9192&lt;/td&gt;
+&lt;td&gt;0.8659&lt;/td&gt;
+&lt;td&gt;0.7945&lt;/td&gt;
+&lt;td&gt;0.6985&lt;/td&gt;
+&lt;td&gt;0.5694&lt;/td&gt;
+&lt;td&gt;0.3950&lt;/td&gt;
+&lt;td&gt;0.1594&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;37&lt;/td&gt;
+&lt;td&gt;0.9889&lt;/td&gt;
+&lt;td&gt;0.9593&lt;/td&gt;
+&lt;td&gt;0.9196&lt;/td&gt;
+&lt;td&gt;0.8664&lt;/td&gt;
+&lt;td&gt;0.7951&lt;/td&gt;
+&lt;td&gt;0.6991&lt;/td&gt;
+&lt;td&gt;0.5699&lt;/td&gt;
+&lt;td&gt;0.3954&lt;/td&gt;
+&lt;td&gt;0.1595&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;For a tolerance of &lt;code&gt;1e-3&lt;/code&gt;, we can say that the method converges in around 37
+iterations.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Notice that the initial &lt;code&gt;$\phi$&lt;/code&gt; values were all zeros&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;learn-more&#34;&gt;Learn more&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Face gradients are evaluated in the direction of the face normal.&lt;/li&gt;
+&lt;li&gt;The flow is unidirectional, so technically, the governing equation is a 2nd order ODE.&lt;/li&gt;
+&lt;li&gt;See &lt;strong&gt;Related Files&lt;/strong&gt; section for a PDF file explaining the steps to acquire the theoretical
+and manual solutions.&lt;/li&gt;
+&lt;li&gt;From here, you can head strait to the next unit.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;section class=&#34;attachments &#34;&gt;
+	&lt;label&gt;
+		&lt;i class=&#34;fas fa-paperclip&#34; aria-hidden=&#34;true&#34;&gt;&lt;/i&gt;
+		Related files
+	&lt;/label&gt;
+	
+		
+	
+	&lt;div class=&#34;attachments-files&#34;&gt;
+	
+		
+		
+			
+				&lt;li&gt;
+					&lt;a href=&#34;/docs/Part1/02.OpenFOAM-Simulation-in-a-nutshell/02-manual-solution-for-transport-equation.files/manual-solution-with-maxima.pdf&#34; &gt;
+						manual-solution-with-maxima.pdf
+					&lt;/a&gt;
+					(198 ko)
+				&lt;/li&gt;
+			
+		
+	
+	&lt;/div&gt;
+	
+&lt;/section&gt;
+
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 03 - OpenFOAM Solution for the transport problem</title>
+      <link>/docs/part1/02.openfoam-simulation-in-a-nutshell/03-openfoam-solution-for-transport-equation/</link>
+      <pubDate>Thu, 29 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/02.openfoam-simulation-in-a-nutshell/03-openfoam-solution-for-transport-equation/</guid>
+      <description>
+        
+        
+        &lt;p&gt;In this unit, we&amp;rsquo;ll, again, solve the same example problem; But this time, we
+are using OpenFOAM (Of course, this unit will be consistent with the previous
+one). The basic workflow steps stay exactly the same.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;It&amp;rsquo;s recommended that you &lt;strong&gt;actualy&lt;/strong&gt; follow along using the lab machine.
+So, create a case (named &lt;code&gt;intro&lt;/code&gt; for example) in your run directory
+(&lt;code&gt;$FOAM_TUTORIALS/basic/scalarTransportFoam/pitzDaily&lt;/code&gt; is a good starting
+point).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;mesh-generation-introducing-blockmesh&#34;&gt;Mesh generation: Introducing &lt;code&gt;blockMesh&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;The objective of this section is to generate an OpenFOAM mesh, matching the
+following design:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/02-mesh-surface-normals.png&#34; alt=&#34;OpenFOAM transport 1D mesh&#34;&gt;&lt;/p&gt;
+&lt;p&gt;To do so, we&amp;rsquo;ll use a standard utility, called &lt;code&gt;blockMesh&lt;/code&gt;, which is basically
+a &lt;strong&gt;multi-block&lt;/strong&gt; mesh generator, controlled by a meshing dictionary (a file
+in the case&amp;rsquo;s directory describing mesh blocks).&lt;/p&gt;
+&lt;p&gt;In recent OpenFOAM versions, this dictionary is located at
+&lt;code&gt;system/blockMeshDict&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;But it used to be located at &lt;code&gt;constant/polyMesh/blockMeshDict&lt;/code&gt;, which still
+works.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A detailed discussion of this file&amp;rsquo;s contents will be provided later, for now
+just &lt;strong&gt;nod along&lt;/strong&gt; and&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;The &lt;code&gt;pitzDaily&lt;/code&gt; tutorial case is the closest one to our problem, but its
+mesh is a bit complicated for our purpose, thus, one can grab the mesh from
+another case:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; cp &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$FOAM_TUTORIALS&lt;/span&gt;/incompressible/icoFoam/cavity/cavity/system/blockMeshDict system/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;This dictionary usually starts off with a list of block vertices, where each
+mesh block point is labeled in the order it appears in:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;vertices
+(
+( 0   0   0   )  // vertex 0
+( 0.9 0   0   )  // vertex 1
+( 0.9 0.1 0   )  &lt;br&gt;
+( 0   0.1 0   )
+( 0   0   0.1 )
+( 0.9 0   0.1 )
+( 0.9 0.1 0.1 )
+( 0   0.1 0.1 )
+);&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;3. Then, a set of hexagonal blocks is specified (in this case, just one,
+connects points 0 through 7 and split into 9 cells in the x-direction)
+```cpp
+blocks
+(
+     hex (0 1 2 3 4 5 6 7) (9 1 1) simpleGrading (1 1 1)
+);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that there is a single cell in the y and z directions.
+Also, the &lt;code&gt;simpleGrading (1 1 1)&lt;/code&gt; bit specifies a uniform cell size in all
+three directions.
+4. We also have the option to specfy any &lt;strong&gt;curved&lt;/strong&gt; block edges in the &lt;code&gt;edges&lt;/code&gt;
+list, but we&amp;rsquo;ll leave that alone for now:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;edges
+(
+);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;It only remains to specify boundary patches and their types. For our case,
+we will have the far left face (&lt;code&gt;$f_0$&lt;/code&gt;) constinute the &lt;code&gt;inlet&lt;/code&gt; boundary
+patch. Its type should generic (&lt;code&gt;patch&lt;/code&gt;), and we specify the face as a list
+of its vertices&#39; labels.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;boundary
+(
+inlet                     // Patch name
+{
+type patch ;            // Generic patch type
+faces ( ( 0 4 7 3 ) ) ; // Inlet has one face
+}
+outlet
+{
+type patch ;
+faces ( ( 2 6 5 1 ) ) ;
+}
+noFlow
+{
+type empty ;             // No flow in perpendicular direc.
+faces ( ( 3 7 6 2 ) ( 1 5 4 0 ) ( 0 3 2 1 ) ( 4 5 6 7 ) ) ;
+}
+);&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;The outlet is treated similarly, taking the face on the other end of the
+mesh (`$f_9$`). The remaining faces are collected into a `noFlow` patch
+with an `empty` type.
+
+&amp;gt; The `empty` patch type is a way of saying: Ignore these faces when summing
+&amp;gt; integrals cell faces (Revisit the previous unit). In this case, It&amp;#39;s a simple
+&amp;gt; way to say that the flow is unidirectional.
+
+That&amp;#39;s all, all we need to do is to run the meshing command in the case&amp;#39;s
+directory:
+```bash
+(of@con:intro) blockMesh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To visualize the mesh, one should move the initial directory away because it&amp;rsquo;s
+not (yet) compatible with the generated mesh:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; blockMesh
+&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; touch intro.foam
+&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; paraview intro.foam
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/03-openfoam-mesh.png&#34; alt=&#34;OpenFOAM 1D mesh&#34;&gt;&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Lost your way?&lt;/h4&gt;
+&lt;p&gt;There is a &lt;a href=&#34;https://github.com/ResEng-OpenFOAM/res-eng-openfoam-introduction&#34;&gt;Github repo&lt;/a&gt;
+holding case files at each stage of the simulation. The
+git tag for this stage is &lt;strong&gt;meshingStage&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;You can checkout the tag if things are not working correctly for you; or better,
+compare (&lt;code&gt;git diff&lt;/code&gt;) your work with the contents of the tag.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;solver-and-governing-equations&#34;&gt;Solver and governing equations&lt;/h2&gt;
+&lt;p&gt;The next step is to pick the corresponding solver for our flow equation which is
+&lt;code&gt;scalaTransportFoam&lt;/code&gt;, where the solved governing equation has three terms:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;solve
+(
+    fvm&lt;span style=&#34;color:#ff79c6&#34;&gt;::&lt;/span&gt;ddt(T)                 &lt;span style=&#34;color:#6272a4&#34;&gt;// dT/dt, null in our stead_state case
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;+&lt;/span&gt; fvm&lt;span style=&#34;color:#ff79c6&#34;&gt;::&lt;/span&gt;div(phi, T)          &lt;span style=&#34;color:#6272a4&#34;&gt;// divergence(U T)
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt; fvm&lt;span style=&#34;color:#ff79c6&#34;&gt;::&lt;/span&gt;laplacian(DT, T)     &lt;span style=&#34;color:#6272a4&#34;&gt;// - divergence(D_T grad(T))
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Where:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;phi&lt;/code&gt; is the phase&amp;rsquo;s flux&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;U&lt;/code&gt; is the flow&amp;rsquo;s velocity&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$D_T = \frac{K}{\rho}$&lt;/code&gt; is the diffusion coefficient&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The transported variable is named &lt;code&gt;T&lt;/code&gt; in this case (as opposed to &lt;code&gt;$\phi$&lt;/code&gt; in
+the previous units) and the equation is practically the one from the manual
+approach, divided by the fluid&amp;rsquo;s density &lt;code&gt;$\rho$&lt;/code&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;For a quick description of the solver, look for &amp;ldquo;Description&amp;rdquo; in
+&lt;code&gt;$FOAM_SOLVERS/basic/scalarTransportFoam/scalarTransportFoam.C&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;initial-and-boundary-conditions&#34;&gt;Initial and boundary conditions&lt;/h2&gt;
+&lt;p&gt;After we decide on a solver to use, It&amp;rsquo;s wise to setup initial and boundary
+conditions for our fields (&lt;code&gt;T&lt;/code&gt;, and &lt;code&gt;U&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;To be fully consistent with the previous unit, set:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$\mathbf{U} = \begin{bmatrix} 0.03 \\ 0 \\ 0 \end{bmatrix}$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$D_T = 0.01$&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Move &lt;code&gt;0.orig&lt;/code&gt; back to &lt;code&gt;0&lt;/code&gt; with: &lt;code&gt;(of@con:intro) mv 0.orig 0&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Back to our case files, The &lt;code&gt;T&lt;/code&gt; field should have temperature dimensions
+(because that&amp;rsquo;s what the solver expects), and
+it should reflect the boundary conditions from the previous unit (fixed values:
+1 at the inlet, 0 at the outlet).&lt;/p&gt;
+&lt;p&gt;Initial values for the &lt;code&gt;T&lt;/code&gt; field will also take zeroed values to compare the
+numerical method with the manual approach.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;dimensions      [&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;];
+
+internalField   uniform &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;;
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           uniform &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;;
+    }
+    outlet
+    {
+        type            fixedValue;
+        value           uniform &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;;
+    }
+    noFlow
+    {
+        type            empty;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For the velocity, &lt;code&gt;zeroGradient&lt;/code&gt; boundary condition type should be applied to
+both the inlet and the outlet of the domain:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;dimensions      [&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;];
+
+internalField   &lt;span style=&#34;color:#50fa7b&#34;&gt;uniform&lt;/span&gt; (&lt;span style=&#34;color:#bd93f9&#34;&gt;0.03&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;);
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    noFlow
+    {
+        type            noSlip;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;By default, &lt;code&gt;constant/transportProperties&lt;/code&gt; dictionary specifies &lt;code&gt;DT = 0.01&lt;/code&gt;
+(and we&amp;rsquo;re fine with it)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Lost your way?&lt;/h4&gt;
+Again, the
+&lt;a href=&#34;https://github.com/ResEng-OpenFOAM/res-eng-openfoam-introduction&#34;&gt;Github repo&lt;/a&gt;
+has all case files up until this point. The git tag for this stage is
+&lt;strong&gt;ICsBCsConfigured&lt;/strong&gt;.
+&lt;/div&gt;
+
+&lt;h2 id=&#34;numerical-schemes-and-solution-settings&#34;&gt;Numerical schemes and solution settings&lt;/h2&gt;
+&lt;p&gt;As for the numerical schemes used, let&amp;rsquo;s use the same ones from the manual
+approach:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// File: system/fvSchemes
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;
+ddtSchemes
+{
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// Default Time-derivative approximation method
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;default&lt;/span&gt;     steadyState;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// default means all &amp;#39;ddt&amp;#39; terms will be approximated this way
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6272a4&#34;&gt;// In our case, that&amp;#39;s the &amp;#39;fvm::ddt(T)&amp;#39; term
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;}
+
+gradSchemes
+{
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// Whenever there is a need to calculate the gradient of a field, use:
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6272a4&#34;&gt;// Gaussian integrals evaluated using a linear profile
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;default&lt;/span&gt;     Gauss linear
+}
+
+divSchemes
+{
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// It&amp;#39;s bad practice to set a default option for divergence schemes
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;default&lt;/span&gt;     none;
+
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// Then, we must specify a scheme for each div term
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6272a4&#34;&gt;// linear is NOT a good choice in most cases, don&amp;#39;t make it a habit
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    div(phi,T)  Gauss linear;
+}
+
+laplacianSchemes
+{
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// It&amp;#39;s not that bad set a default option for divergence schemes, but
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;default&lt;/span&gt;     none;
+
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// Then, we must specify a scheme for each laplacian term
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    laplacian(DT,T)  Gauss linear uncorrected;
+}
+
+interpolationSchemes
+{
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// What to do when there is a need to interpolate?
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;default&lt;/span&gt;     linear;
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You&amp;rsquo;ll have to nod along and accept &lt;code&gt;Gauss linear uncorrected&lt;/code&gt; as the diffusion
+scheme for now. Let&amp;rsquo;s just say the mesh quality has a considerable impact on the
+&lt;code&gt;laplacian&lt;/code&gt; &amp;rsquo;s accuracy, thus we might need to correct things in some cases, but
+not in this simple one!!&lt;/p&gt;
+&lt;p&gt;Also, let&amp;rsquo;s no consern ourselves with &lt;code&gt;snGradSchemes&lt;/code&gt; (schemes for
+surface-normal gradients) for now, so, just leave them as they are.&lt;/p&gt;
+&lt;p&gt;After using these schemes to derive the matrix to solve, OpenFOAM will need to
+actually solve it:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// File: system/fvSolution
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;// A dictionary for linear solvers
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;solvers
+{
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// Solvers for T&amp;#39;s equation (our only equation)
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    T
+    {
+        &lt;span style=&#34;color:#6272a4&#34;&gt;// The linear solver for T
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#6272a4&#34;&gt;// In OpenFOAM, Gauss-Seidel is not a fully fledged solver,
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#6272a4&#34;&gt;// instead, it&amp;#39;s just a method using for matrix smoothing,
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#6272a4&#34;&gt;// thus, we say to use the smoother as the solver here:
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        solver  smoothSolver;
+
+        &lt;span style=&#34;color:#6272a4&#34;&gt;// Then specify the smoother as Gauss-Seidel here:
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        smoother GaussSeidel;
+
+        &lt;span style=&#34;color:#6272a4&#34;&gt;// To compare results with the manual approach,
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#6272a4&#34;&gt;//let&amp;#39;s disable any native convergence control:
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        tolerance   &lt;span style=&#34;color:#bd93f9&#34;&gt;1e-12&lt;/span&gt;;
+        relTol      &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;;
+
+        &lt;span style=&#34;color:#6272a4&#34;&gt;// But let&amp;#39;s force the linear solve to perform ONE linear iteration
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#6272a4&#34;&gt;// per timeStep
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        maxIter     &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;;
+    }
+}
+
+SIMPLE
+{
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// Again, we don&amp;#39;t need any corrections
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    nNonOrthogonalCorrectors &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;By setting &lt;code&gt;tolerance 1e-12;&lt;/code&gt; (required difference between equation residuals
+at consecutive time levels), and &lt;code&gt;relTol 0;&lt;/code&gt; (required relative reduction in
+residuals)
+, we completely throw out the notion of &amp;ldquo;convergence&amp;rdquo; (assuming a tolerance of
+&lt;code&gt;1e-12&lt;/code&gt; is hard to achieve). The simulation will
+(probably) never converge with these settings, but that&amp;rsquo;s what we want because
+we want to &lt;strong&gt;run for a specified number of iterations&lt;/strong&gt; (37 to be exact,
+deduced from the manual approach).&lt;/p&gt;
+&lt;p&gt;Now, the notion of a &lt;strong&gt;TimeStep&lt;/strong&gt; also doesn&amp;rsquo;t quite hold itself in a
+steady-state simulation, does it? In this case, by a TimeStep, we mean a
+&amp;ldquo;solver iteration&amp;rdquo;, but not a &amp;ldquo;linear solver iteration&amp;rdquo;: One Timestep may need
+multiple linear solver iterations to converge. That&amp;rsquo;s also why we set &lt;code&gt;maxIter 1;&lt;/code&gt; to bring the two notions together.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Lost your way?&lt;/h4&gt;
+The git tag for this stage is &lt;strong&gt;NSAndSolConfigured&lt;/strong&gt;. Check it out in this same
+&lt;a href=&#34;https://github.com/ResEng-OpenFOAM/res-eng-openfoam-introduction&#34;&gt;Github repo&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;running-the-simulation&#34;&gt;Running the simulation&lt;/h2&gt;
+&lt;p&gt;We only need to tweak &lt;code&gt;system/controlDict&lt;/code&gt; so that it reflects what we did back
+in the manual approach (previous unit):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// File: system/controldict
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;
+application     scalarTransportFoam;
+
+&lt;span style=&#34;color:#6272a4&#34;&gt;// ALWAYS start from startTime below, do not continue previous simulations
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;startFrom       startTime;
+startTime       &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;;
+
+&lt;span style=&#34;color:#6272a4&#34;&gt;// STOP when you reach time = endTime
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;stopAt          endTime;
+endTime         &lt;span style=&#34;color:#bd93f9&#34;&gt;40&lt;/span&gt;;  &lt;span style=&#34;color:#6272a4&#34;&gt;// This should be in time units (seconds) but
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;                     &lt;span style=&#34;color:#6272a4&#34;&gt;// as this is steady-state, it&amp;#39;s the number of iterations
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;// IRRELEVANT in our case, but
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;deltaT          &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;;   &lt;span style=&#34;color:#6272a4&#34;&gt;// Set it so that endTime is valid
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;// WHEN and HOW to write solution to disk
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;writeControl    timeStep;  &lt;span style=&#34;color:#6272a4&#34;&gt;// Output solution every n*timeStep
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;writeInterval   &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;;         &lt;span style=&#34;color:#6272a4&#34;&gt;// Specifies the &amp;#34;n&amp;#34; in previous comment
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;writePrecision  &lt;span style=&#34;color:#bd93f9&#34;&gt;8&lt;/span&gt;;         &lt;span style=&#34;color:#6272a4&#34;&gt;// Writing precision of floating points
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;deltaT&lt;/code&gt; is obviously irrelevant in our case: Your results should not differ
+if you use any other value for this keyword, however you can see that
+&lt;code&gt;writeInterval&lt;/code&gt; would have a different effect.&lt;/p&gt;
+&lt;p&gt;The remaining settings are less relevant, and we can ignore them for the time
+being. So, let&amp;rsquo;s start the simulation:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# Create the mesh and check its quality&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; blockMesh &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; checkMesh
+&lt;span style=&#34;color:#6272a4&#34;&gt;# Run the solver and keep a log file&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; scalarTransportFoam | tee log.scalarTransportFoam
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Lost your way?&lt;/h4&gt;
+There is also a git tag for this stage (&lt;strong&gt;RunReady&lt;/strong&gt;) in the case&amp;rsquo;s
+&lt;a href=&#34;https://github.com/ResEng-OpenFOAM/res-eng-openfoam-introduction&#34;&gt;Github repo&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;investigating-results&#34;&gt;Investigating results&lt;/h3&gt;
+&lt;p&gt;Here is a pretty table of &lt;code&gt;T&lt;/code&gt; values at each iteration:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Iteration&lt;/th&gt;
+&lt;th&gt;Cell 0&lt;/th&gt;
+&lt;th&gt;Cell 1&lt;/th&gt;
+&lt;th&gt;Cell 2&lt;/th&gt;
+&lt;th&gt;Cell 3&lt;/th&gt;
+&lt;th&gt;Cell 4&lt;/th&gt;
+&lt;th&gt;Cell 5&lt;/th&gt;
+&lt;th&gt;Cell 6&lt;/th&gt;
+&lt;th&gt;Cell 7&lt;/th&gt;
+&lt;th&gt;Cell 8&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;00&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;01&lt;/td&gt;
+&lt;td&gt;0.7301&lt;/td&gt;
+&lt;td&gt;0.4198&lt;/td&gt;
+&lt;td&gt;0.2414&lt;/td&gt;
+&lt;td&gt;0.1388&lt;/td&gt;
+&lt;td&gt;0.0798&lt;/td&gt;
+&lt;td&gt;0.0458&lt;/td&gt;
+&lt;td&gt;0.0263&lt;/td&gt;
+&lt;td&gt;0.0151&lt;/td&gt;
+&lt;td&gt;0.0061&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;02&lt;/td&gt;
+&lt;td&gt;0.8434&lt;/td&gt;
+&lt;td&gt;0.5875&lt;/td&gt;
+&lt;td&gt;0.3968&lt;/td&gt;
+&lt;td&gt;0.2621&lt;/td&gt;
+&lt;td&gt;0.1702&lt;/td&gt;
+&lt;td&gt;0.1090&lt;/td&gt;
+&lt;td&gt;0.0691&lt;/td&gt;
+&lt;td&gt;0.0423&lt;/td&gt;
+&lt;td&gt;0.0171&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;03&lt;/td&gt;
+&lt;td&gt;0.8887&lt;/td&gt;
+&lt;td&gt;0.6796&lt;/td&gt;
+&lt;td&gt;0.5022&lt;/td&gt;
+&lt;td&gt;0.3611&lt;/td&gt;
+&lt;td&gt;0.2540&lt;/td&gt;
+&lt;td&gt;0.1754&lt;/td&gt;
+&lt;td&gt;0.1188&lt;/td&gt;
+&lt;td&gt;0.0756&lt;/td&gt;
+&lt;td&gt;0.0305&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;04&lt;/td&gt;
+&lt;td&gt;0.9135&lt;/td&gt;
+&lt;td&gt;0.7387&lt;/td&gt;
+&lt;td&gt;0.5782&lt;/td&gt;
+&lt;td&gt;0.4404&lt;/td&gt;
+&lt;td&gt;0.3278&lt;/td&gt;
+&lt;td&gt;0.2390&lt;/td&gt;
+&lt;td&gt;0.1695&lt;/td&gt;
+&lt;td&gt;0.1104&lt;/td&gt;
+&lt;td&gt;0.0445&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;05&lt;/td&gt;
+&lt;td&gt;0.9295&lt;/td&gt;
+&lt;td&gt;0.7802&lt;/td&gt;
+&lt;td&gt;0.6358&lt;/td&gt;
+&lt;td&gt;0.5049&lt;/td&gt;
+&lt;td&gt;0.3919&lt;/td&gt;
+&lt;td&gt;0.2974&lt;/td&gt;
+&lt;td&gt;0.2179&lt;/td&gt;
+&lt;td&gt;0.1442&lt;/td&gt;
+&lt;td&gt;0.0582&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;td&gt;&amp;hellip;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;35&lt;/td&gt;
+&lt;td&gt;0.9888&lt;/td&gt;
+&lt;td&gt;0.9588&lt;/td&gt;
+&lt;td&gt;0.9188&lt;/td&gt;
+&lt;td&gt;0.8653&lt;/td&gt;
+&lt;td&gt;0.7938&lt;/td&gt;
+&lt;td&gt;0.6978&lt;/td&gt;
+&lt;td&gt;0.5687&lt;/td&gt;
+&lt;td&gt;0.3946&lt;/td&gt;
+&lt;td&gt;0.1592&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;36&lt;/td&gt;
+&lt;td&gt;0.9888&lt;/td&gt;
+&lt;td&gt;0.9591&lt;/td&gt;
+&lt;td&gt;0.9192&lt;/td&gt;
+&lt;td&gt;0.8659&lt;/td&gt;
+&lt;td&gt;0.7945&lt;/td&gt;
+&lt;td&gt;0.6985&lt;/td&gt;
+&lt;td&gt;0.5694&lt;/td&gt;
+&lt;td&gt;0.3950&lt;/td&gt;
+&lt;td&gt;0.1594&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;37&lt;/td&gt;
+&lt;td&gt;0.9889&lt;/td&gt;
+&lt;td&gt;0.9593&lt;/td&gt;
+&lt;td&gt;0.9196&lt;/td&gt;
+&lt;td&gt;0.8664&lt;/td&gt;
+&lt;td&gt;0.7951&lt;/td&gt;
+&lt;td&gt;0.6991&lt;/td&gt;
+&lt;td&gt;0.5699&lt;/td&gt;
+&lt;td&gt;0.3954&lt;/td&gt;
+&lt;td&gt;0.1595&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;But don&amp;rsquo;t just take my word for it; you can produce such tables with a single
+bash command (By looking for &amp;ldquo;nonuniform&amp;rdquo; into the &lt;code&gt;T&lt;/code&gt; file for all iterations):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; i in &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;1..37&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;do&lt;/span&gt; grep nonuniform &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$i&lt;/span&gt;/T | sed &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;s/.*(\(.*\)).*/&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$i&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;\t\1/g&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;internalField&lt;/code&gt; of &lt;code&gt;37/T&lt;/code&gt; for example would look like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;internalField   nonuniform List&amp;lt;scalar&amp;gt; 9(0.98896731 ...);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;so we just take what&amp;rsquo;s inside the round brackets (as a bonus, the &lt;code&gt;sed&lt;/code&gt; commands
+adds the iteration number at the start of each line (&lt;code&gt;$i&lt;/code&gt;)).&lt;/p&gt;
+&lt;h2 id=&#34;what-now&#34;&gt;What now?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;You should proceed to the next unit to learn how to properly visualize
+simulation results (Presenting data in tables is not catchy after all).&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 04 - Result visualization with ParaView</title>
+      <link>/docs/part1/02.openfoam-simulation-in-a-nutshell/04-result-visualization-with-paraview/</link>
+      <pubDate>Wed, 11 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/02.openfoam-simulation-in-a-nutshell/04-result-visualization-with-paraview/</guid>
+      <description>
+        
+        
+        &lt;p&gt;In the previous two units, we have solved our sample transport problem both
+manually and with the help of OpenFOAM; It&amp;rsquo;s time to learn how to properly
+visualize the results of such simulations.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;For this particular case (1D mesh), a line plot of the main variable would
+suffice; but we will dig a little deeper into ParaView&amp;rsquo;s workflow to prepare
+for more complex mesh-based visualizations.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;paraview-ui-basics&#34;&gt;ParaView UI Basics&lt;/h2&gt;
+&lt;p&gt;This not a comprehensive ParaView tutorial, but you need to know ParaView&amp;rsquo;s UI
+parts so you can use them efficiently from the get-go:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/04-paraview-ui.png&#34; alt=&#34;ParaView UI elements&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The rendering window (Which points to a &lt;strong&gt;3D View&lt;/strong&gt; of the mesh in the
+picture) is where you &amp;ldquo;see&amp;rdquo; stuff. It can be split into multiple views of a
+lot of things (Most useful views are: Rendering view, spreadcheet view, and
+plot views).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;strong&gt;menu bar&lt;/strong&gt; is where all the tools, filters and sources are located.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;strong&gt;tool bar&lt;/strong&gt; handles variable coloring, mesh display mode and some camera
+settings.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;strong&gt;pipeline browser&lt;/strong&gt; shows and activates visualization objects.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;And each object&amp;rsquo;s properties can be inspected and modified in the
+&lt;strong&gt;properties panel&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The standard workflow for visualizing data can be summerized as:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Reading data into the software:&lt;/strong&gt; which is usually done through a &amp;ldquo;Reader
+module&amp;rdquo;. For example, there is a default OpenFOAM Reader in ParaView which
+recognizes OpenFOAM case directories if an empty &lt;code&gt;*.foam&lt;/code&gt; file is loaded.
+&lt;ul&gt;
+&lt;li&gt;You can also export OpenFOAM data as VTK files (ParaView&amp;rsquo;s native format)
+and then use the VTK reader to load it.&lt;/li&gt;
+&lt;li&gt;OpenFOAM has its own ParaView Reader! If you&amp;rsquo;re using your local machine
+to follow along, try running &lt;code&gt;paraFoam&lt;/code&gt; inside a case.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Filtering:&lt;/strong&gt; which typically involves data manipulation and modification
+using a series of &amp;ldquo;filters&amp;rdquo;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Rendering:&lt;/strong&gt; which results in presentation-ready images or video-scenes of
+data features.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;visualization-with-vtk-for-the-manual-approach&#34;&gt;Visualization with VTK (for the manual approach)&lt;/h3&gt;
+&lt;p&gt;Let&amp;rsquo;s start by visualizing the data we got from the manual solution, as if we
+never simulated the problem with OpenFOAM.&lt;/p&gt;
+&lt;p&gt;As mentioned previously, we know cell center positions, and we know &lt;code&gt;T&lt;/code&gt; values
+at these positions, so, a line plot is the best visualization option; but let&amp;rsquo;s
+not do that. Instead, let&amp;rsquo;s take advantage of ParaView&amp;rsquo;s native data format
+(VTK) to visualize the data on a &lt;strong&gt;mesh&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;The (legacy-) VTK file has a simple format:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;# vtk DataFile Version 3.0
+&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;&lt;/span&gt;Manual visualization
+ASCII
+DATASET RECTILINEAR_GRID
+DIMENSIONS &lt;span style=&#34;color:#bd93f9&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; 
+X_COORDINATES &lt;span style=&#34;color:#bd93f9&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#8be9fd&#34;&gt;float&lt;/span&gt;
+&lt;span style=&#34;color:#bd93f9&#34;&gt;0.0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.1&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.2&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.3&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.4&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.6&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.7&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.8&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.9&lt;/span&gt; 
+Y_COORDINATES &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#8be9fd&#34;&gt;float&lt;/span&gt;
+&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.1&lt;/span&gt;
+Z_COORDINATES &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#8be9fd&#34;&gt;float&lt;/span&gt;
+&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.1&lt;/span&gt;
+CELL_DATA &lt;span style=&#34;color:#bd93f9&#34;&gt;9&lt;/span&gt;
+SCALARS T &lt;span style=&#34;color:#8be9fd&#34;&gt;float&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;
+LOOKUP_TABLE &lt;span style=&#34;color:#ff79c6&#34;&gt;default&lt;/span&gt;
+&lt;span style=&#34;color:#bd93f9&#34;&gt;0.98896731&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.95934624&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.91965778&lt;/span&gt;
+&lt;span style=&#34;color:#bd93f9&#34;&gt;0.86647731&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.79512318&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.69919388&lt;/span&gt;
+&lt;span style=&#34;color:#bd93f9&#34;&gt;0.56994799&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.39547386&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0.15957717&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;The first line is a comment, explaining what the file is&lt;/li&gt;
+&lt;li&gt;The second line holds a title for the visualization&lt;/li&gt;
+&lt;li&gt;The third line specifies whether the data is in binary of ascii format&lt;/li&gt;
+&lt;li&gt;The forth line selects the grid type. In this case, we&amp;rsquo;re visualizing data on
+a rectilinear grid (which is a structured type, but doesn&amp;rsquo;t imply uniform
+cell size; more in the &lt;a href=&#34;https://docs.paraview.org/en/latest/UsersGuide/understandingData.html&#34;&gt;User Guide&lt;/a&gt;).&lt;/li&gt;
+&lt;li&gt;Next, the number of &lt;strong&gt;mesh points&lt;/strong&gt; in each of the three directions is
+specified with the &amp;ldquo;DIMENSIONS&amp;rdquo; keyword.&lt;/li&gt;
+&lt;li&gt;The next 6 lines specify coordinates for these points per direction. Note that
+these coordinates are for &lt;strong&gt;mesh vertices&lt;/strong&gt;, not for cell centers.&lt;/li&gt;
+&lt;li&gt;The keyword &lt;code&gt;CELL_DATA&lt;/code&gt; starts the specification of 9 cell-centered data.&lt;/li&gt;
+&lt;li&gt;We have a single scalar field &lt;code&gt;T&lt;/code&gt; (of &amp;ldquo;float&amp;rdquo; type)&lt;/li&gt;
+&lt;li&gt;This &lt;code&gt;T&lt;/code&gt; field is read from a lookup table (in the default format) right after
+the &lt;code&gt;SCALARS&lt;/code&gt; line.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This file is built so that we keep the previous numbering of mesh cells.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Now, let&amp;rsquo;s go through the process of visualizing the data in this file one step
+at a time:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;First, load the file into ParaView (You may need to click on some &amp;ldquo;Apply&amp;rdquo;
+buttons):
+&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/05-paraview-read-data.png&#34; alt=&#34;ParaView UI elements&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;By default, the loaded object is selected in the pipeline browser but has an
+&amp;ldquo;Outline&amp;rdquo; display mode:
+&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/05-paraview-pipeline.png&#34; alt=&#34;ParaView UI elements&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Let&amp;rsquo;s flip the display mode to say &lt;code&gt;Surface with edges&lt;/code&gt; and color the surface
+with &lt;code&gt;T&lt;/code&gt; values:
+&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/05-paraview-coloring.png&#34; alt=&#34;ParaView UI elements&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The box in front of &lt;code&gt;T&lt;/code&gt; in the following picture indicates that the field is
+&lt;strong&gt;cell-based&lt;/strong&gt;, but for a smoother visualization, let&amp;rsquo;s interpolate it to mesh
+points. To do that, pring up the filters search with &lt;code&gt;Ctrl+Space&lt;/code&gt; and type
+&lt;code&gt;Cell data To Point Data&lt;/code&gt;.
+&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/05-paraview-filter1.png&#34; alt=&#34;ParaView UI elements&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Now (ater hitting the apply button), a new object is selected in the pipeline
+browser, and there is a &amp;ldquo;dot&amp;rdquo; in front of &lt;code&gt;T&lt;/code&gt; (Indicating a points-based
+field).
+&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/05-paraview-filter2.png&#34; alt=&#34;ParaView UI elements&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;An important observation is that while &lt;code&gt;T&lt;/code&gt; &amp;rsquo;s range is correct for the cell
+data, the point data should account for boundary values. In our case, we
+expect &lt;code&gt;T&lt;/code&gt; to vary between 0 and 1. Fixing this issue is not hard:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Save the points field as a VTK file (in ascii format)&lt;/li&gt;
+&lt;li&gt;Change all occurances of &lt;code&gt;0.988967&lt;/code&gt; to 1 and all occurances of &lt;code&gt;0.159577&lt;/code&gt; to 0&lt;/li&gt;
+&lt;li&gt;Then re-read the modified file!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Now, we&amp;rsquo;re finally ready to produce that line plot you&amp;rsquo;re eager to see. With
+the loaded file selected, apply the &lt;code&gt;Plot Over Line&lt;/code&gt; filter:
+&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/05-paraview-filter3.png&#34; alt=&#34;ParaView UI elements&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;But the line we&amp;rsquo;re plotting &lt;code&gt;T&lt;/code&gt; over should be on the x-axis (Use the
+properties panel to modify this property of the line):
+&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/05-paraview-filter4.png&#34; alt=&#34;ParaView UI elements&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;This filter will open a new view, containing the plot; and you can continue
+modifying the filter&amp;rsquo;s properties.
+&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/05-paraview-filter5.png&#34; alt=&#34;ParaView UI elements&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;visualization-with-vtk-for-openfoams-case&#34;&gt;Visualization with VTK (for OpenFOAM&amp;rsquo;s case)&lt;/h3&gt;
+&lt;p&gt;Visualizing OpenFOAM results is basically the same,
+the only difference is in the way we load case data into ParaView:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;If OpenFOAM is compiled with ParaView support, the best way is
+to run &lt;code&gt;paraFoam&lt;/code&gt; inside the case&amp;rsquo;s directory. Unfortunately, this is not the
+case if you&amp;rsquo;re using the LinuxOne lab machine.&lt;/li&gt;
+&lt;li&gt;If ParaView is not installed on the same machine as OpenFOAM, but has access
+to the case directory, run &lt;code&gt;touch casename.foam &amp;amp;&amp;amp; paraview casename.foam&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;You can also convert OpenFOAM&amp;rsquo;s data to VTK then read it into ParaView:
+&lt;code&gt;foamToVTK --ascii&lt;/code&gt; (Then the files will be in the &lt;code&gt;case/VTK&lt;/code&gt; directory).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;final-discussion&#34;&gt;Final Discussion&lt;/h2&gt;
+&lt;p&gt;What about comparing our results with theoretical solutions?&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$$T(x) = \frac{1}{\rho |\mathbf{U}|}(aK e^{\frac{\rho |\mathbf{U}|}{K} x}+b)$$&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Where&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$K = 0.01,\quad \rho |\mathbf{U}| = 0.03$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$a = -0.21614$&lt;/code&gt; and &lt;code&gt;$b = 0.0321614$&lt;/code&gt;, deduced from boundary conditions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;OpenFOAM Solutions are &lt;strong&gt;so accurate&lt;/strong&gt; because we used the &lt;strong&gt;Central Difference
+scheme&lt;/strong&gt; on a &lt;strong&gt;mostly-diffusive&lt;/strong&gt; transport:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Try a more advective setup (increasing Peclet number:
+&lt;code&gt;$Pe = \frac{|\mathbf{U}|L}{D_T}$&lt;/code&gt;, where &lt;code&gt;L&lt;/code&gt; is the domain&amp;rsquo;s length)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;what-now&#34;&gt;What now?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Congratulations on completing this module; Its
+&lt;a href=&#34;https://classroom.github.com/a/sids7B2Z&#34;&gt;amazing assignment&lt;/a&gt; is wainting
+for you!&lt;/li&gt;
+&lt;li&gt;Next, we&amp;rsquo;ll go into the details of each simulation-workflow step; and the
+first one is: &lt;strong&gt;The Meshing step&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

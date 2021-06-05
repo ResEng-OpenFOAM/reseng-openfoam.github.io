@@ -1,0 +1,967 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reservoir Engineering With OpenFOAM – 1.01 Introduction</title>
+    <link>/docs/part1/01.introduction/</link>
+    <description>Recent content in 1.01 Introduction on Reservoir Engineering With OpenFOAM</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 01 Jan 2020 00:00:00 +0000</lastBuildDate>
+    
+	  <atom:link href="/docs/part1/01.introduction/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: 01 - Getting Started with OpenFOAM</title>
+      <link>/docs/part1/01.introduction/01-getting-started/</link>
+      <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/01.introduction/01-getting-started/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;introduction-to-the-software-packages&#34;&gt;Introduction to the software packages&lt;/h2&gt;
+&lt;h3 id=&#34;openfoam&#34;&gt;OpenFOAM&lt;/h3&gt;
+&lt;p&gt;You can view OpenFOAM as&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a set of libraries and solvers for solving partial
+differential equations,&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;numerically&lt;/em&gt;, on a well defined &amp;ldquo;discret&amp;rdquo; domain
+&lt;ul&gt;
+&lt;li&gt;which we call the mesh&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;using the Finite Volume Method (mostly)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Hence you can&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Make use of the &lt;strong&gt;standard solvers&lt;/strong&gt; directly if applicable to solve supported
+problems.&lt;/li&gt;
+&lt;li&gt;But in the case of reservoir engineering problems, there is a limit to what
+can be done with the standard solvers&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;That&amp;rsquo;s why taking the base code and developping our own solvers is such a big
+catch.&lt;/p&gt;
+&lt;p&gt;These solvers typically run (from the command-line) on a set of files and
+output simulation results as data files.&lt;/p&gt;
+&lt;p&gt;At this stage, OpenFOAM&amp;rsquo;s role is (mostly) done; we only need to use a
+Post-Processor to manipulate and visualize the generated data.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-success&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Example&lt;/h4&gt;
+&lt;p&gt;Solving a basic diffusive-problem involves solving an equation which looks like
+this (In steady-state setups):
+&lt;code&gt;$$ \nabla \cdot (K\nabla T) = S$$&lt;/code&gt;
+Where:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$K$&lt;/code&gt; is the diffusion coefficient&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$T$&lt;/code&gt; is the transported scalar field&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$S$&lt;/code&gt; is the source/sink term&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There is a standard OpenFOAM solver called &lt;code&gt;laplacianFoam&lt;/code&gt; which solves, well,
+Laplacian equations. You can run the solver on a prepared set of files
+(describing the diffusion problem)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;user@machine&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; laplacianFoam
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And its log would look like (trimmed a little bit):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;===================== BANNER =============================
+Build  : 7-1ff648926f77
+Exec   : laplacianFoam
+Date   : Oct 19 2020
+Time   : 15:37:05
+Host   : &amp;#34;machine&amp;#34;
+PID    : 22255
+I/O    : uncollated
+Case   : /tmp/flange
+nProcs : 1
+sigFpe : Enabling ...
+fileModificationChecking : Monitoring run-time modified ...
+allowSystemOperations : Allowing user-supplied system call
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+Create mesh for time = 1
+SIMPLE: No convergence criteria found
+Reading field T
+Reading transportProperties
+Reading diffusivity DT
+----- Calculations for timesteps -----
+END
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;paraview&#34;&gt;ParaView&lt;/h3&gt;
+&lt;p&gt;ParaView is a common Post-Processing software used on a wide range of
+data formats, including OpenFOAM&amp;rsquo;s.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Good Integration with OpenFOAM&amp;rsquo;s solvers.&lt;/li&gt;
+&lt;li&gt;Scriptable and can be driven by Python scripts.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Some of the most common data manipulation operations include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Common filters: Slices, Glyphs, Streams (to visualize flow path)
+and threshold-based extractions.&lt;/li&gt;
+&lt;li&gt;ParaView also allows for Python-programmable filters.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-success&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Example&lt;/h4&gt;
+&lt;p&gt;Let&amp;rsquo;s see one of the simplest ParaView&amp;rsquo;s filters in action:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/01.Introduction/01-clip-filter.png&#34; alt=&#34;ParaView Clip Filter&#34;&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h3 id=&#34;pyfoam&#34;&gt;PyFoam&lt;/h3&gt;
+&lt;p&gt;More advanced users could rely on the PyFoam library to&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Automate OpenFOAM tasks.&lt;/li&gt;
+&lt;li&gt;Manage parallel jobs.&lt;/li&gt;
+&lt;li&gt;Real-Time monitoing of simulation/solution properties.&lt;/li&gt;
+&lt;li&gt;Easily perform parametrization and optimization studies.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;PyFoam also provides facilities to&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ease networking between OpenFOAM instances,&lt;/li&gt;
+&lt;li&gt;Storing data in pickled format (and Pandas dataframes).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;cfmesh&#34;&gt;cfMesh&lt;/h3&gt;
+&lt;p&gt;Although standard meshing utilities (which come with OpenFOAM) are good enough
+for most cases, there is a meshing utility called &lt;code&gt;cfMesh&lt;/code&gt;, which&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Provides seamless tetrahedral, (2D-3D) hexahedral and polyhedral meshing
+workflows for &lt;strong&gt;the lazy ones&lt;/strong&gt; (me included).&lt;/li&gt;
+&lt;li&gt;Eases complex mesh parametrization&lt;/li&gt;
+&lt;li&gt;Only needs a geometry description for the domain and a maximal cell size!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;the-lab-environment&#34;&gt;The Lab Environment&lt;/h2&gt;
+&lt;p&gt;I hope you&amp;rsquo;ve already opened an account at
+&lt;a href=&#34;https://linuxone.cloud.marist.edu/&#34;&gt;linuxone.cloud.marist.edu&lt;/a&gt;
+so you can fire up a virtual machine on their infrastructure and use it as
+a lab environment for your assignments and (open source) course projects.&lt;/p&gt;
+&lt;p&gt;This section will first describe your options, and then provide a setp-by-step
+for getting your new virtual machine up and running.&lt;/p&gt;
+&lt;h3 id=&#34;option-01--work-on-your-local-machine&#34;&gt;Option 01 : Work on your local machine&lt;/h3&gt;
+&lt;p&gt;In fact, if you can, I encourage you to run on a Linux distribution locally
+(Ubuntu might be a good starting point) where you&amp;rsquo;ll install OpenFOAM from
+official repositories.&lt;/p&gt;
+&lt;p&gt;In the early stages of this part of the course, you&amp;rsquo;ll have to at least have
+&lt;strong&gt;ParaView installed on your local machine&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;On Linux, ParaView will get installed alongside OpenFOAM anyway.
+On Other platforms, head to
+&lt;a href=&#34;https://www.paraview.org/download/&#34;&gt;ParaView&amp;rsquo;s Download page&lt;/a&gt;
+and get the appropriate package&lt;/p&gt;
+&lt;p&gt;You want:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The most up-to-date full package,
+&lt;ul&gt;
+&lt;li&gt;NOT the server-only version,&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Built with MPI and Python3 support.
+&lt;ul&gt;
+&lt;li&gt;On MacOS, it&amp;rsquo;s OK to use the Python2-based package&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To install OpenFOAM, follow the approprtiate (for your platform) instructions
+from the &lt;a href=&#34;https://openfoam.org/download/&#34;&gt;openfoam.org&lt;/a&gt; website.&lt;/p&gt;
+&lt;h4 id=&#34;advantages&#34;&gt;Advantages&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;If you already have OpenFOAM installed, why bother using something else?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;difficulities&#34;&gt;Difficulities&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;If you&amp;rsquo;re new to Linux, it might be challenging to keep up with the
+assignments. In that case, please use the in-cloud VM instead.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;option-02--work-on-the-cloud&#34;&gt;Option 02 : Work on the cloud&lt;/h3&gt;
+&lt;p&gt;If you&amp;rsquo;re just starting up with Linux, connecting to a cloud machine and
+going through the assignments and projects is probably more suited for you.&lt;/p&gt;
+&lt;h4 id=&#34;advantages-1&#34;&gt;Advantages&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Local OS is irrelevant&lt;/li&gt;
+&lt;li&gt;Faster setup, no need to manage a local Linux OS (e.g. if you&amp;rsquo;re a Windows
+user).&lt;/li&gt;
+&lt;li&gt;Practice what simulations in real cloud environments feel like.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;difficulties&#34;&gt;Difficulties&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Becoming dependent on internet-connection&lt;/li&gt;
+&lt;li&gt;Results visualization is still local&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;mixnmatch&#34;&gt;Mix&amp;rsquo;n&amp;rsquo;Match&lt;/h3&gt;
+&lt;p&gt;If you locally:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Run a Docker-capable OS.&lt;/li&gt;
+&lt;li&gt;Have enough CPU-RAM processing power.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You could build a Docker Swarm to emulate a network of OpenFOAM nodes for
+parallel simulations. But this option is recommended only for advanced users
+and we will not discuss it further.&lt;/p&gt;
+&lt;h3 id=&#34;setting-up-the-remote-server&#34;&gt;Setting up the remote server&lt;/h3&gt;
+&lt;p&gt;The following diagram explains the whole workflow in the suggest lab
+environment. You connect from your local machine to the remote one (over SSH)
+which has an OpenFOAM docker image installed.&lt;/p&gt;
+&lt;p&gt;To use OpenFOAM, you just instantiate a container (based on the provided image)
+and run the commands inside the container.&lt;/p&gt;
+&lt;p&gt;If things get messed up, that&amp;rsquo;s fine; You just ditch the container and start
+a fresh one!&lt;/p&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+  
+graph TD;
+    A[Local machine] --&gt;|Connect To| B((LinuxOne machine));
+    C(Docker Framework) --&gt; |installed on| B;
+    D(OF image) --- |Has Python3, OpenFOAM| C;
+    D x--&gt; |instantiates| E((Containers));
+
+    click C &#34;https://docker.com&#34; &#34;Official Docker website&#34;
+    style A fill:orange,stroke:red
+    style B fill:cyan,stroke:cyan,draw:white
+
+&lt;/div&gt;
+
+&lt;p&gt;Let&amp;rsquo;s now go through the steps to create a LinuxOne VM:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;We start at the homepage of your cloud account.
+Go &lt;code&gt;Service Catalog &amp;gt; Manage Instances&lt;/code&gt; to get started&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/01.Introduction/01-lab-setup/linuxone-community-01.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Enter the following information&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Setting&lt;/th&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Type&lt;/td&gt;
+&lt;td&gt;General purpose VM&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Name &amp;amp; Description&lt;/td&gt;
+&lt;td&gt;Choose a name for your VM&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Image (The OS)&lt;/td&gt;
+&lt;td&gt;RHEL7.x&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Flavor&lt;/td&gt;
+&lt;td&gt;The one with 2 CPU cores&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;You also need to generate &lt;strong&gt;and download&lt;/strong&gt; an SSH key pair so you can
+access the machine later (obviously, choose better file names):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/01.Introduction/01-lab-setup/linuxone-community-06.jpg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;/course/part-1/img/01.Introduction/01-lab-setup/linuxone-community-07.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Make sure to &lt;strong&gt;select&lt;/strong&gt; the key pair you just created&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/01.Introduction/01-lab-setup/linuxone-community-08.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hit the create button and wait for a couple of minutes, your machine will
+be ready in no time! (Note the IP address of your machine)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;/course/part-1/img/01.Introduction/01-lab-setup/linuxone-community-10.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Now, assuming you&amp;rsquo;ve downloaded the key file to your downloads folder, you
+need to run these commands on your local machine:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# This is a shell on your local machine, acting as regular user&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 1. Move key file to SSH configuration directory&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;loc:~&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; mv ~/Downloads/remotesshkey.pem ~/.ssh/
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 2. Set correct permissions on the file (read-only to the file owner)&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;loc:~&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; chmod &lt;span style=&#34;color:#bd93f9&#34;&gt;400&lt;/span&gt; ~/.ssh/remotesshkey.pem
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 3. Start an SSH session to your remote machine:&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;#   - linux1: The default user on the remote machine&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;#   - xxx.xxx.xxx.xxx: Ip address of your remote machine&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;loc:~&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; ssh -i ~/.ssh/remotesshkey.pem linux1@xxx.xxx.xxx.xxx
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Once logged in, on the remote machine, run:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# This is a shell on remote machine, acting as regular user (linux1)&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 1. Store the installation script URL as a variable&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;rem:~&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;GIST_URL&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;https://gist.githubusercontent.com/FoamScience/c5e1363cee5b0a402151045247eb4f9f/raw/create-s390x-openfoam-container.sh&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 2. Download the script and run it&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;rem:~&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; bash &amp;lt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;curl -s &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$GIST_URL&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 3. Login to a new shell for things to work&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;rem:~&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; sudo su
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The script sets up Docker and download the necessary images for the OpenFOAM
+containers. Its output should be similar to the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;# Download and install Docker ...
+# Add current user to docker&amp;#39;s group ...
+# Enable and start the docker service ...
+# Spinup an OpenFOAM container ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;You should then be able to run a bash shell from the container
+(named openfoam):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;rem:~&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; docker &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;exec&lt;/span&gt; -it openfoam sudo su
+&lt;span style=&#34;color:#6272a4&#34;&gt;# The previous command will open a shell on the container&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;# To close it, type &amp;#34;exit&amp;#34; (Or press Ctrl+D), and you&amp;#39;re back&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;# to the remote machine&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;con:~&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;$ &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;exit&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;unit-assignment-recon-your-remote-machine&#34;&gt;Unit Assignment: Recon your remote machine&lt;/h2&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-warning&#34;&gt;
+&lt;p&gt;You&amp;rsquo;ll probably be asked to accept the invitation to join the
+&lt;a href=&#34;https://github.com/orgs/ResEng-OpenFOAM&#34;&gt;ResEng-OpenFOAM&lt;/a&gt; organization
+on Github. That&amp;rsquo;s the account I use to manage assignments/projects; so please
+accept the invitation.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;Now, it&amp;rsquo;s time for you to recon your new system!&lt;/p&gt;
+&lt;p&gt;You should take this opportunity to get familiarized with Github repositories,
+and go through this unit&amp;rsquo;s
+&lt;strong&gt;&lt;a href=&#34;https://classroom.github.com/a/7tvMm4nt&#34;&gt;individual assignment&lt;/a&gt;&lt;/strong&gt;. It was
+designed so new comers can feel at home with a little bit of practice.&lt;/p&gt;
+&lt;h5 id=&#34;should-i-shutdown-the-remote-machine-if-im-not-working-on-it&#34;&gt;Should I shutdown the remote machine if I&amp;rsquo;m not working on it?&lt;/h5&gt;
+&lt;p&gt;Yes, it is considered best practice. Why? Because when you go to sleep, a
+person from the other half of the world may get up and fire up his own! No
+need to strain the infrastructure for no good reason!&lt;/p&gt;
+&lt;h2 id=&#34;learn-more&#34;&gt;Learn more&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;LinuxOne Community is hosted at
+&lt;a href=&#34;https://linuxone.cloud.marist.edu/cloud/&#34;&gt;marist.edu&lt;/a&gt;, go there to create
+a free account.&lt;/li&gt;
+&lt;li&gt;I personally prefer to work on the command line, but many will find an SSH
+client, like &lt;a href=&#34;https://github.com/subhra74/snowflake&#34;&gt;SnowFlake&lt;/a&gt;, useful.&lt;/li&gt;
+&lt;li&gt;The shell script we use to create the OpenFOAM container is
+&lt;a href=&#34;https://gist.githubusercontent.com/FoamScience/c5e1363cee5b0a402151045247eb4f9f/raw/create-s390x-openfoam-container.sh&#34;&gt;hosted at Github&lt;/a&gt;.
+It uses a Docker image I built specifically for the s390x architecture
+(x86-based ones will not work on LinuxOne machines).&lt;/li&gt;
+&lt;li&gt;Go grab the latest version of ParaView from
+&lt;a href=&#34;https://www.paraview.org/download/&#34;&gt;its official website&lt;/a&gt; for your
+(local) platform.&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 02 - Is there a GUI for OpenFOAM?</title>
+      <link>/docs/part1/01.introduction/02-openfoam-gui/</link>
+      <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/01.introduction/02-openfoam-gui/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;alert alert-success&#34; role=&#34;alert&#34;&gt;
+
+This is a popular question among new comers who want to start &amp;ldquo;clicking&amp;rdquo; on a
+bunch of buttons to get their problems simulated.
+&lt;/div&gt;
+
+&lt;p&gt;The short answer is, there are &lt;em&gt;many&lt;/em&gt; (No official ones though), but the thing
+with Graphical User Interfaces is that they stand in the way of &amp;ldquo;script-ability&amp;rdquo;
+of the software, thus, making some tasks harder than they should be.&lt;/p&gt;
+&lt;p&gt;Convincing you, that GUIs are not (probably) the right way to approach OpenFOAM, is
+not that hard!&lt;/p&gt;
+&lt;p&gt;Just try the following Linux commands yourself:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cd&lt;/span&gt; /tmp
+mkdir imagesByMonths
+&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cd&lt;/span&gt; imagesByMonth
+mkdir 20&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;20..30&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;01..12&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+ls
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There, you just created 120 directories to organize your photos in a nice way.
+I don&amp;rsquo;t claim that GUIs are not capable of doing this! There are indeed some
+file managers which offer such capabilities; but that&amp;rsquo;s the problem! The GUI has
+to offer the feature before you can use it.&lt;/p&gt;
+&lt;p&gt;GUI-less (if that&amp;rsquo;s a word) software packages generally provide more freedom when
+it comes to scriptability.&lt;/p&gt;
+&lt;p&gt;Here is the real thing: Sooner or later, you will need to run optimization
+studies on your OpenFOAM cases (eg. for history matching, shape optimization &amp;hellip;
+etc).  And because we don&amp;rsquo;t depend on a specific GUI package, we can use any
+optimization software we like. The only requirement is that the optimization
+package itself must support black-box solvers (Virtually all of them do!).&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;You&amp;rsquo;ll be amazed how easy it is to generate very complex mesh structures
+using a macro language, m4 for example.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;If you are still convinced that GUIs are the way to go, go ahead, choose one
+from this &lt;a href=&#34;https://openfoamwiki.net/index.php/GUI&#34;&gt;wiki page&lt;/a&gt;. You&amp;rsquo;ll throw it
+away in a couple of days anyway.&lt;/p&gt;
+&lt;p&gt;On the other hand, having a post-processing package with no graphical interface
+may be painful,
+that&amp;rsquo;s why ParaView has a nice GUI. Even so, we&amp;rsquo;ll probably need to step over it
+and write Python scripts to drive the software at some point!&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 03 - Useful Shortcuts</title>
+      <link>/docs/part1/01.introduction/03-useful-shortcuts/</link>
+      <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/01.introduction/03-useful-shortcuts/</guid>
+      <description>
+        
+        
+        &lt;p&gt;While working on OpenFOAM cases, you can use some shell aliases to get around
+faster (These are shell commands):&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Shell Alias&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;run&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Changes the working directory to the &lt;code&gt;$FOAM_RUN&lt;/code&gt; directory, which is supposed to hold your OpenFOAM cases&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;tut&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Changes the working directory to the &lt;code&gt;$FOAM_TUTORIALS&lt;/code&gt; directory, which contains standard OpenFOAM tutorials for all standard solvers.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;src&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Changes the working directory to the &lt;code&gt;$FOAM_SRC&lt;/code&gt; directory, which contains the source code for all OpenFOAM (standard) libraries and solvers.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;doc&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Changes the working directory to the directory containing code documentation (and the user guide) for the current OpenFOAM version.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;p&gt;These are &amp;ldquo;just&amp;rdquo; examples: run the &lt;code&gt;alias&lt;/code&gt; command to figure out the rest &amp;hellip;&lt;/p&gt;
+&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note that these aliases are only defined if you have OpenFOAM sourced in your
+shell (run &lt;code&gt;source path/to/installation/folder/etc/bashrc&lt;/code&gt; to source it).&lt;br&gt;
+OpenFOAM is usually installed to &lt;code&gt;/opt&lt;/code&gt;, but on the remote container, it&amp;rsquo;s
+in &lt;code&gt;/home/of/OpenFOAM&lt;/code&gt; but you wouldn&amp;rsquo;t need to worry about that now.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 04 - OpenFOAM Vocabulary</title>
+      <link>/docs/part1/01.introduction/04-openfoam-vocabulary/</link>
+      <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/01.introduction/04-openfoam-vocabulary/</guid>
+      <description>
+        
+        
+        &lt;p&gt;This page collects some of the most important concepts and definitions related
+to CFD and Reservoir Engineering. Make sure you fully understand what most
+of these terms refer to before continuing.&lt;/p&gt;
+&lt;hr&gt;
+&lt;dl&gt;
+&lt;dt&gt;CFD&lt;/dt&gt;
+&lt;dd&gt;&lt;strong&gt;C&lt;/strong&gt;omputational &lt;strong&gt;F&lt;/strong&gt;luid &lt;strong&gt;D&lt;/strong&gt;ynamics, I don&amp;rsquo;t have to explain what that is, right?&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;hr&gt;
+&lt;dl&gt;
+&lt;dt&gt;Discretization&lt;/dt&gt;
+&lt;dd&gt;It&amp;rsquo;s a Math word, refers to the transition from the continuous state
+(of some mathematical concept, eg. an equation, a function) to a discrete
+representation.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;hr&gt;
+&lt;dl&gt;
+&lt;dt&gt;Mesh&lt;/dt&gt;
+&lt;dd&gt;Is the discretized version of a continuous domain:
+&lt;ul&gt;
+&lt;li&gt;A line is &lt;em&gt;meshed&lt;/em&gt; into a finite number of segments,&lt;/li&gt;
+&lt;li&gt;A 2D plane can be meshed into a finite number of squares, triangles,
+and/or any other (preferably) regular 2D geometries&lt;/li&gt;
+&lt;li&gt;And, a volume is meshed into a finite number of cells of any shape
+(hexahedral, tetrahedral, polyhedral &amp;hellip;etc).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;hr&gt;
+&lt;dl&gt;
+&lt;dt&gt;Discretization scheme&lt;/dt&gt;
+&lt;dd&gt;The algorithm which handles the discretization of a specific term in an
+equation through a discrete domain.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;hr&gt;
+&lt;dl&gt;
+&lt;dt&gt;Pre-Processing&lt;/dt&gt;
+&lt;dd&gt;An important stage in CFD analysis: Describe the physics problem as a valid
+(and perfectly-matching) OpenFOAM model (case)&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;hr&gt;
+&lt;dl&gt;
+&lt;dt&gt;Simulation&lt;/dt&gt;
+&lt;dd&gt;The process of solving the PDEs (or ODEs) on the meshed domain: Gives nothing
+but a set of text files containing (usually) a huge amount of data.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;hr&gt;
+&lt;dl&gt;
+&lt;dt&gt;Post-Processing&lt;/dt&gt;
+&lt;dd&gt;Processing the data resulting from the simulation: May include building new
+data (new calculations) and visualizing some of its features.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;hr&gt;
+&lt;dl&gt;
+&lt;dt&gt;BCs (Boundary Conditions)&lt;/dt&gt;
+&lt;dd&gt;The same as in Fluid Dynamics: Constraints applied on physics fields
+(p, U, T, &amp;hellip; etc) at some mesh boundaries.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;hr&gt;
+&lt;dl&gt;
+&lt;dt&gt;ICs (Initial Conditions)&lt;/dt&gt;
+&lt;dd&gt;Values of physics fields at internal (non-boundary) cells of the mesh at
+simulation&amp;rsquo;s starting time.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;hr&gt;
+&lt;dl&gt;
+&lt;dt&gt;OpenFOAM Case&lt;/dt&gt;
+&lt;dd&gt;A directory containing all the necessary information to successfully run
+the desired fluid flow simulation.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;hr&gt;
+&lt;dl&gt;
+&lt;dt&gt;Function Objects&lt;/dt&gt;
+&lt;dd&gt;What you would call &amp;ldquo;User Defined Functions&amp;rdquo; (UDFs) or simply &amp;ldquo;plugins&amp;quot;in
+commercial software packages.
+For advanced users: C++ objects having function-like behaviour, allowing them
+to run at solver run-time.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;hr&gt;
+&lt;dl&gt;
+&lt;dt&gt;OpenFOAM Fork&lt;/dt&gt;
+&lt;dd&gt;When someone makes his own &amp;ldquo;version&amp;rdquo; of an open-source software package, it&amp;rsquo;s
+called a fork.
+The word &amp;ldquo;version&amp;rdquo; is reserved for the &amp;ldquo;versions&amp;rdquo; produced by the original
+owner of the software.&lt;/dd&gt;
+&lt;/dl&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 05 - OpenFOAM Structure</title>
+      <link>/docs/part1/01.introduction/05-openfoam-structure/</link>
+      <pubDate>Thu, 22 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/01.introduction/05-openfoam-structure/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Docker container we created and got familiarized with in the first unit
+of this module had a recent OpenFOAM version already installed.&lt;/p&gt;
+&lt;p&gt;Now it&amp;rsquo;s time to dig into OpenFOAM installation files.&lt;/p&gt;
+&lt;h2 id=&#34;openfoam-installation-directory&#34;&gt;OpenFOAM Installation directory&lt;/h2&gt;
+&lt;p&gt;Depending on what &lt;strong&gt;users&lt;/strong&gt; you want to have access to OpenFOAM, one can
+perform:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;A System-wide install: where all users have access to OpenFOAM&amp;rsquo;s solvers and
+utilities. This is done by installing to a system location
+(eg. &lt;code&gt;/opt/openfoam8&lt;/code&gt; for OpenFOAM v8)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;This is the approach I used to install OpenFOAM in the container (See
+&lt;code&gt;/opt/OpenFOAM-dev&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A User-specific install: where only one user will have access to OpenFOAM
+binaries. Usually, the user will winstall it under his home directory
+(&lt;code&gt;$HOME/OpenFOAM&lt;/code&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To discover where OpenFOAM is installed on your system:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:run&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$FOAM_INST_DIR&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-success&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Example&lt;/h4&gt;
+&lt;p&gt;If we were to install OpenFOAM v8 as the user &lt;code&gt;of&lt;/code&gt;, the installation files would
+go to &lt;code&gt;/home/of/OpenFOAM/OpenFOAM-8&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;And the &lt;code&gt;FOAM_INST_DIR&lt;/code&gt; environment variable will say: &lt;code&gt;/home/of/OpenFOAM&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This way, we can also install additional versions (and forks) if we need to.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;No matter how the software installed, if a users use it, they will have
+some files in their &lt;code&gt;$HOME/OpenFOAM/$USER-&amp;lt;VERSION&amp;gt;&lt;/code&gt;; where &lt;code&gt;&amp;lt;VERSION&amp;gt;&lt;/code&gt; is
+the version number of the software.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Because the container has the latest(-ish) development version of OpenFOAM,
+the &amp;ldquo;version number&amp;rdquo; will actually say &lt;code&gt;dev&lt;/code&gt;, so the mentioned directory
+would expand to &lt;code&gt;/home/of/OpenFOAM/of-dev&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;openfoam-directories&#34;&gt;OpenFOAM directories&lt;/h2&gt;
+&lt;p&gt;The installation comes with the following directories (the diagram
+attempts to give a brief &amp;ldquo;usage&amp;rdquo; summary for each directory; you&amp;rsquo;ll pick it up
+as you go):&lt;/p&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+  
+graph LR;
+    A[&#34;Parent OpenFOAM Dir.&#34;];
+    style A fill:orange,stroke:red
+
+    A --&gt; B(fa:fa-file-code applications);
+    A --&gt; F(fa:fa-code src);
+    A --&gt; C(fa:fa-file-excel bin);
+    A --&gt; D(fa:fa-cog etc);
+    A --&gt; E(fa:fa-book-reader doc);
+    A --&gt; G(fa:fa-database tutorials);
+
+
+    subgraph &#34;Source Code&#34;
+    B --- H(&#34;Source Code for &lt;br&gt; solvers &amp; utils&#34;)
+    H --- I(&#34;Usage: Figure out how solvers work,&lt;br&gt;solved equations ... etc&#34;)
+
+    F --- P(&#34;Library source code&#34;)
+    P --- Q(&#34;Usage: Debug cases and&lt;br&gt;find out where things are failing&#34;)
+    end
+
+    C --- J(&#34;System executables&#34;)
+    J --- K(&#34;Usage: control jobs,&lt;br&gt;Test installation .. etc&#34;)
+
+    D --- L(&#34;OpenFOAM configuration&#34;)
+    L --- M(&#34;Usage: Configure OpenFOAM settings,&lt;br&gt;sample case dictionaries&#34;)
+
+    subgraph &#34;User Docs&#34;
+    E --- N(&#34;Code documentation&#34;)
+    N --- O(&#34;Usage: C++ code docs,&lt;br&gt;The user guide&#34;)
+
+    G --- R(&#34;Tutorial cases&#34;)
+    R --- S(&#34;Usage: Solver verification,&lt;br&gt;Copy-pasting from similar cases,&lt;br&gt;Learning ... etc&#34;)
+    end
+
+    style I fill:lightgreen,stroke:lightgreen
+    style Q fill:lightgreen,stroke:lightgreen
+    style K fill:lightgreen,stroke:lightgreen
+    style M fill:lightgreen,stroke:lightgreen
+    style O fill:lightgreen,stroke:lightgreen
+    style S fill:lightgreen,stroke:lightgreen
+
+
+&lt;/div&gt;
+
+
+
+&lt;div class=&#34;alert alert-success&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Example&lt;/h4&gt;
+&lt;p&gt;If we were to install OpenFOAM v8 as the user &lt;code&gt;of&lt;/code&gt;, the installation files would
+go to &lt;code&gt;/home/of/OpenFOAM/OpenFOAM-8&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;And the &lt;code&gt;FOAM_INST_DIR&lt;/code&gt; environment variable will say: &lt;code&gt;/home/of/OpenFOAM&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This way, we can also install additional versions (and forks) if we need to.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;the-tutorials-directory&#34;&gt;The tutorials directory&lt;/h2&gt;
+&lt;p&gt;The tutorials directory is extremely useful when:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;You want to start new cases.
+&lt;ul&gt;
+&lt;li&gt;Just copy over the most similar (to your problem) tutorial case and start
+adjusting &amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;You&amp;rsquo;re confused about a keyword.
+&lt;ul&gt;
+&lt;li&gt;Eg. Want to find out what NS is preferred for a specific solver? Just
+cross-search tutorial dictionaries for matches (You&amp;rsquo;ll learn how to that
+later)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;You want to find out which solvers may be suited for your problem
+&lt;ul&gt;
+&lt;li&gt;A tutorial case may be compatible with many solvers;&lt;/li&gt;
+&lt;li&gt;Find the closest case to your problem, and you&amp;rsquo;ll find the appropriate
+solvers you need to run.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;now-what&#34;&gt;Now what?&lt;/h3&gt;
+&lt;p&gt;This unit is not associated with an assignment; you can continue
+to the next one immediately.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 06 - OpenFOAM Case Structure</title>
+      <link>/docs/part1/01.introduction/06-openfoam-case-structure/</link>
+      <pubDate>Fri, 23 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/01.introduction/06-openfoam-case-structure/</guid>
+      <description>
+        
+        
+        &lt;p&gt;OpenFOAM solvers need to read a set of files to function properly. You can think
+of these files as transplations between what you, the user, want and what the
+solver expects. Check this diagram out:&lt;/p&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+  
+graph TD;
+    A[Solver start] --&gt;|Runs until encounters| B(A dimensioned scalar called DT);
+    B --&gt;|Uses DT| C[Solver results]
+    D(case file) --&gt;|Specifying the value of| B
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;openfoam-case-structure&#34;&gt;OpenFOAM Case Structure&lt;/h2&gt;
+&lt;p&gt;The idea here is that the solver knows about the existence of a variable (a word)
+called DT (in its own &amp;ldquo;language&amp;rdquo;) but it needs the user to translate it into the
+user&amp;rsquo;s language (Providing the actual value) throu a specific case file.&lt;/p&gt;
+&lt;p&gt;Hence, most of user interactions with OpenFOAM&amp;rsquo;s solvers and utilities will
+happen by editing text files prior to (or during) launching the application.&lt;/p&gt;
+&lt;p&gt;We call these files &amp;ldquo;dictionaries&amp;rdquo; and they are gathered into a single directory
+, called a &lt;strong&gt;case&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;These dictionaries have a common structure and can be recognized as OpenFOAM
+files by looking into them. Take a look at the following diagram:&lt;/p&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+  
+graph TD;
+    A[fa:fa-folder Case] --&gt; B[fa:fa-history Time Directories]
+    A --&gt; C[fa:fa-lock constant]
+    A --&gt; D[fa:fa-cogs system]
+    B --&gt; E(Usually starting with 0)
+    C --&gt; F(Time-independent stuff)
+    D --&gt; G(Simulation configs)
+
+    E --- H(&#34;Initial and Boundary conditions &lt;br&gt;(p, U, T ...)&#34;)
+    F --- I(&#34;Static mesh &lt;br&gt; Transport &amp; Turbulence properties&#34;)
+    G --- J(&#34;Discretization &lt;br&gt; Numerical Solver settings&#34;)
+
+    style A fill:orange,stroke:red
+    style B fill:orange,stroke:red
+    style C fill:orange,stroke:red
+    style D fill:orange,stroke:red
+
+&lt;/div&gt;
+
+&lt;h3 id=&#34;time-directories&#34;&gt;Time directories:&lt;/h3&gt;
+&lt;p&gt;Before we launch the simulation, we need to specify initial and boundary
+conditions for key fields from our problem. Depending on the &amp;ldquo;time scheme&amp;rdquo;
+we use, we may need multiple &amp;ldquo;levels&amp;rdquo; (at multiple time levels) of initial
+values; Although, usually, we only need a single level, which we call &amp;ldquo;Time 0&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;As the simulation progresses, OpenFOAM solvers will create new time directories
+(One for each requested time level), which also can be used as initial values
+for susequent simulations.&lt;/p&gt;
+&lt;h3 id=&#34;constant-directory&#34;&gt;Constant directory:&lt;/h3&gt;
+&lt;p&gt;Everything that is time-independent, but relates to the physics problem at hand,
+goes into the &lt;code&gt;constant&lt;/code&gt; directory:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The static mesh files (Or the initial state of the dynamic mesh).&lt;/li&gt;
+&lt;li&gt;Model selection for problem features (Newtonian fluids, laminar flow, &amp;hellip; etc)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These features are not expected to change as the simulation progresses, hence,
+it makes sense to store them only one in a central location.&lt;/p&gt;
+&lt;h3 id=&#34;system-directory&#34;&gt;System directory:&lt;/h3&gt;
+&lt;p&gt;That&amp;rsquo;s where simulation settings are specified:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Timestep control, Output settings&lt;/li&gt;
+&lt;li&gt;Discretization schemes for various equation terms&lt;/li&gt;
+&lt;li&gt;NS settings (tolerance &amp;hellip; etc)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;openfoam-file-format&#34;&gt;OpenFOAM File Format&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s dig into the structure of the files contained in a typical OpenFOAM case.&lt;/p&gt;
+&lt;h3 id=&#34;1-the-openfoam-file-header&#34;&gt;1. The OpenFOAM file header&lt;/h3&gt;
+&lt;p&gt;All OpenFOAM files (dictionaries) start with a sub-dictionary called the file
+header:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// File Header for the pressure object
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;FoamFile
+{
+  version &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;;               &lt;span style=&#34;color:#6272a4&#34;&gt;// file format version, changed once in +20 yrs
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  format  ascii;           &lt;span style=&#34;color:#6272a4&#34;&gt;// can also be binary
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#ff79c6&#34;&gt;class&lt;/span&gt;   &lt;span style=&#34;color:#50fa7b&#34;&gt;volScalarField&lt;/span&gt;;  &lt;span style=&#34;color:#6272a4&#34;&gt;// What kind of object is this?
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  object  p;               &lt;span style=&#34;color:#6272a4&#34;&gt;// Object name
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I hope you can recognize that the previous snippet showed the file header for
+the &amp;ldquo;pressure&amp;rdquo; field.&lt;/p&gt;
+&lt;p&gt;Here, the (sub)dictionary is named &lt;code&gt;FoamFile&lt;/code&gt; and contains 4 &lt;strong&gt;entries&lt;/strong&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note that dictionary contents are delimited by curly braces &lt;code&gt;{&lt;/code&gt;, and &lt;code&gt;}&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Each entry is of the form:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;keyword    value;
+&lt;span style=&#34;color:#6272a4&#34;&gt;//        |
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;//        |------ eveything from here to the last &amp;#34;;&amp;#34; is the value
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;// This is a comment by the way
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;More examples:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;   phases    (water oil gas);
+&lt;span style=&#34;color:#6272a4&#34;&gt;//    |      |             |
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;//    |      |-------------|
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;//    |             |
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// keyword        value (as a list of words)
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;
+   cells
+   (
+&lt;span style=&#34;color:#6272a4&#34;&gt;// ^
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// |---- The Value for the cells keyword starts here
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// |---- It&amp;#39;s a list of &amp;#34;small&amp;#34; dictionaries
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        labelToCell
+        {
+            value (&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;);
+        }
+        faceToCell
+        {
+            value (&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;12&lt;/span&gt;);
+        }
+   );
+&lt;span style=&#34;color:#6272a4&#34;&gt;// ^
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// |---- End of the value of &amp;#34;cells&amp;#34; keyword
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;2-detailed-anatomy-of-the-pressure-file&#34;&gt;2. Detailed anatomy of the pressure file&lt;/h3&gt;
+&lt;p&gt;The pressure field is involved in most of the simulations (or all of them), so,
+let&amp;rsquo;s take it as an example (File: &lt;code&gt;0/p&lt;/code&gt;).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;First it starts with a &amp;ldquo;Banner&amp;rdquo;. It serves no real purpose other than
+prettifying things a little.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;/*--------------------------------*- C++ -*---------------------------*\
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;| =========                 |                                          |
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;| \\      /  F ield         | foam-extend: Open Source CFD             |
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;|  \\    /   O peration     | Version:     4.0                         |
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;|   \\  /    A nd           | Web:         http://www.foam-extend.org  |
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;|    \\/     M anipulation  |                                          |
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;\*--------------------------------------------------------------------*/&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Next, comes the file header we talked about earlier.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Then, there is a &lt;code&gt;dimensions&lt;/code&gt; keyword which specifies the physical dimensions
+of the field. Its value is an ordered array of unit exponents:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;dimensions  [&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;    &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;      &lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;   &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;           &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;        &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;       &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;];
+&lt;span style=&#34;color:#6272a4&#34;&gt;//          [Mass Length Time Temperature Quantity Current Luminous intensity];
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;Note that these (Length squared, divided by time squared) are NOT the actual
+pressure dimensions. These are in fact the dimensions of &lt;strong&gt;pressure divided
+by fluid density&lt;/strong&gt;. It&amp;rsquo;s a convention in OpenFOAM&amp;rsquo;s incompressible solvers.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;The following keyword is &lt;code&gt;internalField&lt;/code&gt; which specifies the &lt;strong&gt;list&lt;/strong&gt;
+of pressure values in mesh cells&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// Initialize p in all mesh cells to 0
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;internalField   uniform &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;The last keyword is called &lt;code&gt;boundaryField&lt;/code&gt;, which defines boundary conditions
+for the pressure field:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// boundaryField is subdictionary, no need to add at the end &amp;#34;;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    boundaryField
+    {
+        movingWall              &lt;span style=&#34;color:#6272a4&#34;&gt;// Mesh boundary name
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        {
+            type zeroGradient;  &lt;span style=&#34;color:#6272a4&#34;&gt;// How should it be treated for this field
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        }
+        frontAndBack
+        {
+            type empty;
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;more-advanced-file-format-features&#34;&gt;More advanced file format features&lt;/h3&gt;
+&lt;h4 id=&#34;reusing-values-in-a-dictionary&#34;&gt;Reusing values in a dictionary&lt;/h4&gt;
+&lt;p&gt;One can define a custom keyword to hold the value of a certain variable:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;d           &lt;span style=&#34;color:#bd93f9&#34;&gt;5&lt;/span&gt;;
+&lt;span style=&#34;color:#6272a4&#34;&gt;// Here is how to use it
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;someKeyword $d;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;regular-expressions-in-keywords&#34;&gt;Regular expressions in keywords&lt;/h4&gt;
+&lt;p&gt;Keyword and dictionary names can be &amp;ldquo;(POSIX) regular expressions&amp;rdquo; instead of
+literal strings. The following examples select multiple (matching) mesh
+boundaries instead of a specific one:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;    boundaryField
+    {
+        &lt;span style=&#34;color:#6272a4&#34;&gt;// Zero Gradient for all boundaries ending with &amp;#34;Wall&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;.*Wall&amp;#34;&lt;/span&gt;
+        {
+            type zeroGradient;
+        }
+        &lt;span style=&#34;color:#6272a4&#34;&gt;// Fixed Value for inlet and outlet (matching &amp;#34;inlet&amp;#34; OR &amp;#34;outlet&amp;#34;)
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;(inlet|outlet)&amp;#34;&lt;/span&gt;
+        {
+            type fixedValue;
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;include-other-dictionaries&#34;&gt;Include other dictionaries&lt;/h4&gt;
+&lt;p&gt;The file format also allows for dictionay inclusion at any point:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// The file is looked up in case directory
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;customKeywords.cfg&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;practice-what-youve-learned-about-openfoams-file-format&#34;&gt;Practice what you&amp;rsquo;ve learned about OpenFOAM&amp;rsquo;s file format&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Please login to a shell on the &lt;code&gt;openfoam&lt;/code&gt; container from your lab machine.
+This section will focus on hands-on discovering of case files.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;whats-next&#34;&gt;What&amp;rsquo;s next?&lt;/h3&gt;
+&lt;p&gt;It&amp;rsquo;s recommended that you go through this lecture&amp;rsquo;s
+&lt;a href=&#34;https://classroom.github.com/a/qu0WGf43&#34;&gt;individual assignment&lt;/a&gt;.
+Note that around 60% of &amp;ldquo;the learning&amp;rdquo; happens there, not while watching the
+video!&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: OpenFOAM Versions and Forks</title>
+      <link>/docs/part1/01.introduction/07-openfoam-versions-forks/</link>
+      <pubDate>Fri, 23 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/part1/01.introduction/07-openfoam-versions-forks/</guid>
+      <description>
+        
+        
+        &lt;p&gt;People are free to make their own &amp;ldquo;versions&amp;rdquo; of OpenFOAM libraries and solvers.
+This right is protected by the GPLv3 license (if its terms are followed while
+doing so).&lt;/p&gt;
+&lt;p&gt;As a result of this fact, many variants of the original OpenFOAM code have
+appeared over the years. Most of them were built in the desire of tailoring
+the code to a specific (CFD-related) industry.&lt;/p&gt;
+&lt;p&gt;A &lt;a href=&#34;https://openfoamwiki.net/index.php/Forks_and_Variants&#34;&gt;comprehensive list&lt;/a&gt;
+of these variants ( called &amp;ldquo;forks&amp;rdquo; ) is present in OpenFOAM Wiki.
+But let me introduce you to the most common ones:&lt;/p&gt;
+&lt;h3 id=&#34;what-i-call-mainline-openfoam&#34;&gt;What I call Mainline-OpenFOAM&lt;/h3&gt;
+&lt;p&gt;By Mainline-OpenFOAM, I mean the original version maintained by
+&amp;ldquo;The OpenFOAM Foundation&amp;rdquo;, which can be downloaded from
+&lt;a href=&#34;https://openfoam.org/&#34;&gt;openfoam.org&lt;/a&gt;. Its versionning is kept simple:
+eg. v4.0, v5.0, v5.x, v7.0 &amp;hellip; etc. You can get the code for each of
+these versions at &lt;a href=&#34;https://github.com/OpenFOAM&#34;&gt;Mainline OpenFOAM Github Repos&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This is what we use for this course. In fact, the &lt;code&gt;openfoam&lt;/code&gt; docker container
+in the labs has the most recent development version of this fork (OK, maybe
+there are a few missed commits, but the container will certainly stay on the
+most recent stable version).&lt;/p&gt;
+&lt;h3 id=&#34;opencfd-releases&#34;&gt;OpenCFD Releases&lt;/h3&gt;
+&lt;p&gt;There is also a fork called OpenFOAM**+**, which is maintained by OpenCFD.
+It can be downloaded from &lt;a href=&#34;https://www.openfoam.com/&#34;&gt;openfoam.com&lt;/a&gt;.
+These guys take what the OpenFOAM foundation does and build on on top of it
+(hence the + in the name).&lt;/p&gt;
+&lt;p&gt;They host the development code on &lt;a href=&#34;https://develop.openfoam.com&#34;&gt;their own&lt;/a&gt;
+and release the code periodically in June and December of each year
+(I suppose, hence the versionning v1806, v1812 &amp;hellip; etc)&lt;/p&gt;
+&lt;h3 id=&#34;foam-extend&#34;&gt;Foam-Extend&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;It was derived from an (and now deprecated) old version of OpenFOAM (3.x)&lt;/li&gt;
+&lt;li&gt;It is tailored for community developments, completely open to the general
+public.&lt;/li&gt;
+&lt;li&gt;Has some nice features that mainline OpenFOAM doens&amp;rsquo;t have, but
+there is a trade-off of other features.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;whats-next&#34;&gt;What&amp;rsquo;s next?&lt;/h2&gt;
+&lt;p&gt;This appears to be the last unit in this introductory module. The real fun
+starts in the next module where we&amp;rsquo;ll actually simulate stuff&amp;hellip;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1814,17 +1814,17 @@ problem with mathematical expressions&amp;rdquo;.&lt;/p&gt;
 simplifications made to model our sample transport problem.&lt;/p&gt;
 &lt;h2 id=&#34;governing-equations&#34;&gt;Governing equations&lt;/h2&gt;
 &lt;p&gt;We intend to numerically solve a basic &lt;strong&gt;steady-state&lt;/strong&gt; and &lt;strong&gt;incompressible&lt;/strong&gt;
-transport of a passive scalar $\phi$`; which basically accounts for the
+transport of a passive scalar $\phi$; which basically accounts for the
 dirvergence and diffusion terms (No source terms for simlicity).&lt;/p&gt;
 &lt;p&gt;The flow can then be modeled with the following equation:&lt;/p&gt;
-&lt;p&gt;$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi)$`&lt;/p&gt;
+&lt;p&gt;$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi)$&lt;/p&gt;
 &lt;p&gt;Where:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;$\rho$` Fluid density&lt;/li&gt;
-&lt;li&gt;$\mathbf{U}$` Velocity vector&lt;/li&gt;
-&lt;li&gt;$K$` Diffusivity coefficient&lt;/li&gt;
-&lt;li&gt;$\nabla$` Gradient operator&lt;/li&gt;
-&lt;li&gt;$\nabla \cdot$` Divergence operator&lt;/li&gt;
+&lt;li&gt;$\rho$ Fluid density&lt;/li&gt;
+&lt;li&gt;$\mathbf{U}$ Velocity vector&lt;/li&gt;
+&lt;li&gt;$K$ Diffusivity coefficient&lt;/li&gt;
+&lt;li&gt;$\nabla$ Gradient operator&lt;/li&gt;
+&lt;li&gt;$\nabla \cdot$ Divergence operator&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;With some additional simplifications:&lt;/p&gt;
 &lt;ul&gt;
@@ -1833,7 +1833,7 @@ dirvergence and diffusion terms (No source terms for simlicity).&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;The equation then becomes:
 $$\frac{\partial (\rho \mathbf{U} \phi)}{\partial x}
-= K \frac{\partial^2 \phi}{\partial^2 x}$$`&lt;/p&gt;
+= K \frac{\partial^2 \phi}{\partial^2 x}$$&lt;/p&gt;
 &lt;h2 id=&#34;problem-description&#34;&gt;Problem Description&lt;/h2&gt;
 &lt;p&gt;The general worklfow of solving such equations consists of descretizing both the
 flow domain and the equation itself in order to obtain a system of algebraic
@@ -1841,7 +1841,8 @@ equations (one per cell):&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/02-get-algebraic-eqns.svg&#34; alt=&#34;Get algebraic equations&#34;&gt;&lt;/p&gt;
 &lt;p&gt;By way of explanation, we take the continuous domain (the green-ish one) and
 mesh into a set of cells. We then supply initial field values at cell centers
-$\phi_0, \phi_1, \phi_2, &amp;hellip;$&lt;code&gt; and define the boundary conditions (specifying $\phi_b$&lt;/code&gt; for example).&lt;/p&gt;
+$\phi_0, \phi_1, \phi_2, &amp;hellip;$ and define the boundary conditions (specifying
+$\phi_b$ for example).&lt;/p&gt;
 &lt;p&gt;The next step is to transform the continuous flow equation into a set of
 algebraic ones; Basically, relating field value at a cell center to boundary
 faces and adjacent cells.&lt;/p&gt;
@@ -1851,14 +1852,14 @@ systems in upcoming modules&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;In our illustration case, the flow domain is&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;A &amp;ldquo;line&amp;rdquo;, extending from $x_r = 0$&lt;code&gt; to $x_l = 0.9\mathrm{m}$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;A &amp;ldquo;line&amp;rdquo;, extending from $x_r = 0$ to $x_l = 0.9\mathrm{m}$&lt;/li&gt;
 &lt;li&gt;Split into 9 segments (cells, where &lt;code&gt;cellSize&lt;/code&gt; is 0.1m)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;On both ends of the &amp;ldquo;line&amp;rdquo;, we apply Dirichlet-type (fixed-value) boundary
-conditions on $phi$`, where:&lt;/p&gt;
+conditions on $phi$, where:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;$\phi (x_r) = 1$`&lt;/li&gt;
-&lt;li&gt;$\phi (x_l) = 0$`&lt;/li&gt;
+&lt;li&gt;$\phi (x_r) = 1$&lt;/li&gt;
+&lt;li&gt;$\phi (x_l) = 0$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;learn-more&#34;&gt;Learn more&lt;/h2&gt;
 &lt;p&gt;It&amp;rsquo;s recommended that &lt;strong&gt;you&lt;/strong&gt; go through this advective-diffusive transport
@@ -1909,12 +1910,12 @@ Post-Processor to manipulate and visualize the generated data.&lt;/p&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Example&lt;/h4&gt;
 &lt;p&gt;Solving a basic diffusive-problem involves solving an equation which looks like
 this (In steady-state setups):
-$$ \nabla \cdot (K\nabla T) = S$$`
+$$ \nabla \cdot (K\nabla T) = S$$
 Where:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;$K$` is the diffusion coefficient&lt;/li&gt;
-&lt;li&gt;$T$` is the transported scalar field&lt;/li&gt;
-&lt;li&gt;$S$` is the source/sink term&lt;/li&gt;
+&lt;li&gt;$K$ is the diffusion coefficient&lt;/li&gt;
+&lt;li&gt;$T$ is the transported scalar field&lt;/li&gt;
+&lt;li&gt;$S$ is the source/sink term&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;There is a standard OpenFOAM solver called &lt;code&gt;laplacianFoam&lt;/code&gt; which solves, well,
 Laplacian equations. You can run the solver on a prepared set of files
@@ -2899,13 +2900,14 @@ are treated in OpenFOAM:&lt;/p&gt;
 &lt;p&gt;Computationally, &lt;strong&gt;triangles&lt;/strong&gt; are the only 2D geometries with
 directly-determined surface area (because they are the simplest).&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;If the surface of any triangle $\mathrm{A_0A_1A_2}$&lt;code&gt; where $\mathrm{A_m}\ (\mathrm{x_m, y_m, z_m}),\ \mathrm{m} = 0,1,2$&lt;/code&gt; is needed:
+&lt;li&gt;If the surface of any triangle $\mathrm{A_0A_1A_2}$ where
+$\mathrm{A_m}\ (\mathrm{x_m, y_m, z_m}),\ \mathrm{m} = 0,1,2$ is needed:
 $S=\frac{1}{2}|\mathbf{A_0A_1} \times \mathbf{A_0A_2}|=\frac{1}{2}
 \begin{vmatrix}
 \mathbf{i} &amp;amp; \mathbf{j} &amp;amp; \mathbf{k} \&lt;br&gt;
 x_1-x_0 &amp;amp; y_1-y_0 &amp;amp; z_1-z_2 \&lt;br&gt;
 x_2-x_0 &amp;amp; y_2-y_0 &amp;amp; z_2-z_2 \&lt;br&gt;
-\end{vmatrix}$`&lt;/li&gt;
+\end{vmatrix}$&lt;/li&gt;
 &lt;li&gt;Then, the area of a quad can be calculated using two triangles&lt;/li&gt;
 &lt;li&gt;Similarly,  a &lt;strong&gt;tetrahedron&lt;/strong&gt; volume is obtained directly and it&amp;rsquo;s used to
 determine the volume of pentahedrons (three tets) and hexahedrons
@@ -3065,7 +3067,7 @@ called &lt;strong&gt;internal faces&lt;/strong&gt;.&lt;/p&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Example&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/02-mesh-surface-normals.png&#34; alt=&#34;OpenFOAM owner and neighbor&#34;&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;The owner of the face $f_{34}$&lt;code&gt;is cell&lt;/code&gt;4`&lt;/li&gt;
+&lt;li&gt;The owner of the face $f_{34}$ is cell &lt;code&gt;4&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Its neighbor is cell &lt;code&gt;3&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
@@ -3076,14 +3078,14 @@ called &lt;strong&gt;internal faces&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;governing-equation-discretization&#34;&gt;Governing equation discretization&lt;/h2&gt;
 &lt;p&gt;Now that the mesh is discretized properly, we need to discertize the flow
-equation; mainly, applying it on each cell to derive a relationship of $\phi$`
+equation; mainly, applying it on each cell to derive a relationship of $\phi$
 values at the cell center with its adjacent cells:&lt;/p&gt;
 &lt;p&gt;$$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi)
-\qquad \longrightarrow \qquad \phi_c = f({\phi_{nearby\ cells}})$$`&lt;/p&gt;
+\qquad \longrightarrow \qquad \phi_c = f({\phi_{nearby\ cells}})$$&lt;/p&gt;
 &lt;p&gt;Throughout the development of this equation, we do make some assumptions:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;$\phi$` is considered to vary linearly between a cell center and a face
+&lt;p&gt;$\phi$ is considered to vary linearly between a cell center and a face
 center.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -3091,7 +3093,8 @@ center.&lt;/p&gt;
 the domain.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;$\phi$&lt;code&gt; (value at cell center) is considered to be the __mean value__ of $\phi$&lt;/code&gt; in that cell (with second order accuracy).&lt;/p&gt;
+&lt;p&gt;$\phi$ (value at cell center) is considered to be the &lt;strong&gt;mean value&lt;/strong&gt; of
+$\phi$ in that cell (with second order accuracy).&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;cellSize&lt;/code&gt; has to be small enough for approximations to be accurate (to some
@@ -3099,43 +3102,44 @@ extent).&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Write the governing equation in integral form for a single cell volume
-($V_c$`):&lt;/p&gt;
+($V_c$):&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;$$\int_{V_c} \nabla \cdot (\rho \mathbf{U} \phi)\ \mathrm{d}V_c -
-\int_{V_c} \nabla \cdot (K \nabla \phi)\ \mathrm{d}V_c $$`&lt;/p&gt;
+\int_{V_c} \nabla \cdot (K \nabla \phi)\ \mathrm{d}V_c $$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Use the divergence theorem:
 $\int_{V_c} \nabla \phi\ \mathrm{d}V_c =
-\int{\partial V_c} \phi\ \mathrm{d}(\partial V_c)$` to convert volume integrals
+\int{\partial V_c} \phi\ \mathrm{d}(\partial V_c)$ to convert volume integrals
 into surface ones. The transport equation then becomes:&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;$$\int_{\partial V_c} [\rho \mathbf{U} \phi - K \nabla \phi]\
-\mathrm{d}(\partial V_c) = 0$$`&lt;/p&gt;
+\mathrm{d}(\partial V_c) = 0$$&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;$\partial V_c$&lt;code&gt; denotes the closed, normal-outwarding, surface of the volume $V_c$&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;$\partial V_c$ denotes the closed, normal-outwarding, surface of the volume
+$V_c$&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;ul&gt;
-&lt;li&gt;If the closed surface $\partial V_c$` is split into a set of faces we can
+&lt;li&gt;If the closed surface $\partial V_c$ is split into a set of faces we can
 approximate the integral over the whole surface as a sum of face-based
 integrals:&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;$$\sum_{cell\ faces} [\int_{f} (\rho \mathbf{U} \phi)_f -
-\int_{f} (K \nabla \phi)_f ]\ \mathrm{d}\mathbf{S}_f= 0$$`&lt;/p&gt;
+\int_{f} (K \nabla \phi)_f ]\ \mathrm{d}\mathbf{S}_f= 0$$&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;$\bar{\phi_f}$&lt;code&gt; is the mean value of $\phi$&lt;/code&gt; over the face $f$`&lt;/p&gt;
+&lt;p&gt;$\bar{\phi_f}$ is the mean value of $\phi$ over the face $f$&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;We can then introduce the relationship of the mean value over the face:
-$|\mathbf{S}_f|\bar{\phi_f} = \int_f \phi\ \mathrm{d}\mathbf{S}_f$`
+$|\mathbf{S}_f|\bar{\phi_f} = \int_f \phi\ \mathrm{d}\mathbf{S}_f$
 to produce the following discrete equation:&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;$$\sum_{cell\ faces} [\overline{(\rho \mathbf{U} \phi)}_f -
-\overline{(K \nabla \phi)}_f]|\mathbf{S}_f| = 0$$`&lt;/p&gt;
+\overline{(K \nabla \phi)}_f]|\mathbf{S}_f| = 0$$&lt;/p&gt;
 &lt;h2 id=&#34;obtaining-the-system-of-algrebraic-equations&#34;&gt;Obtaining the system of algrebraic equations&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Apply the previous equation to all 9 cells.&lt;/li&gt;
-&lt;li&gt;Considering $K = 0.01$&lt;code&gt; and $\rho \mathbf{U} = \begin{bmatrix} 0.03 \\ 0 \\ 0 \end{bmatrix}$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Considering $K = 0.01$ and $\rho \mathbf{U} = \begin{bmatrix} 0.03 \ 0 \ 0 \end{bmatrix}$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;But the previous equation relates &lt;strong&gt;face values&lt;/strong&gt; to each other, and we are
 interested in &lt;strong&gt;cell values&lt;/strong&gt; instead. That&amp;rsquo;s why there is a need for defining
@@ -3143,29 +3147,29 @@ a scheme to convert face values to cell-centered ones (an interpolation scheme).
 &lt;p&gt;Assuming a linear evolution, a second-order accurate Central Difference Scheme
 can do the job (Example for cell 4):&lt;/p&gt;
 &lt;p&gt;$$\phi_{f_{45}} = \phi_4 + \frac{\phi_5 - \phi_4}{c_{4}-c_{5}}
-(x_{f_{45}} - c_{4})$$`&lt;/p&gt;
+(x_{f_{45}} - c_{4})$$&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;c_i&lt;/code&gt; is the position of cell $i$`&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;c_i&lt;/code&gt; is the position of cell $i$&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Which can be further simplified to an average because of the uniform grid
 spacing:&lt;/p&gt;
-&lt;p&gt;$$\rho_{f_{45}} = \frac{\phi_5 + \phi_4}{2}$$`&lt;/p&gt;
+&lt;p&gt;$$\rho_{f_{45}} = \frac{\phi_5 + \phi_4}{2}$$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;It remains to process the gradients in the face-normal direction for us to
 get to the final discrete equation&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;$$[(\rho u \phi)&lt;em&gt;{f45}  -(K \frac{d\ \phi}{dx})&lt;/em&gt;{f45}] -
-[(\rho u \phi)&lt;em&gt;{f34}  -(K \frac{d\ \phi}{dx})&lt;/em&gt;{f34}] = 0$$`&lt;/p&gt;
+[(\rho u \phi)&lt;em&gt;{f34}  -(K \frac{d\ \phi}{dx})&lt;/em&gt;{f34}] = 0$$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Which can be simplified to (Remember, this equation is for cell 4):
-$$-0.115\ \phi_3 + 0.2\ \phi_4 - 0.085\ \phi_5 = 0$$`&lt;/p&gt;
+$$-0.115\ \phi_3 + 0.2\ \phi_4 - 0.085\ \phi_5 = 0$$&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;For the boundary faces, at least the &lt;strong&gt;value&lt;/strong&gt; or the &lt;strong&gt;gradient&lt;/strong&gt; of $\phi$`
+&lt;p&gt;For the boundary faces, at least the &lt;strong&gt;value&lt;/strong&gt; or the &lt;strong&gt;gradient&lt;/strong&gt; of $\phi$
 has to be supplied.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;For our purpose, set $\phi_0 = 1$&lt;code&gt; and $\phi_9 = 0$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;For our purpose, set $\phi_0 = 1$ and $\phi_9 = 0$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -3182,18 +3186,19 @@ has to be supplied.&lt;/p&gt;
 &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; -0.115\phi_6 &amp;amp; + 0.2\phi_7 &amp;amp; - 0.085\phi_8 &amp;amp;=0\&lt;br&gt;
 &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; -0.115\phi_7 &amp;amp; + 0.285\phi_8 &amp;amp; = 0&lt;br&gt;
 \end{bmatrix}
-$$`&lt;/p&gt;
+$$&lt;/p&gt;
 &lt;h3 id=&#34;solving-the-system-of-equations&#34;&gt;Solving the system of equations&lt;/h3&gt;
 &lt;p&gt;For simplicity, I have opted for the &lt;strong&gt;Gauss-Seidel&lt;/strong&gt; iterative method for
 solving the resulting system of equation (although the direct approach is
 sufficient in this case):&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Start with an initial solution vector for $\phi$` values&lt;/li&gt;
-&lt;li&gt;Update the solution of $A \phi = B$&lt;code&gt; for the new iteration ($k+1$&lt;/code&gt;) with:
+&lt;li&gt;Start with an initial solution vector for $\phi$ values&lt;/li&gt;
+&lt;li&gt;Update the solution of $A \phi = B$ for the new iteration ($k+1$) with:
 $$\phi_i^{(k+1)} = \frac{1}{a_{ii}} (b_i -\sum_{j=1}^{i-1}a_{ij}\phi_j^{(k+1)}
--\sum_{j=i+1}^{n}a_{ij}\phi_j^{(k)} )$$&lt;code&gt;Where $A = [a_{ij}],\ B = [b_i]$&lt;/code&gt;&lt;/li&gt;
+-\sum_{j=i+1}^{n}a_{ij}\phi_j^{(k)} )$$
+Where $A = [a_{ij}],\ B = [b_i]$&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;We can then obtain the final steady-state solution ($\phi$` values at cell
+&lt;p&gt;We can then obtain the final steady-state solution ($\phi$ values at cell
 centers):&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -3336,7 +3341,7 @@ centers):&lt;/p&gt;
 &lt;p&gt;For a tolerance of &lt;code&gt;1e-3&lt;/code&gt;, we can say that the method converges in around 37
 iterations.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Notice that the initial $\phi$` values were all zeros&lt;/p&gt;
+&lt;p&gt;Notice that the initial $\phi$ values were all zeros&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;learn-more&#34;&gt;Learn more&lt;/h2&gt;
 &lt;ul&gt;
@@ -3646,8 +3651,8 @@ requirements)!&lt;/li&gt;
 &lt;p&gt;Mesh refinement is measured in &amp;ldquo;Levels&amp;rdquo;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Level 0: the original mesh refinement&lt;/li&gt;
-&lt;li&gt;Level 1: splits each cell to four ($2^2$`) cells&lt;/li&gt;
-&lt;li&gt;Level 2: splits each cell to eight ($2^3$`) cells and so on&lt;/li&gt;
+&lt;li&gt;Level 1: splits each cell to four ($2^2$) cells&lt;/li&gt;
+&lt;li&gt;Level 2: splits each cell to eight ($2^3$) cells and so on&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Each time we increase the refinement level, the edges are &lt;strong&gt;halved&lt;/strong&gt;! This is,
 of course, valid only for hexahedrons (That&amp;rsquo;s why &lt;code&gt;snappyHexMesh&lt;/code&gt; needs a fully
@@ -3785,7 +3790,8 @@ list, but we&amp;rsquo;ll leave that alone for now:&lt;/p&gt;
 );
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;5&#34;&gt;
 &lt;li&gt;It only remains to specify boundary patches and their types. For our case,
-we will have the far left face ($f_0$&lt;code&gt;) constinute the &lt;/code&gt;inlet&lt;code&gt; boundary patch. Its type should generic (&lt;/code&gt;patch`), and we specify the face as a list
+we will have the far left face ($f_0$) constinute the &lt;code&gt;inlet&lt;/code&gt; boundary
+patch. Its type should generic (&lt;code&gt;patch&lt;/code&gt;), and we specify the face as a list
 of its vertices&#39; labels.
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -3808,7 +3814,7 @@ faces ( ( 3 7 6 2 ) ( 1 5 4 0 ) ( 0 3 2 1 ) ( 4 5 6 7 ) ) ;
 }
 );&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-mysql&#34; data-lang=&#34;mysql&#34;&gt;The outlet &lt;span style=&#34;color:#ff79c6&#34;&gt;is&lt;/span&gt; treated similarly, taking the face &lt;span style=&#34;color:#ff79c6&#34;&gt;on&lt;/span&gt; the other end of the
-&lt;span style=&#34;color:#50fa7b&#34;&gt;mesh&lt;/span&gt; ($f_9$&lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt;). The remaining faces are collected &lt;span style=&#34;color:#ff79c6&#34;&gt;into&lt;/span&gt; a &lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt;noFlow&lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt; patch
+&lt;span style=&#34;color:#50fa7b&#34;&gt;mesh&lt;/span&gt; ($f_9$). The remaining faces are collected &lt;span style=&#34;color:#ff79c6&#34;&gt;into&lt;/span&gt; a &lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt;noFlow&lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt; patch
 &lt;span style=&#34;color:#ff79c6&#34;&gt;with&lt;/span&gt; an &lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt;empty&lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt; type.
 
 &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;gt;&lt;/span&gt; The &lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt;empty&lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt; patch type &lt;span style=&#34;color:#ff79c6&#34;&gt;is&lt;/span&gt; a way of saying: &lt;span style=&#34;color:#ff79c6&#34;&gt;Ignore&lt;/span&gt; these faces &lt;span style=&#34;color:#ff79c6&#34;&gt;when&lt;/span&gt; summing
@@ -3850,9 +3856,11 @@ compare (&lt;code&gt;git diff&lt;/code&gt;) your work with the contents of the t
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;phi&lt;/code&gt; is the phase&amp;rsquo;s flux&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;U&lt;/code&gt; is the flow&amp;rsquo;s velocity&lt;/li&gt;
-&lt;li&gt;$D_T = \frac{K}{\rho}$` is the diffusion coefficient&lt;/li&gt;
+&lt;li&gt;$D_T = \frac{K}{\rho}$ is the diffusion coefficient&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;The transported variable is named &lt;code&gt;T&lt;/code&gt; in this case (as opposed to $\phi$&lt;code&gt; in  the previous units) and the equation is practically the one from the manual approach, divided by the fluid&#39;s density $\rho$&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The transported variable is named &lt;code&gt;T&lt;/code&gt; in this case (as opposed to $\phi$ in
+the previous units) and the equation is practically the one from the manual
+approach, divided by the fluid&amp;rsquo;s density $\rho$.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;For a quick description of the solver, look for &amp;ldquo;Description&amp;rdquo; in
 $FOAM_SOLVERS/basic/scalarTransportFoam/scalarTransportFoam.C`&lt;/p&gt;
@@ -3862,8 +3870,8 @@ $FOAM_SOLVERS/basic/scalarTransportFoam/scalarTransportFoam.C`&lt;/p&gt;
 conditions for our fields (&lt;code&gt;T&lt;/code&gt;, and &lt;code&gt;U&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;To be fully consistent with the previous unit, set:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;$\mathbf{U} = \begin{bmatrix} 0.03 \ 0 \ 0 \end{bmatrix}$`&lt;/li&gt;
-&lt;li&gt;$D_T = 0.01$`&lt;/li&gt;
+&lt;li&gt;$\mathbf{U} = \begin{bmatrix} 0.03 \ 0 \ 0 \end{bmatrix}$&lt;/li&gt;
+&lt;li&gt;$D_T = 0.01$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Move &lt;code&gt;0.orig&lt;/code&gt; back to &lt;code&gt;0&lt;/code&gt; with: &lt;code&gt;(of@con:intro) mv 0.orig 0&lt;/code&gt;&lt;/p&gt;
@@ -4479,17 +4487,17 @@ to the case directory, run &lt;code&gt;touch casename.foam &amp;amp;&amp;amp; pa
 &lt;/ol&gt;
 &lt;h2 id=&#34;final-discussion&#34;&gt;Final Discussion&lt;/h2&gt;
 &lt;p&gt;What about comparing our results with theoretical solutions?&lt;/p&gt;
-&lt;p&gt;$$T(x) = \frac{1}{\rho |\mathbf{U}|}(aK e^{\frac{\rho |\mathbf{U}|}{K} x}+b)$$`&lt;/p&gt;
+&lt;p&gt;$$T(x) = \frac{1}{\rho |\mathbf{U}|}(aK e^{\frac{\rho |\mathbf{U}|}{K} x}+b)$$&lt;/p&gt;
 &lt;p&gt;Where&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;$K = 0.01,\quad \rho |\mathbf{U}| = 0.03$`&lt;/li&gt;
-&lt;li&gt;$a = -0.21614$&lt;code&gt; and $b = 0.0321614$&lt;/code&gt;, deduced from boundary conditions&lt;/li&gt;
+&lt;li&gt;$K = 0.01,\quad \rho |\mathbf{U}| = 0.03$&lt;/li&gt;
+&lt;li&gt;$a = -0.21614$ and $b = 0.0321614$, deduced from boundary conditions&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;OpenFOAM Solutions are &lt;strong&gt;so accurate&lt;/strong&gt; because we used the &lt;strong&gt;Central Difference
 scheme&lt;/strong&gt; on a &lt;strong&gt;mostly-diffusive&lt;/strong&gt; transport:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Try a more advective setup (increasing Peclet number:
-$Pe = \frac{|\mathbf{U}|L}{D_T}$&lt;code&gt;, where &lt;/code&gt;L` is the domain&amp;rsquo;s length)&lt;/li&gt;
+$Pe = \frac{|\mathbf{U}|L}{D_T}$, where &lt;code&gt;L&lt;/code&gt; is the domain&amp;rsquo;s length)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;what-now&#34;&gt;What now?&lt;/h2&gt;
 &lt;ul&gt;

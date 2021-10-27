@@ -366,13 +366,14 @@ are treated in OpenFOAM:&lt;/p&gt;
 &lt;p&gt;Computationally, &lt;strong&gt;triangles&lt;/strong&gt; are the only 2D geometries with
 directly-determined surface area (because they are the simplest).&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;If the surface of any triangle $\mathrm{A_0A_1A_2}$&lt;code&gt; where $\mathrm{A_m}\ (\mathrm{x_m, y_m, z_m}),\ \mathrm{m} = 0,1,2$&lt;/code&gt; is needed:
+&lt;li&gt;If the surface of any triangle $\mathrm{A_0A_1A_2}$ where
+$\mathrm{A_m}\ (\mathrm{x_m, y_m, z_m}),\ \mathrm{m} = 0,1,2$ is needed:
 $S=\frac{1}{2}|\mathbf{A_0A_1} \times \mathbf{A_0A_2}|=\frac{1}{2}
 \begin{vmatrix}
 \mathbf{i} &amp;amp; \mathbf{j} &amp;amp; \mathbf{k} \&lt;br&gt;
 x_1-x_0 &amp;amp; y_1-y_0 &amp;amp; z_1-z_2 \&lt;br&gt;
 x_2-x_0 &amp;amp; y_2-y_0 &amp;amp; z_2-z_2 \&lt;br&gt;
-\end{vmatrix}$`&lt;/li&gt;
+\end{vmatrix}$&lt;/li&gt;
 &lt;li&gt;Then, the area of a quad can be calculated using two triangles&lt;/li&gt;
 &lt;li&gt;Similarly,  a &lt;strong&gt;tetrahedron&lt;/strong&gt; volume is obtained directly and it&amp;rsquo;s used to
 determine the volume of pentahedrons (three tets) and hexahedrons
@@ -689,8 +690,8 @@ requirements)!&lt;/li&gt;
 &lt;p&gt;Mesh refinement is measured in &amp;ldquo;Levels&amp;rdquo;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Level 0: the original mesh refinement&lt;/li&gt;
-&lt;li&gt;Level 1: splits each cell to four ($2^2$`) cells&lt;/li&gt;
-&lt;li&gt;Level 2: splits each cell to eight ($2^3$`) cells and so on&lt;/li&gt;
+&lt;li&gt;Level 1: splits each cell to four ($2^2$) cells&lt;/li&gt;
+&lt;li&gt;Level 2: splits each cell to eight ($2^3$) cells and so on&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Each time we increase the refinement level, the edges are &lt;strong&gt;halved&lt;/strong&gt;! This is,
 of course, valid only for hexahedrons (That&amp;rsquo;s why &lt;code&gt;snappyHexMesh&lt;/code&gt; needs a fully

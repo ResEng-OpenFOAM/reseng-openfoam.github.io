@@ -768,17 +768,17 @@ problem with mathematical expressions&rdquo;.</p>
 simplifications made to model our sample transport problem.</p>
 <h2 id="governing-equations">Governing equations</h2>
 <p>We intend to numerically solve a basic <strong>steady-state</strong> and <strong>incompressible</strong>
-transport of a passive scalar $\phi$`; which basically accounts for the
+transport of a passive scalar $\phi$; which basically accounts for the
 dirvergence and diffusion terms (No source terms for simlicity).</p>
 <p>The flow can then be modeled with the following equation:</p>
-<p>$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi)$`</p>
+<p>$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi)$</p>
 <p>Where:</p>
 <ul>
-<li>$\rho$` Fluid density</li>
-<li>$\mathbf{U}$` Velocity vector</li>
-<li>$K$` Diffusivity coefficient</li>
-<li>$\nabla$` Gradient operator</li>
-<li>$\nabla \cdot$` Divergence operator</li>
+<li>$\rho$ Fluid density</li>
+<li>$\mathbf{U}$ Velocity vector</li>
+<li>$K$ Diffusivity coefficient</li>
+<li>$\nabla$ Gradient operator</li>
+<li>$\nabla \cdot$ Divergence operator</li>
 </ul>
 <p>With some additional simplifications:</p>
 <ul>
@@ -787,7 +787,7 @@ dirvergence and diffusion terms (No source terms for simlicity).</p>
 </ul>
 <p>The equation then becomes:
 $$\frac{\partial (\rho \mathbf{U} \phi)}{\partial x}
-= K \frac{\partial^2 \phi}{\partial^2 x}$$`</p>
+= K \frac{\partial^2 \phi}{\partial^2 x}$$</p>
 <h2 id="problem-description">Problem Description</h2>
 <p>The general worklfow of solving such equations consists of descretizing both the
 flow domain and the equation itself in order to obtain a system of algebraic
@@ -795,7 +795,8 @@ equations (one per cell):</p>
 <p><img src="/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/02-get-algebraic-eqns.svg" alt="Get algebraic equations"></p>
 <p>By way of explanation, we take the continuous domain (the green-ish one) and
 mesh into a set of cells. We then supply initial field values at cell centers
-$\phi_0, \phi_1, \phi_2, &hellip;$<code> and define the boundary conditions (specifying $\phi_b$</code> for example).</p>
+$\phi_0, \phi_1, \phi_2, &hellip;$ and define the boundary conditions (specifying
+$\phi_b$ for example).</p>
 <p>The next step is to transform the continuous flow equation into a set of
 algebraic ones; Basically, relating field value at a cell center to boundary
 faces and adjacent cells.</p>
@@ -805,14 +806,14 @@ systems in upcoming modules</p>
 </blockquote>
 <p>In our illustration case, the flow domain is</p>
 <ul>
-<li>A &ldquo;line&rdquo;, extending from $x_r = 0$<code> to $x_l = 0.9\mathrm{m}$</code></li>
+<li>A &ldquo;line&rdquo;, extending from $x_r = 0$ to $x_l = 0.9\mathrm{m}$</li>
 <li>Split into 9 segments (cells, where <code>cellSize</code> is 0.1m)</li>
 </ul>
 <p>On both ends of the &ldquo;line&rdquo;, we apply Dirichlet-type (fixed-value) boundary
-conditions on $phi$`, where:</p>
+conditions on $phi$, where:</p>
 <ul>
-<li>$\phi (x_r) = 1$`</li>
-<li>$\phi (x_l) = 0$`</li>
+<li>$\phi (x_r) = 1$</li>
+<li>$\phi (x_l) = 0$</li>
 </ul>
 <h2 id="learn-more">Learn more</h2>
 <p>It&rsquo;s recommended that <strong>you</strong> go through this advective-diffusive transport
@@ -821,7 +822,7 @@ problem both manually and with the help of OpenFOAM.</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified October 27, 2021: <a  href="https://github.com/ResEng-OpenFOAM/course-website-source/commit/d418010019ed6b173304abc4b6dc221de6636763">Update all math equations (d418010)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified October 27, 2021: <a  href="https://github.com/ResEng-OpenFOAM/course-website-source/commit/edcb4eec1171f5018f8c1d5aaebbef40310d1106">Update all math equations (edcb4ee)</a>
 </div>
 </div>
 

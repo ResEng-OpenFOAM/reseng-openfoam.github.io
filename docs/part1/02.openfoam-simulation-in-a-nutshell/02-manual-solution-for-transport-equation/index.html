@@ -32,7 +32,7 @@
 <meta itemprop="description" content="Get a grasp of FVM simulations without using dedicated software. No heavy math, I promise.
 "><meta itemprop="datePublished" content="2020-10-29T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2021-10-27T11:20:45+01:00" />
-<meta itemprop="wordCount" content="1115">
+<meta itemprop="wordCount" content="1118">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="02 - Manual Solution for the transport problem"/>
 <meta name="twitter:description" content="Get a grasp of FVM simulations without using dedicated software. No heavy math, I promise.
@@ -793,7 +793,7 @@ called <strong>internal faces</strong>.</p>
 <h4 class="alert-heading">Example</h4>
 <p><img src="/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/02-mesh-surface-normals.png" alt="OpenFOAM owner and neighbor"></p>
 <ul>
-<li>The owner of the face $f_{34}$<code>is cell</code>4`</li>
+<li>The owner of the face $f_{34}$ is cell <code>4</code></li>
 <li>Its neighbor is cell <code>3</code></li>
 </ul>
 <blockquote>
@@ -804,14 +804,14 @@ called <strong>internal faces</strong>.</p>
 
 <h2 id="governing-equation-discretization">Governing equation discretization</h2>
 <p>Now that the mesh is discretized properly, we need to discertize the flow
-equation; mainly, applying it on each cell to derive a relationship of $\phi$`
+equation; mainly, applying it on each cell to derive a relationship of $\phi$
 values at the cell center with its adjacent cells:</p>
 <p>$$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi)
-\qquad \longrightarrow \qquad \phi_c = f({\phi_{nearby\ cells}})$$`</p>
+\qquad \longrightarrow \qquad \phi_c = f({\phi_{nearby\ cells}})$$</p>
 <p>Throughout the development of this equation, we do make some assumptions:</p>
 <ul>
 <li>
-<p>$\phi$` is considered to vary linearly between a cell center and a face
+<p>$\phi$ is considered to vary linearly between a cell center and a face
 center.</p>
 </li>
 <li>
@@ -819,7 +819,8 @@ center.</p>
 the domain.</p>
 </li>
 <li>
-<p>$\phi$<code> (value at cell center) is considered to be the __mean value__ of $\phi$</code> in that cell (with second order accuracy).</p>
+<p>$\phi$ (value at cell center) is considered to be the <strong>mean value</strong> of
+$\phi$ in that cell (with second order accuracy).</p>
 </li>
 <li>
 <p><code>cellSize</code> has to be small enough for approximations to be accurate (to some
@@ -827,43 +828,44 @@ extent).</p>
 </li>
 <li>
 <p>Write the governing equation in integral form for a single cell volume
-($V_c$`):</p>
+($V_c$):</p>
 </li>
 </ul>
 <p>$$\int_{V_c} \nabla \cdot (\rho \mathbf{U} \phi)\ \mathrm{d}V_c -
-\int_{V_c} \nabla \cdot (K \nabla \phi)\ \mathrm{d}V_c $$`</p>
+\int_{V_c} \nabla \cdot (K \nabla \phi)\ \mathrm{d}V_c $$</p>
 <ul>
 <li>Use the divergence theorem:
 $\int_{V_c} \nabla \phi\ \mathrm{d}V_c =
-\int{\partial V_c} \phi\ \mathrm{d}(\partial V_c)$` to convert volume integrals
+\int{\partial V_c} \phi\ \mathrm{d}(\partial V_c)$ to convert volume integrals
 into surface ones. The transport equation then becomes:</li>
 </ul>
 <p>$$\int_{\partial V_c} [\rho \mathbf{U} \phi - K \nabla \phi]\
-\mathrm{d}(\partial V_c) = 0$$`</p>
+\mathrm{d}(\partial V_c) = 0$$</p>
 <blockquote>
-<p>$\partial V_c$<code> denotes the closed, normal-outwarding, surface of the volume $V_c$</code></p>
+<p>$\partial V_c$ denotes the closed, normal-outwarding, surface of the volume
+$V_c$</p>
 </blockquote>
 <ul>
-<li>If the closed surface $\partial V_c$` is split into a set of faces we can
+<li>If the closed surface $\partial V_c$ is split into a set of faces we can
 approximate the integral over the whole surface as a sum of face-based
 integrals:</li>
 </ul>
 <p>$$\sum_{cell\ faces} [\int_{f} (\rho \mathbf{U} \phi)_f -
-\int_{f} (K \nabla \phi)_f ]\ \mathrm{d}\mathbf{S}_f= 0$$`</p>
+\int_{f} (K \nabla \phi)_f ]\ \mathrm{d}\mathbf{S}_f= 0$$</p>
 <blockquote>
-<p>$\bar{\phi_f}$<code> is the mean value of $\phi$</code> over the face $f$`</p>
+<p>$\bar{\phi_f}$ is the mean value of $\phi$ over the face $f$</p>
 </blockquote>
 <ul>
 <li>We can then introduce the relationship of the mean value over the face:
-$|\mathbf{S}_f|\bar{\phi_f} = \int_f \phi\ \mathrm{d}\mathbf{S}_f$`
+$|\mathbf{S}_f|\bar{\phi_f} = \int_f \phi\ \mathrm{d}\mathbf{S}_f$
 to produce the following discrete equation:</li>
 </ul>
 <p>$$\sum_{cell\ faces} [\overline{(\rho \mathbf{U} \phi)}_f -
-\overline{(K \nabla \phi)}_f]|\mathbf{S}_f| = 0$$`</p>
+\overline{(K \nabla \phi)}_f]|\mathbf{S}_f| = 0$$</p>
 <h2 id="obtaining-the-system-of-algrebraic-equations">Obtaining the system of algrebraic equations</h2>
 <ul>
 <li>Apply the previous equation to all 9 cells.</li>
-<li>Considering $K = 0.01$<code> and $\rho \mathbf{U} = \begin{bmatrix} 0.03 \\ 0 \\ 0 \end{bmatrix}$</code></li>
+<li>Considering $K = 0.01$ and $\rho \mathbf{U} = \begin{bmatrix} 0.03 \ 0 \ 0 \end{bmatrix}$</li>
 </ul>
 <p>But the previous equation relates <strong>face values</strong> to each other, and we are
 interested in <strong>cell values</strong> instead. That&rsquo;s why there is a need for defining
@@ -871,29 +873,29 @@ a scheme to convert face values to cell-centered ones (an interpolation scheme).
 <p>Assuming a linear evolution, a second-order accurate Central Difference Scheme
 can do the job (Example for cell 4):</p>
 <p>$$\phi_{f_{45}} = \phi_4 + \frac{\phi_5 - \phi_4}{c_{4}-c_{5}}
-(x_{f_{45}} - c_{4})$$`</p>
+(x_{f_{45}} - c_{4})$$</p>
 <blockquote>
-<p><code>c_i</code> is the position of cell $i$`</p>
+<p><code>c_i</code> is the position of cell $i$</p>
 </blockquote>
 <p>Which can be further simplified to an average because of the uniform grid
 spacing:</p>
-<p>$$\rho_{f_{45}} = \frac{\phi_5 + \phi_4}{2}$$`</p>
+<p>$$\rho_{f_{45}} = \frac{\phi_5 + \phi_4}{2}$$</p>
 <ul>
 <li>It remains to process the gradients in the face-normal direction for us to
 get to the final discrete equation</li>
 </ul>
 <p>$$[(\rho u \phi)<em>{f45}  -(K \frac{d\ \phi}{dx})</em>{f45}] -
-[(\rho u \phi)<em>{f34}  -(K \frac{d\ \phi}{dx})</em>{f34}] = 0$$`</p>
+[(\rho u \phi)<em>{f34}  -(K \frac{d\ \phi}{dx})</em>{f34}] = 0$$</p>
 <ul>
 <li>
 <p>Which can be simplified to (Remember, this equation is for cell 4):
-$$-0.115\ \phi_3 + 0.2\ \phi_4 - 0.085\ \phi_5 = 0$$`</p>
+$$-0.115\ \phi_3 + 0.2\ \phi_4 - 0.085\ \phi_5 = 0$$</p>
 </li>
 <li>
-<p>For the boundary faces, at least the <strong>value</strong> or the <strong>gradient</strong> of $\phi$`
+<p>For the boundary faces, at least the <strong>value</strong> or the <strong>gradient</strong> of $\phi$
 has to be supplied.</p>
 <ul>
-<li>For our purpose, set $\phi_0 = 1$<code> and $\phi_9 = 0$</code></li>
+<li>For our purpose, set $\phi_0 = 1$ and $\phi_9 = 0$</li>
 </ul>
 </li>
 </ul>
@@ -910,18 +912,19 @@ has to be supplied.</p>
 &amp; &amp; &amp; &amp; &amp; &amp; -0.115\phi_6 &amp; + 0.2\phi_7 &amp; - 0.085\phi_8 &amp;=0\<br>
 &amp; &amp; &amp; &amp; &amp; &amp; &amp; -0.115\phi_7 &amp; + 0.285\phi_8 &amp; = 0<br>
 \end{bmatrix}
-$$`</p>
+$$</p>
 <h3 id="solving-the-system-of-equations">Solving the system of equations</h3>
 <p>For simplicity, I have opted for the <strong>Gauss-Seidel</strong> iterative method for
 solving the resulting system of equation (although the direct approach is
 sufficient in this case):</p>
 <ul>
-<li>Start with an initial solution vector for $\phi$` values</li>
-<li>Update the solution of $A \phi = B$<code> for the new iteration ($k+1$</code>) with:
+<li>Start with an initial solution vector for $\phi$ values</li>
+<li>Update the solution of $A \phi = B$ for the new iteration ($k+1$) with:
 $$\phi_i^{(k+1)} = \frac{1}{a_{ii}} (b_i -\sum_{j=1}^{i-1}a_{ij}\phi_j^{(k+1)}
--\sum_{j=i+1}^{n}a_{ij}\phi_j^{(k)} )$$<code>Where $A = [a_{ij}],\ B = [b_i]$</code></li>
+-\sum_{j=i+1}^{n}a_{ij}\phi_j^{(k)} )$$
+Where $A = [a_{ij}],\ B = [b_i]$</li>
 </ul>
-<p>We can then obtain the final steady-state solution ($\phi$` values at cell
+<p>We can then obtain the final steady-state solution ($\phi$ values at cell
 centers):</p>
 <table>
 <thead>
@@ -1064,7 +1067,7 @@ centers):</p>
 <p>For a tolerance of <code>1e-3</code>, we can say that the method converges in around 37
 iterations.</p>
 <blockquote>
-<p>Notice that the initial $\phi$` values were all zeros</p>
+<p>Notice that the initial $\phi$ values were all zeros</p>
 </blockquote>
 <h2 id="learn-more">Learn more</h2>
 <ul>
@@ -1104,7 +1107,7 @@ and manual solutions.</li>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified October 27, 2021: <a  href="https://github.com/ResEng-OpenFOAM/course-website-source/commit/d418010019ed6b173304abc4b6dc221de6636763">Update all math equations (d418010)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified October 27, 2021: <a  href="https://github.com/ResEng-OpenFOAM/course-website-source/commit/edcb4eec1171f5018f8c1d5aaebbef40310d1106">Update all math equations (edcb4ee)</a>
 </div>
 </div>
 

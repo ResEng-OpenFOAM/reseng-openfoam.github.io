@@ -13,7 +13,7 @@ approach.
 ## Mesh generation
 
 The flow domain is meshed into 9 cells (labeled from 0 to 8) and we are
-interested in `$\phi$` values at each cell center.
+interested in $\phi$ values at each cell center.
 
 ![1D Mesh cells](/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/02-mesh-cells.png)
 
@@ -41,7 +41,7 @@ OpenFOAM then labels these "cells" in a special way:
 
 ![OpenFOAM owner and neighbor](/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/02-mesh-surface-normals.png)
 
-- The owner of the face `$f_{34}$` is cell `4`
+- The owner of the face $f_{34}$ is cell `4`
 - Its neighbor is cell `3`
 
 > Note that Boundary faces have only owning cells
@@ -51,60 +51,60 @@ OpenFOAM then labels these "cells" in a special way:
 ## Governing equation discretization
 
 Now that the mesh is discretized properly, we need to discertize the flow
-equation; mainly, applying it on each cell to derive a relationship of `$\phi$`
+equation; mainly, applying it on each cell to derive a relationship of $\phi$
 values at the cell center with its adjacent cells:
 
-`$$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi)
-\qquad \longrightarrow \qquad \phi_c = f({\phi_{nearby\ cells}})$$`
+$$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi)
+\qquad \longrightarrow \qquad \phi_c = f({\phi_{nearby\ cells}})$$
 
 Throughout the development of this equation, we do make some assumptions:
 
-- `$\phi$` is considered to vary linearly between a cell center and a face
+- $\phi$ is considered to vary linearly between a cell center and a face
   center.
 - The mesh must be constructed so that boundary faces are pointing __out__ of
   the domain.
-- `$\phi$` (value at cell center) is considered to be the __mean value__ of
-  `$\phi$` in that cell (with second order accuracy).
+- $\phi$ (value at cell center) is considered to be the __mean value__ of
+  $\phi$ in that cell (with second order accuracy).
 - `cellSize` has to be small enough for approximations to be accurate (to some
   extent).
 
 - Write the governing equation in integral form for a single cell volume 
-  (`$V_c$`):
+  ($V_c$):
 
-`$$\int_{V_c} \nabla \cdot (\rho \mathbf{U} \phi)\ \mathrm{d}V_c - 
-\int_{V_c} \nabla \cdot (K \nabla \phi)\ \mathrm{d}V_c $$`
+$$\int_{V_c} \nabla \cdot (\rho \mathbf{U} \phi)\ \mathrm{d}V_c - 
+\int_{V_c} \nabla \cdot (K \nabla \phi)\ \mathrm{d}V_c $$
 
 - Use the divergence theorem: 
-  `$\int_{V_c} \nabla \phi\ \mathrm{d}V_c =
-  \int{\partial V_c} \phi\ \mathrm{d}(\partial V_c)$` to convert volume integrals
+  $\int_{V_c} \nabla \phi\ \mathrm{d}V_c =
+  \int{\partial V_c} \phi\ \mathrm{d}(\partial V_c)$ to convert volume integrals
   into surface ones. The transport equation then becomes:
   
-`$$\int_{\partial V_c} [\rho \mathbf{U} \phi - K \nabla \phi]\ 
-\mathrm{d}(\partial V_c) = 0$$`
+$$\int_{\partial V_c} [\rho \mathbf{U} \phi - K \nabla \phi]\ 
+\mathrm{d}(\partial V_c) = 0$$
 
-> `$\partial V_c$` denotes the closed, normal-outwarding, surface of the volume
-> `$V_c$`
+> $\partial V_c$ denotes the closed, normal-outwarding, surface of the volume
+> $V_c$
 
-- If the closed surface `$\partial V_c$` is split into a set of faces we can
+- If the closed surface $\partial V_c$ is split into a set of faces we can
   approximate the integral over the whole surface as a sum of face-based
   integrals:
 
-`$$\sum_{cell\ faces} [\int_{f} (\rho \mathbf{U} \phi)_f - 
-\int_{f} (K \nabla \phi)_f ]\ \mathrm{d}\mathbf{S}_f= 0$$`
+$$\sum_{cell\ faces} [\int_{f} (\rho \mathbf{U} \phi)_f - 
+\int_{f} (K \nabla \phi)_f ]\ \mathrm{d}\mathbf{S}_f= 0$$
 
-> `$\bar{\phi_f}$` is the mean value of `$\phi$` over the face `$f$`
+> $\bar{\phi_f}$ is the mean value of $\phi$ over the face $f$
 
 - We can then introduce the relationship of the mean value over the face:
-  `$|\mathbf{S}_f|\bar{\phi_f} = \int_f \phi\ \mathrm{d}\mathbf{S}_f$`
+  $|\mathbf{S}_f|\bar{\phi_f} = \int_f \phi\ \mathrm{d}\mathbf{S}_f$
   to produce the following discrete equation:
 
-`$$\sum_{cell\ faces} [\overline{(\rho \mathbf{U} \phi)}_f -
-\overline{(K \nabla \phi)}_f]|\mathbf{S}_f| = 0$$`
+$$\sum_{cell\ faces} [\overline{(\rho \mathbf{U} \phi)}_f -
+\overline{(K \nabla \phi)}_f]|\mathbf{S}_f| = 0$$
 
 ## Obtaining the system of algrebraic equations
 
 - Apply the previous equation to all 9 cells.
-- Considering `$K = 0.01$` and `$\rho \mathbf{U} = \begin{bmatrix} 0.03 \\ 0 \\ 0 \end{bmatrix}$`
+- Considering $K = 0.01$ and $\rho \mathbf{U} = \begin{bmatrix} 0.03 \\ 0 \\ 0 \end{bmatrix}$
 
 But the previous equation relates __face values__ to each other, and we are
 interested in __cell values__ instead. That's why there is a need for defining
@@ -113,32 +113,32 @@ a scheme to convert face values to cell-centered ones (an interpolation scheme).
 Assuming a linear evolution, a second-order accurate Central Difference Scheme
 can do the job (Example for cell 4):
 
-`$$\phi_{f_{45}} = \phi_4 + \frac{\phi_5 - \phi_4}{c_{4}-c_{5}}
-(x_{f_{45}} - c_{4})$$`
+$$\phi_{f_{45}} = \phi_4 + \frac{\phi_5 - \phi_4}{c_{4}-c_{5}}
+(x_{f_{45}} - c_{4})$$
 
-> `c_i` is the position of cell `$i$`
+> `c_i` is the position of cell $i$
 
 Which can be further simplified to an average because of the uniform grid
 spacing:
 
-`$$\rho_{f_{45}} = \frac{\phi_5 + \phi_4}{2}$$`
+$$\rho_{f_{45}} = \frac{\phi_5 + \phi_4}{2}$$
 
 - It remains to process the gradients in the face-normal direction for us to
   get to the final discrete equation
 
-`$$[(\rho u \phi)_{f45}  -(K \frac{d\ \phi}{dx})_{f45}] -
-[(\rho u \phi)_{f34}  -(K \frac{d\ \phi}{dx})_{f34}] = 0$$`
+$$[(\rho u \phi)_{f45}  -(K \frac{d\ \phi}{dx})_{f45}] -
+[(\rho u \phi)_{f34}  -(K \frac{d\ \phi}{dx})_{f34}] = 0$$
 
 - Which can be simplified to (Remember, this equation is for cell 4):
-`$$-0.115\ \phi_3 + 0.2\ \phi_4 - 0.085\ \phi_5 = 0$$`
+$$-0.115\ \phi_3 + 0.2\ \phi_4 - 0.085\ \phi_5 = 0$$
 
-- For the boundary faces, at least the __value__ or the __gradient__ of `$\phi$`
+- For the boundary faces, at least the __value__ or the __gradient__ of $\phi$
   has to be supplied.
-  - For our purpose, set `$\phi_0 = 1$` and `$\phi_9 = 0$`
+  - For our purpose, set $\phi_0 = 1$ and $\phi_9 = 0$
 
 The system for all 9 cells should then look like this:
 
-`$$
+$$
 \begin{bmatrix}
     0.315\phi_0 & - 0.085\phi_1 & & & & & & & & = 0.23\\
     -0.115\phi_0 & + 0.2\phi_1 & - 0.085\phi_2          & & & & & & & = 0\\
@@ -150,7 +150,7 @@ The system for all 9 cells should then look like this:
     & & & & & & -0.115\phi_6 & + 0.2\phi_7 & - 0.085\phi_8 &=0\\
     & & & & & & & -0.115\phi_7 & + 0.285\phi_8 & = 0  
 \end{bmatrix}
-$$`
+$$
 
 ### Solving the system of equations
 
@@ -158,13 +158,13 @@ For simplicity, I have opted for the __Gauss-Seidel__ iterative method for
 solving the resulting system of equation (although the direct approach is
 sufficient in this case):
 
-- Start with an initial solution vector for `$\phi$` values
-- Update the solution of `$A \phi = B$` for the new iteration (`$k+1$`) with:
-  `$$\phi_i^{(k+1)} = \frac{1}{a_{ii}} (b_i -\sum_{j=1}^{i-1}a_{ij}\phi_j^{(k+1)}
-  -\sum_{j=i+1}^{n}a_{ij}\phi_j^{(k)} )$$`
-  Where `$A = [a_{ij}],\ B = [b_i]$`
+- Start with an initial solution vector for $\phi$ values
+- Update the solution of $A \phi = B$ for the new iteration ($k+1$) with:
+  $$\phi_i^{(k+1)} = \frac{1}{a_{ii}} (b_i -\sum_{j=1}^{i-1}a_{ij}\phi_j^{(k+1)}
+  -\sum_{j=i+1}^{n}a_{ij}\phi_j^{(k)} )$$
+  Where $A = [a_{ij}],\ B = [b_i]$
 
-We can then obtain the final steady-state solution (`$\phi$` values at cell
+We can then obtain the final steady-state solution ($\phi$ values at cell
 centers):
 
 | Iteration | Cell 0 | Cell 1 | Cell 2 | Cell 3 | Cell 4 | Cell 5 | Cell 6 | Cell 7 | Cell 8 |
@@ -183,7 +183,7 @@ centers):
 For a tolerance of `1e-3`, we can say that the method converges in around 37
 iterations.
 
-> Notice that the initial `$\phi$` values were all zeros
+> Notice that the initial $\phi$ values were all zeros
 
 ## Learn more
 

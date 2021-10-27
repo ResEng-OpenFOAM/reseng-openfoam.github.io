@@ -39,12 +39,12 @@ Post-Processor to manipulate and visualize the generated data.
 {{% alert title="Example" color="success" %}}
 Solving a basic diffusive-problem involves solving an equation which looks like
 this (In steady-state setups): 
-`$$ \nabla \cdot (K\nabla T) = S$$`
+$$ \nabla \cdot (K\nabla T) = S$$
 Where:
 
-- `$K$` is the diffusion coefficient
-- `$T$` is the transported scalar field
-- `$S$` is the source/sink term
+- $K$ is the diffusion coefficient
+- $T$ is the transported scalar field
+- $S$ is the source/sink term
 
 There is a standard OpenFOAM solver called `laplacianFoam` which solves, well,
 Laplacian equations. You can run the solver on a prepared set of files

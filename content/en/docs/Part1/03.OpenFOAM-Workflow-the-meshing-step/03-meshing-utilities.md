@@ -185,8 +185,8 @@ With `snappyHexMesh`, you get one huge advantage:
 Mesh refinement is measured in "Levels":
 
 - Level 0: the original mesh refinement
-- Level 1: splits each cell to four (`$2^2$`) cells
-- Level 2: splits each cell to eight (`$2^3$`) cells and so on
+- Level 1: splits each cell to four ($2^2$) cells
+- Level 2: splits each cell to eight ($2^3$) cells and so on
 
 Each time we increase the refinement level, the edges are __halved__! This is,
 of course, valid only for hexahedrons (That's why `snappyHexMesh` needs a fully

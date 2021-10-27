@@ -157,18 +157,18 @@ the only difference is in the way we load case data into ParaView:
 
 What about comparing our results with theoretical solutions?
 
-`$$T(x) = \frac{1}{\rho |\mathbf{U}|}(aK e^{\frac{\rho |\mathbf{U}|}{K} x}+b)$$`
+$$T(x) = \frac{1}{\rho |\mathbf{U}|}(aK e^{\frac{\rho |\mathbf{U}|}{K} x}+b)$$
 
 Where
 
-- `$K = 0.01,\quad \rho |\mathbf{U}| = 0.03$`
-- `$a = -0.21614$` and `$b = 0.0321614$`, deduced from boundary conditions
+- $K = 0.01,\quad \rho |\mathbf{U}| = 0.03$
+- $a = -0.21614$ and $b = 0.0321614$, deduced from boundary conditions
 
 OpenFOAM Solutions are __so accurate__ because we used the __Central Difference
 scheme__ on a __mostly-diffusive__ transport: 
 
 - Try a more advective setup (increasing Peclet number:
-  `$Pe = \frac{|\mathbf{U}|L}{D_T}$`, where `L` is the domain's length)
+  $Pe = \frac{|\mathbf{U}|L}{D_T}$, where `L` is the domain's length)
 
 
 ## What now?

@@ -27,7 +27,7 @@ perform:
 
 - A User-specific install: where only one user will have access to OpenFOAM
   binaries. Usually, the user will winstall it under his home directory
-  (`$HOME/OpenFOAM`)
+  ($HOME/OpenFOAM`)
 
 To discover where OpenFOAM is installed on your system:
 ```bash
@@ -44,7 +44,7 @@ This way, we can also install additional versions (and forks) if we need to.
 {{% /alert %}}
 
 No matter how the software installed, if a users use it, they will have
-some files in their `$HOME/OpenFOAM/$USER-<VERSION>`; where `<VERSION>` is
+some files in their $HOME/OpenFOAM/$USER-<VERSION>`; where `<VERSION>` is
 the version number of the software.
 
 > Because the container has the latest(-ish) development version of OpenFOAM,

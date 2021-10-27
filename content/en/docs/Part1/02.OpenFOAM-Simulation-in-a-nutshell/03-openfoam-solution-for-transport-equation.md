@@ -13,7 +13,7 @@ one). The basic workflow steps stay exactly the same.
 
 > It's recommended that you __actualy__ follow along using the lab machine.
 > So, create a case (named `intro` for example) in your run directory 
-> (`$FOAM_TUTORIALS/basic/scalarTransportFoam/pitzDaily` is a good starting
+> ($FOAM_TUTORIALS/basic/scalarTransportFoam/pitzDaily` is a good starting
 > point).
 
 ## Mesh generation: Introducing `blockMesh`
@@ -76,7 +76,7 @@ edges
 );
    ```
 5. It only remains to specify boundary patches and their types. For our case,
-   we will have the far left face (`$f_0$`) constinute the `inlet` boundary
+   we will have the far left face ($f_0$) constinute the `inlet` boundary
    patch. Its type should generic (`patch`), and we specify the face as a list
    of its vertices' labels.
    ```cpp
@@ -100,7 +100,7 @@ boundary
 );
    ```
    The outlet is treated similarly, taking the face on the other end of the
-   mesh (`$f_9$`). The remaining faces are collected into a `noFlow` patch
+   mesh ($f_9$). The remaining faces are collected into a `noFlow` patch
    with an `empty` type.
 
 > The `empty` patch type is a way of saying: Ignore these faces when summing
@@ -152,14 +152,14 @@ Where:
 
 - `phi` is the phase's flux
 - `U` is the flow's velocity
-- `$D_T = \frac{K}{\rho}$` is the diffusion coefficient
+- $D_T = \frac{K}{\rho}$ is the diffusion coefficient
 
-The transported variable is named `T` in this case (as opposed to `$\phi$` in 
+The transported variable is named `T` in this case (as opposed to $\phi$ in 
 the previous units) and the equation is practically the one from the manual
-approach, divided by the fluid's density `$\rho$`.
+approach, divided by the fluid's density $\rho$.
 
 > For a quick description of the solver, look for "Description" in 
-> `$FOAM_SOLVERS/basic/scalarTransportFoam/scalarTransportFoam.C`
+> $FOAM_SOLVERS/basic/scalarTransportFoam/scalarTransportFoam.C`
 
 ## Initial and boundary conditions
 
@@ -168,8 +168,8 @@ conditions for our fields (`T`, and `U`).
 
 To be fully consistent with the previous unit, set:
 
-- `$\mathbf{U} = \begin{bmatrix} 0.03 \\ 0 \\ 0 \end{bmatrix}$`
-- `$D_T = 0.01$`
+- $\mathbf{U} = \begin{bmatrix} 0.03 \\ 0 \\ 0 \end{bmatrix}$
+- $D_T = 0.01$
 
 > Move `0.orig` back to `0` with: `(of@con:intro) mv 0.orig 0`
 
@@ -436,7 +436,7 @@ The `internalField` of `37/T` for example would look like this:
 internalField   nonuniform List<scalar> 9(0.98896731 ...);
 ```
 so we just take what's inside the round brackets (as a bonus, the `sed` commands
-adds the iteration number at the start of each line (`$i`)).
+adds the iteration number at the start of each line ($i`)).
 
 ## What now?
 

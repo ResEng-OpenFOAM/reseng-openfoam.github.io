@@ -11,9 +11,9 @@ faster (These are shell commands):
 
 |Shell Alias | Description |
 |---|---|
-|`run`| Changes the working directory to the `$FOAM_RUN` directory, which is supposed to hold your OpenFOAM cases |
-|`tut`| Changes the working directory to the `$FOAM_TUTORIALS` directory, which contains standard OpenFOAM tutorials for all standard solvers. |
-|`src`| Changes the working directory to the `$FOAM_SRC` directory, which contains the source code for all OpenFOAM (standard) libraries and solvers. |
+|`run`| Changes the working directory to the $FOAM_RUN` directory, which is supposed to hold your OpenFOAM cases |
+|`tut`| Changes the working directory to the $FOAM_TUTORIALS` directory, which contains standard OpenFOAM tutorials for all standard solvers. |
+|`src`| Changes the working directory to the $FOAM_SRC` directory, which contains the source code for all OpenFOAM (standard) libraries and solvers. |
 |`doc`| Changes the working directory to the directory containing code documentation (and the user guide) for the current OpenFOAM version. |
 
 -----

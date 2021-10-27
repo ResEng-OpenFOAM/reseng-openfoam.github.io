@@ -88,14 +88,14 @@ are treated in OpenFOAM:
 Computationally, __triangles__ are the only 2D geometries with
 directly-determined surface area (because they are the simplest).
 
-- If the surface of any triangle `$\mathrm{A_0A_1A_2}$` where
-  `$\mathrm{A_m}\ (\mathrm{x_m, y_m, z_m}),\ \mathrm{m} = 0,1,2$` is needed:
-  `$S=\frac{1}{2}|\mathbf{A_0A_1} \times \mathbf{A_0A_2}|=\frac{1}{2} 
+- If the surface of any triangle $\mathrm{A_0A_1A_2}$ where
+  $\mathrm{A_m}\ (\mathrm{x_m, y_m, z_m}),\ \mathrm{m} = 0,1,2$ is needed:
+  $S=\frac{1}{2}|\mathbf{A_0A_1} \times \mathbf{A_0A_2}|=\frac{1}{2} 
             \begin{vmatrix}
                 \mathbf{i} & \mathbf{j} & \mathbf{k} \\
                 x_1-x_0 & y_1-y_0 & z_1-z_2 \\
                 x_2-x_0 & y_2-y_0 & z_2-z_2 \\
-            \end{vmatrix}$`
+            \end{vmatrix}$
 - Then, the area of a quad can be calculated using two triangles
 - Similarly,  a __tetrahedron__ volume is obtained directly and it's used to 
   determine the volume of pentahedrons (three tets) and hexahedrons 

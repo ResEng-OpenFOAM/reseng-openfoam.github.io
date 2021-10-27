@@ -17,20 +17,20 @@ simplifications made to model our sample transport problem.
 ## Governing equations
 
 We intend to numerically solve a basic __steady-state__ and __incompressible__
-transport of a passive scalar `$\phi$`; which basically accounts for the
+transport of a passive scalar $\phi$; which basically accounts for the
 dirvergence and diffusion terms (No source terms for simlicity).
 
 The flow can then be modeled with the following equation:
 
-`$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi)$`
+$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi)$
 
 Where:
 
-- `$\rho$` Fluid density
-- `$\mathbf{U}$` Velocity vector
-- `$K$` Diffusivity coefficient
-- `$\nabla$` Gradient operator
-- `$\nabla \cdot$` Divergence operator
+- $\rho$ Fluid density
+- $\mathbf{U}$ Velocity vector
+- $K$ Diffusivity coefficient
+- $\nabla$ Gradient operator
+- $\nabla \cdot$ Divergence operator
 
 With some additional simplifications:
 
@@ -38,8 +38,8 @@ With some additional simplifications:
 - The diffusivity coefficient is homogeneous and constant in time
 
 The equation then becomes:
-`$$\frac{\partial (\rho \mathbf{U} \phi)}{\partial x}
-= K \frac{\partial^2 \phi}{\partial^2 x}$$`
+$$\frac{\partial (\rho \mathbf{U} \phi)}{\partial x}
+= K \frac{\partial^2 \phi}{\partial^2 x}$$
 
 ## Problem Description
 
@@ -52,8 +52,8 @@ equations (one per cell):
 
 By way of explanation, we take the continuous domain (the green-ish one) and
 mesh into a set of cells. We then supply initial field values at cell centers
-`$\phi_0, \phi_1, \phi_2, ...$` and define the boundary conditions (specifying
-`$\phi_b$` for example).
+$\phi_0, \phi_1, \phi_2, ...$ and define the boundary conditions (specifying
+$\phi_b$ for example).
 
 The next step is to transform the continuous flow equation into a set of
 algebraic ones; Basically, relating field value at a cell center to boundary
@@ -65,14 +65,14 @@ faces and adjacent cells.
 
 In our illustration case, the flow domain is
 
-- A "line", extending from `$x_r = 0$` to `$x_l = 0.9\mathrm{m}$`
+- A "line", extending from $x_r = 0$ to $x_l = 0.9\mathrm{m}$
 - Split into 9 segments (cells, where `cellSize` is 0.1m)
 
 On both ends of the "line", we apply Dirichlet-type (fixed-value) boundary
-conditions on `$phi$`, where:
+conditions on $phi$, where:
 
-- `$\phi (x_r) = 1$`
-- `$\phi (x_l) = 0$`
+- $\phi (x_r) = 1$
+- $\phi (x_l) = 0$
 
 ## Learn more
 

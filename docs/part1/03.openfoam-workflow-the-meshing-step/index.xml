@@ -182,15 +182,15 @@ concept.&lt;/p&gt;
 &lt;li&gt;In transient simulations, mesh size is closly related to time step length.
 &lt;ul&gt;
 &lt;li&gt;It&amp;rsquo;s common practice to fix the mesh size, then decide on a good
-&lt;code&gt;$\Delta t$&lt;/code&gt;&lt;/li&gt;
+$\Delta t$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;To illustrate, let&amp;rsquo;s go through a simplified problem for seismic waves.&lt;/p&gt;
 &lt;p&gt;These waves can propagate at a speed of 3 km/s, with a maximum frequency on 1Hz:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/01-seismic-waves.gif&#34; alt=&#34;Visualization of Global Seismic Wave PropagationSimulation&#34;&gt;&lt;/p&gt;
-&lt;p&gt;From &lt;code&gt;$c = \lambda f$&lt;/code&gt;, we deduce that the wave&amp;rsquo;s length
-&lt;code&gt;$\lambda = 3 \mathrm{m}$&lt;/code&gt;. Now, let&amp;rsquo;s assume we have a PDE modeling how such
+&lt;p&gt;From $c = \lambda f$, we deduce that the wave&amp;rsquo;s length
+$\lambda = 3 \mathrm{m}$. Now, let&amp;rsquo;s assume we have a PDE modeling how such
 waves propagate; and the domain on which the study is performed is the
 &lt;strong&gt;&amp;ldquo;whole planet Earth&amp;rdquo;&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;In order to get (somewhat) accurate results, say:&lt;/p&gt;
@@ -203,7 +203,7 @@ waves propagate; and the domain on which the study is performed is the
 
 &lt;div class=&#34;alert alert-danger&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Problem 1&lt;/h4&gt;
-&lt;p&gt;Recall that the wave&amp;rsquo;s propagation speed is &lt;code&gt;$c = 3 \mathrm{km.s^{-1}}$&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Recall that the wave&amp;rsquo;s propagation speed is $c = 3 \mathrm{km.s^{-1}}$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;After &lt;strong&gt;1 second&lt;/strong&gt;, the wave would have passed by &lt;strong&gt;10 grid cells&lt;/strong&gt;
 &lt;ul&gt;
@@ -221,7 +221,7 @@ instabilities.&lt;/li&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Solution to Problem 1&lt;/h4&gt;
 &lt;p&gt;Simply put, choose a smaller time step length&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;$\Delta t = 0.1 \mathrm{s}$&lt;/code&gt; seems a reasonable maximum value&lt;/li&gt;
+&lt;li&gt;$\Delta t = 0.1 \mathrm{s}$ seems a reasonable maximum value&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;/div&gt;
@@ -230,11 +230,11 @@ instabilities.&lt;/li&gt;
 
 &lt;div class=&#34;alert alert-danger&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Problem 2&lt;/h4&gt;
-&lt;p&gt;Cell volumes would have the value of &lt;code&gt;$V_c = 0.3^3 \mathrm{km^3}$&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Cell volumes would have the value of $V_c = 0.3^3 \mathrm{km^3}$&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Earch Volume: &lt;code&gt;$V_E = \frac{4}{3} \pi (6371)^3 \mathrm{km^3}$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Earch Volume: $V_E = \frac{4}{3} \pi (6371)^3 \mathrm{km^3}$&lt;/li&gt;
 &lt;li&gt;Number of cells needed to mesh the whole earth:
-&lt;code&gt;$\frac{V_E}{V_c} \approx 4 \times 10^{13}$&lt;/code&gt;
+$\frac{V_E}{V_c} \approx 4 \times 10^{13}$
 &lt;ul&gt;
 &lt;li&gt;So, for &lt;strong&gt;each&lt;/strong&gt; scalar field (assuming C&amp;rsquo;s double), we would need around
 &lt;strong&gt;320 TeraBytes&lt;/strong&gt; as storage space (RAM &amp;amp; Hard Disk)!&lt;/li&gt;

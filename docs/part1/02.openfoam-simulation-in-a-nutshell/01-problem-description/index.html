@@ -26,12 +26,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/part1/02.openfoam-simulation-in-a-nutshell/01-problem-description/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2020-10-24T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-06-05T17:27:07+01:00" /><meta property="og:site_name" content="Reservoir Engineering With OpenFOAM" />
+<meta property="article:modified_time" content="2021-10-27T11:20:45+01:00" /><meta property="og:site_name" content="Reservoir Engineering With OpenFOAM" />
 
 <meta itemprop="name" content="01 - Problem Description">
 <meta itemprop="description" content="The mathematical description of a sample transport problem we&#39;ll work on
 "><meta itemprop="datePublished" content="2020-10-24T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-06-05T17:27:07+01:00" />
+<meta itemprop="dateModified" content="2021-10-27T11:20:45+01:00" />
 <meta itemprop="wordCount" content="335">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="01 - Problem Description"/>
@@ -768,17 +768,17 @@ problem with mathematical expressions&rdquo;.</p>
 simplifications made to model our sample transport problem.</p>
 <h2 id="governing-equations">Governing equations</h2>
 <p>We intend to numerically solve a basic <strong>steady-state</strong> and <strong>incompressible</strong>
-transport of a passive scalar <code>$\phi$</code>; which basically accounts for the
+transport of a passive scalar $\phi$`; which basically accounts for the
 dirvergence and diffusion terms (No source terms for simlicity).</p>
 <p>The flow can then be modeled with the following equation:</p>
-<p><code>$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi)$</code></p>
+<p>$\nabla \cdot (\rho \mathbf{U} \phi) = \nabla \cdot (K \nabla \phi)$`</p>
 <p>Where:</p>
 <ul>
-<li><code>$\rho$</code> Fluid density</li>
-<li><code>$\mathbf{U}$</code> Velocity vector</li>
-<li><code>$K$</code> Diffusivity coefficient</li>
-<li><code>$\nabla$</code> Gradient operator</li>
-<li><code>$\nabla \cdot$</code> Divergence operator</li>
+<li>$\rho$` Fluid density</li>
+<li>$\mathbf{U}$` Velocity vector</li>
+<li>$K$` Diffusivity coefficient</li>
+<li>$\nabla$` Gradient operator</li>
+<li>$\nabla \cdot$` Divergence operator</li>
 </ul>
 <p>With some additional simplifications:</p>
 <ul>
@@ -786,7 +786,8 @@ dirvergence and diffusion terms (No source terms for simlicity).</p>
 <li>The diffusivity coefficient is homogeneous and constant in time</li>
 </ul>
 <p>The equation then becomes:
-<code>$$\frac{\partial (\rho \mathbf{U} \phi)}{\partial x} = K \frac{\partial^2 \phi}{\partial^2 x}$$</code></p>
+$$\frac{\partial (\rho \mathbf{U} \phi)}{\partial x}
+= K \frac{\partial^2 \phi}{\partial^2 x}$$`</p>
 <h2 id="problem-description">Problem Description</h2>
 <p>The general worklfow of solving such equations consists of descretizing both the
 flow domain and the equation itself in order to obtain a system of algebraic
@@ -794,8 +795,7 @@ equations (one per cell):</p>
 <p><img src="/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/02-get-algebraic-eqns.svg" alt="Get algebraic equations"></p>
 <p>By way of explanation, we take the continuous domain (the green-ish one) and
 mesh into a set of cells. We then supply initial field values at cell centers
-<code>$\phi_0, \phi_1, \phi_2, ...$</code> and define the boundary conditions (specifying
-<code>$\phi_b$</code> for example).</p>
+$\phi_0, \phi_1, \phi_2, &hellip;$<code> and define the boundary conditions (specifying $\phi_b$</code> for example).</p>
 <p>The next step is to transform the continuous flow equation into a set of
 algebraic ones; Basically, relating field value at a cell center to boundary
 faces and adjacent cells.</p>
@@ -805,14 +805,14 @@ systems in upcoming modules</p>
 </blockquote>
 <p>In our illustration case, the flow domain is</p>
 <ul>
-<li>A &ldquo;line&rdquo;, extending from <code>$x_r = 0$</code> to <code>$x_l = 0.9\mathrm{m}$</code></li>
+<li>A &ldquo;line&rdquo;, extending from $x_r = 0$<code> to $x_l = 0.9\mathrm{m}$</code></li>
 <li>Split into 9 segments (cells, where <code>cellSize</code> is 0.1m)</li>
 </ul>
 <p>On both ends of the &ldquo;line&rdquo;, we apply Dirichlet-type (fixed-value) boundary
-conditions on <code>$phi$</code>, where:</p>
+conditions on $phi$`, where:</p>
 <ul>
-<li><code>$\phi (x_r) = 1$</code></li>
-<li><code>$\phi (x_l) = 0$</code></li>
+<li>$\phi (x_r) = 1$`</li>
+<li>$\phi (x_l) = 0$`</li>
 </ul>
 <h2 id="learn-more">Learn more</h2>
 <p>It&rsquo;s recommended that <strong>you</strong> go through this advective-diffusive transport
@@ -821,7 +821,7 @@ problem both manually and with the help of OpenFOAM.</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 5, 2021: <a  href="https://github.com/ResEng-OpenFOAM/course-website-source/commit/53df6869dca5e1f7fa89d884d73952d660ff959d">Initial commit (53df686)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified October 27, 2021: <a  href="https://github.com/ResEng-OpenFOAM/course-website-source/commit/d418010019ed6b173304abc4b6dc221de6636763">Update all math equations (d418010)</a>
 </div>
 </div>
 

@@ -26,12 +26,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/part1/02.openfoam-simulation-in-a-nutshell/04-result-visualization-with-paraview/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2020-11-11T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-06-05T17:27:07+01:00" /><meta property="og:site_name" content="Reservoir Engineering With OpenFOAM" />
+<meta property="article:modified_time" content="2021-10-27T11:20:45+01:00" /><meta property="og:site_name" content="Reservoir Engineering With OpenFOAM" />
 
 <meta itemprop="name" content="04 - Result visualization with ParaView">
 <meta itemprop="description" content="Basic data visualization and manipulation with the ParaView package
 "><meta itemprop="datePublished" content="2020-11-11T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-06-05T17:27:07+01:00" />
+<meta itemprop="dateModified" content="2021-10-27T11:20:45+01:00" />
 <meta itemprop="wordCount" content="1069">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="04 - Result visualization with ParaView"/>
@@ -930,17 +930,17 @@ to the case directory, run <code>touch casename.foam &amp;&amp; paraview casenam
 </ol>
 <h2 id="final-discussion">Final Discussion</h2>
 <p>What about comparing our results with theoretical solutions?</p>
-<p><code>$$T(x) = \frac{1}{\rho |\mathbf{U}|}(aK e^{\frac{\rho |\mathbf{U}|}{K} x}+b)$$</code></p>
+<p>$$T(x) = \frac{1}{\rho |\mathbf{U}|}(aK e^{\frac{\rho |\mathbf{U}|}{K} x}+b)$$`</p>
 <p>Where</p>
 <ul>
-<li><code>$K = 0.01,\quad \rho |\mathbf{U}| = 0.03$</code></li>
-<li><code>$a = -0.21614$</code> and <code>$b = 0.0321614$</code>, deduced from boundary conditions</li>
+<li>$K = 0.01,\quad \rho |\mathbf{U}| = 0.03$`</li>
+<li>$a = -0.21614$<code> and $b = 0.0321614$</code>, deduced from boundary conditions</li>
 </ul>
 <p>OpenFOAM Solutions are <strong>so accurate</strong> because we used the <strong>Central Difference
 scheme</strong> on a <strong>mostly-diffusive</strong> transport:</p>
 <ul>
 <li>Try a more advective setup (increasing Peclet number:
-<code>$Pe = \frac{|\mathbf{U}|L}{D_T}$</code>, where <code>L</code> is the domain&rsquo;s length)</li>
+$Pe = \frac{|\mathbf{U}|L}{D_T}$<code>, where </code>L` is the domain&rsquo;s length)</li>
 </ul>
 <h2 id="what-now">What now?</h2>
 <ul>
@@ -953,7 +953,7 @@ first one is: <strong>The Meshing step</strong></li>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 5, 2021: <a  href="https://github.com/ResEng-OpenFOAM/course-website-source/commit/53df6869dca5e1f7fa89d884d73952d660ff959d">Initial commit (53df686)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified October 27, 2021: <a  href="https://github.com/ResEng-OpenFOAM/course-website-source/commit/d418010019ed6b173304abc4b6dc221de6636763">Update all math equations (d418010)</a>
 </div>
 </div>
 

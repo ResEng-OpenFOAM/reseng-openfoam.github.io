@@ -55,12 +55,12 @@ Post-Processor to manipulate and visualize the generated data.&lt;/p&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Example&lt;/h4&gt;
 &lt;p&gt;Solving a basic diffusive-problem involves solving an equation which looks like
 this (In steady-state setups):
-&lt;code&gt;$$ \nabla \cdot (K\nabla T) = S$$&lt;/code&gt;
+$$ \nabla \cdot (K\nabla T) = S$$`
 Where:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;$K$&lt;/code&gt; is the diffusion coefficient&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;$T$&lt;/code&gt; is the transported scalar field&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;$S$&lt;/code&gt; is the source/sink term&lt;/li&gt;
+&lt;li&gt;$K$` is the diffusion coefficient&lt;/li&gt;
+&lt;li&gt;$T$` is the transported scalar field&lt;/li&gt;
+&lt;li&gt;$S$` is the source/sink term&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;There is a standard OpenFOAM solver called &lt;code&gt;laplacianFoam&lt;/code&gt; which solves, well,
 Laplacian equations. You can run the solver on a prepared set of files
@@ -423,15 +423,15 @@ faster (These are shell commands):&lt;/p&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;run&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Changes the working directory to the &lt;code&gt;$FOAM_RUN&lt;/code&gt; directory, which is supposed to hold your OpenFOAM cases&lt;/td&gt;
+&lt;td&gt;Changes the working directory to the $FOAM_RUN` directory, which is supposed to hold your OpenFOAM cases&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;tut&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Changes the working directory to the &lt;code&gt;$FOAM_TUTORIALS&lt;/code&gt; directory, which contains standard OpenFOAM tutorials for all standard solvers.&lt;/td&gt;
+&lt;td&gt;Changes the working directory to the $FOAM_TUTORIALS` directory, which contains standard OpenFOAM tutorials for all standard solvers.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;src&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Changes the working directory to the &lt;code&gt;$FOAM_SRC&lt;/code&gt; directory, which contains the source code for all OpenFOAM (standard) libraries and solvers.&lt;/td&gt;
+&lt;td&gt;Changes the working directory to the $FOAM_SRC` directory, which contains the source code for all OpenFOAM (standard) libraries and solvers.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;doc&lt;/code&gt;&lt;/td&gt;
@@ -579,7 +579,7 @@ utilities. This is done by installing to a system location
 &lt;li&gt;
 &lt;p&gt;A User-specific install: where only one user will have access to OpenFOAM
 binaries. Usually, the user will winstall it under his home directory
-(&lt;code&gt;$HOME/OpenFOAM&lt;/code&gt;)&lt;/p&gt;
+($HOME/OpenFOAM`)&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;To discover where OpenFOAM is installed on your system:&lt;/p&gt;
@@ -596,7 +596,7 @@ go to &lt;code&gt;/home/of/OpenFOAM/OpenFOAM-8&lt;/code&gt;.&lt;/p&gt;
 &lt;/div&gt;
 
 &lt;p&gt;No matter how the software installed, if a users use it, they will have
-some files in their &lt;code&gt;$HOME/OpenFOAM/$USER-&amp;lt;VERSION&amp;gt;&lt;/code&gt;; where &lt;code&gt;&amp;lt;VERSION&amp;gt;&lt;/code&gt; is
+some files in their $HOME/OpenFOAM/$USER-&lt;VERSION&gt;&lt;code&gt;; where &lt;/code&gt;&lt;VERSION&gt;` is
 the version number of the software.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Because the container has the latest(-ish) development version of OpenFOAM,

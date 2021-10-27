@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.83.1" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
@@ -25,13 +25,13 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/part1/01.introduction/06-openfoam-case-structure/" /><meta property="article:section" content="docs" />
-<meta property="article:published_time" content="2020-10-23T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-06-05T17:27:07&#43;01:00" /><meta property="og:site_name" content="Reservoir Engineering With OpenFOAM" />
+<meta property="article:published_time" content="2020-10-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-06-05T17:27:07+01:00" /><meta property="og:site_name" content="Reservoir Engineering With OpenFOAM" />
 
 <meta itemprop="name" content="06 - OpenFOAM Case Structure">
 <meta itemprop="description" content="Get familiarized with OpenFOAM case structure and file format.
-"><meta itemprop="datePublished" content="2020-10-23T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2021-06-05T17:27:07&#43;01:00" />
+"><meta itemprop="datePublished" content="2020-10-23T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-06-05T17:27:07+01:00" />
 <meta itemprop="wordCount" content="1053">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="06 - OpenFOAM Case Structure"/>
@@ -42,8 +42,8 @@
 
 
 
-<link rel="preload" href="/scss/main.min.966558819004a20a15de202b80019d683d5e52a93f0d75258e69e1f2086a412f.css" as="style">
-<link href="/scss/main.min.966558819004a20a15de202b80019d683d5e52a93f0d75258e69e1f2086a412f.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.10c9f5d63d1d0868e87230f0d7e3f32eadbdbbb9207736b87785ccb31e108bfd.css" as="style">
+<link href="/scss/main.min.10c9f5d63d1d0868e87230f0d7e3f32eadbdbbb9207736b87785ccb31e108bfd.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -55,6 +55,7 @@
 
 
 <script async src="https://unpkg.com/mermaid@8.2.2/dist/mermaid.min.js"></script>
+
 
 
 
@@ -832,7 +833,7 @@ it makes sense to store them only one in a central location.</p>
 <h3 id="1-the-openfoam-file-header">1. The OpenFOAM file header</h3>
 <p>All OpenFOAM files (dictionaries) start with a sub-dictionary called the file
 header:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// File Header for the pressure object
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// File Header for the pressure object
 </span><span style="color:#6272a4"></span>FoamFile
 {
   version <span style="color:#bd93f9">2</span>;               <span style="color:#6272a4">// file format version, changed once in +20 yrs
@@ -847,13 +848,13 @@ the &ldquo;pressure&rdquo; field.</p>
 <p>Note that dictionary contents are delimited by curly braces <code>{</code>, and <code>}</code></p>
 </blockquote>
 <p>Each entry is of the form:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">keyword    value;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">keyword    value;
 <span style="color:#6272a4">//        |
 </span><span style="color:#6272a4">//        |------ eveything from here to the last &#34;;&#34; is the value
 </span><span style="color:#6272a4"></span>
 <span style="color:#6272a4">// This is a comment by the way
 </span></code></pre></div><p>More examples:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">   phases    (water oil gas);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">   phases    (water oil gas);
 <span style="color:#6272a4">//    |      |             |
 </span><span style="color:#6272a4">//    |      |-------------|
 </span><span style="color:#6272a4">//    |             |
@@ -882,7 +883,7 @@ let&rsquo;s take it as an example (File: <code>0/p</code>).</p>
 <li>First it starts with a &ldquo;Banner&rdquo;. It serves no real purpose other than
 prettifying things a little.</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">/*--------------------------------*- C++ -*---------------------------*\
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">/*--------------------------------*- C++ -*---------------------------*\
 </span><span style="color:#6272a4">| =========                 |                                          |
 </span><span style="color:#6272a4">| \\      /  F ield         | foam-extend: Open Source CFD             |
 </span><span style="color:#6272a4">|  \\    /   O peration     | Version:     4.0                         |
@@ -898,7 +899,7 @@ prettifying things a little.</li>
 of the field. Its value is an ordered array of unit exponents:</p>
 </li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">dimensions  [<span style="color:#bd93f9">0</span>    <span style="color:#bd93f9">2</span>      <span style="color:#ff79c6">-</span><span style="color:#bd93f9">2</span>   <span style="color:#bd93f9">0</span>           <span style="color:#bd93f9">0</span>        <span style="color:#bd93f9">0</span>       <span style="color:#bd93f9">0</span>];
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">dimensions  [<span style="color:#bd93f9">0</span>    <span style="color:#bd93f9">2</span>      <span style="color:#ff79c6">-</span><span style="color:#bd93f9">2</span>   <span style="color:#bd93f9">0</span>           <span style="color:#bd93f9">0</span>        <span style="color:#bd93f9">0</span>       <span style="color:#bd93f9">0</span>];
 <span style="color:#6272a4">//          [Mass Length Time Temperature Quantity Current Luminous intensity];
 </span></code></pre></div><blockquote>
 <p>Note that these (Length squared, divided by time squared) are NOT the actual
@@ -909,13 +910,13 @@ by fluid density</strong>. It&rsquo;s a convention in OpenFOAM&rsquo;s incompres
 <li>The following keyword is <code>internalField</code> which specifies the <strong>list</strong>
 of pressure values in mesh cells</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// Initialize p in all mesh cells to 0
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// Initialize p in all mesh cells to 0
 </span><span style="color:#6272a4"></span>internalField   uniform <span style="color:#bd93f9">0</span>;
 </code></pre></div><ul>
 <li>The last keyword is called <code>boundaryField</code>, which defines boundary conditions
 for the pressure field:</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// boundaryField is subdictionary, no need to add at the end &#34;;&#34;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// boundaryField is subdictionary, no need to add at the end &#34;;&#34;
 </span><span style="color:#6272a4"></span>    boundaryField
     {
         movingWall              <span style="color:#6272a4">// Mesh boundary name
@@ -930,14 +931,14 @@ for the pressure field:</li>
 </code></pre></div><h3 id="more-advanced-file-format-features">More advanced file format features</h3>
 <h4 id="reusing-values-in-a-dictionary">Reusing values in a dictionary</h4>
 <p>One can define a custom keyword to hold the value of a certain variable:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">d           <span style="color:#bd93f9">5</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">d           <span style="color:#bd93f9">5</span>;
 <span style="color:#6272a4">// Here is how to use it
 </span><span style="color:#6272a4"></span>someKeyword $d;
 </code></pre></div><h4 id="regular-expressions-in-keywords">Regular expressions in keywords</h4>
 <p>Keyword and dictionary names can be &ldquo;(POSIX) regular expressions&rdquo; instead of
 literal strings. The following examples select multiple (matching) mesh
 boundaries instead of a specific one:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    boundaryField
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    boundaryField
     {
         <span style="color:#6272a4">// Zero Gradient for all boundaries ending with &#34;Wall&#34;
 </span><span style="color:#6272a4"></span>        <span style="color:#f1fa8c">&#34;.*Wall&#34;</span>
@@ -952,7 +953,7 @@ boundaries instead of a specific one:</p>
     }
 </code></pre></div><h4 id="include-other-dictionaries">Include other dictionaries</h4>
 <p>The file format also allows for dictionay inclusion at any point:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// The file is looked up in case directory
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// The file is looked up in case directory
 </span><span style="color:#6272a4"></span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&#34;customKeywords.cfg&#34;</span><span style="color:#ff79c6">
 </span></code></pre></div><h3 id="practice-what-youve-learned-about-openfoams-file-format">Practice what you&rsquo;ve learned about OpenFOAM&rsquo;s file format</h3>
 <blockquote>

@@ -454,11 +454,11 @@ just &lt;strong&gt;nod along&lt;/strong&gt; and&lt;/p&gt;
 &lt;li&gt;The &lt;code&gt;pitzDaily&lt;/code&gt; tutorial case is the closest one to our problem, but its
 mesh is a bit complicated for our purpose, thus, one can grab the mesh from
 another case:
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; cp &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$FOAM_TUTORIALS&lt;/span&gt;/incompressible/icoFoam/cavity/cavity/system/blockMeshDict system/
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; cp &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$FOAM_TUTORIALS&lt;/span&gt;/incompressible/icoFoam/cavity/cavity/system/blockMeshDict system/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;This dictionary usually starts off with a list of block vertices, where each
 mesh block point is labeled in the order it appears in:
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;vertices
 (
@@ -471,7 +471,7 @@ mesh block point is labeled in the order it appears in:
 ( 0.9 0.1 0.1 )
 ( 0   0.1 0.1 )
 );&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;3. Then, a set of hexagonal blocks is specified (in this case, just one,
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;3. Then, a set of hexagonal blocks is specified (in this case, just one,
 connects points 0 through 7 and split into 9 cells in the x-direction)
 ```cpp
 blocks
@@ -483,7 +483,7 @@ Also, the &lt;code&gt;simpleGrading (1 1 1)&lt;/code&gt; bit specifies a uniform
 three directions.
 4. We also have the option to specfy any &lt;strong&gt;curved&lt;/strong&gt; block edges in the &lt;code&gt;edges&lt;/code&gt;
 list, but we&amp;rsquo;ll leave that alone for now:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;edges
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;edges
 (
 );
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;5&#34;&gt;
@@ -491,7 +491,7 @@ list, but we&amp;rsquo;ll leave that alone for now:&lt;/p&gt;
 we will have the far left face (&lt;code&gt;$f_0$&lt;/code&gt;) constinute the &lt;code&gt;inlet&lt;/code&gt; boundary
 patch. Its type should generic (&lt;code&gt;patch&lt;/code&gt;), and we specify the face as a list
 of its vertices&#39; labels.
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;boundary
 (
@@ -511,21 +511,21 @@ type empty ;             // No flow in perpendicular direc.
 faces ( ( 3 7 6 2 ) ( 1 5 4 0 ) ( 0 3 2 1 ) ( 4 5 6 7 ) ) ;
 }
 );&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;The outlet is treated similarly, taking the face on the other end of the
-mesh (`$f_9$`). The remaining faces are collected into a `noFlow` patch
-with an `empty` type.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-mysql&#34; data-lang=&#34;mysql&#34;&gt;The outlet &lt;span style=&#34;color:#ff79c6&#34;&gt;is&lt;/span&gt; treated similarly, taking the face &lt;span style=&#34;color:#ff79c6&#34;&gt;on&lt;/span&gt; the other end of the
+&lt;span style=&#34;color:#50fa7b&#34;&gt;mesh&lt;/span&gt; (&lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt;$f_9$&lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt;). The remaining faces are collected &lt;span style=&#34;color:#ff79c6&#34;&gt;into&lt;/span&gt; a &lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt;noFlow&lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt; patch
+&lt;span style=&#34;color:#ff79c6&#34;&gt;with&lt;/span&gt; an &lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt;empty&lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt; type.
 
-&amp;gt; The `empty` patch type is a way of saying: Ignore these faces when summing
-&amp;gt; integrals cell faces (Revisit the previous unit). In this case, It&amp;#39;s a simple
-&amp;gt; way to say that the flow is unidirectional.
-
-That&amp;#39;s all, all we need to do is to run the meshing command in the case&amp;#39;s
-directory:
-```bash
-(of@con:intro) blockMesh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To visualize the mesh, one should move the initial directory away because it&amp;rsquo;s
+&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;gt;&lt;/span&gt; The &lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt;empty&lt;span style=&#34;color:#ff79c6&#34;&gt;`&lt;/span&gt; patch type &lt;span style=&#34;color:#ff79c6&#34;&gt;is&lt;/span&gt; a way of saying: &lt;span style=&#34;color:#ff79c6&#34;&gt;Ignore&lt;/span&gt; these faces &lt;span style=&#34;color:#ff79c6&#34;&gt;when&lt;/span&gt; summing
+&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;gt;&lt;/span&gt; integrals cell &lt;span style=&#34;color:#50fa7b&#34;&gt;faces&lt;/span&gt; (Revisit the previous unit). &lt;span style=&#34;color:#ff79c6&#34;&gt;In&lt;/span&gt; this &lt;span style=&#34;color:#ff79c6&#34;&gt;case&lt;/span&gt;, It&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;s a simple
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;gt; way to say that the flow is unidirectional.
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;That&amp;#39;&lt;/span&gt;s &lt;span style=&#34;color:#ff79c6&#34;&gt;all&lt;/span&gt;, &lt;span style=&#34;color:#ff79c6&#34;&gt;all&lt;/span&gt; we need &lt;span style=&#34;color:#ff79c6&#34;&gt;to&lt;/span&gt; do &lt;span style=&#34;color:#ff79c6&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;to&lt;/span&gt; run the meshing command &lt;span style=&#34;color:#ff79c6&#34;&gt;in&lt;/span&gt; the &lt;span style=&#34;color:#ff79c6&#34;&gt;case&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;s
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;directory:
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;```bash
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;(of@con:intro) blockMesh
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To visualize the mesh, one should move the initial directory away because it&amp;rsquo;s
 not (yet) compatible with the generated mesh:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; blockMesh
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; blockMesh
 &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; touch intro.foam
 &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; paraview intro.foam
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/03-openfoam-mesh.png&#34; alt=&#34;OpenFOAM 1D mesh&#34;&gt;&lt;/p&gt;
@@ -544,7 +544,7 @@ compare (&lt;code&gt;git diff&lt;/code&gt;) your work with the contents of the t
 &lt;h2 id=&#34;solver-and-governing-equations&#34;&gt;Solver and governing equations&lt;/h2&gt;
 &lt;p&gt;The next step is to pick the corresponding solver for our flow equation which is
 &lt;code&gt;scalaTransportFoam&lt;/code&gt;, where the solved governing equation has three terms:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;solve
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;solve
 (
     fvm&lt;span style=&#34;color:#ff79c6&#34;&gt;::&lt;/span&gt;ddt(T)                 &lt;span style=&#34;color:#6272a4&#34;&gt;// dT/dt, null in our stead_state case
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;+&lt;/span&gt; fvm&lt;span style=&#34;color:#ff79c6&#34;&gt;::&lt;/span&gt;div(phi, T)          &lt;span style=&#34;color:#6272a4&#34;&gt;// divergence(U T)
@@ -580,7 +580,7 @@ it should reflect the boundary conditions from the previous unit (fixed values:
 1 at the inlet, 0 at the outlet).&lt;/p&gt;
 &lt;p&gt;Initial values for the &lt;code&gt;T&lt;/code&gt; field will also take zeroed values to compare the
 numerical method with the manual approach.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;dimensions      [&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;];
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;dimensions      [&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;];
 
 internalField   uniform &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;;
 
@@ -603,7 +603,7 @@ boundaryField
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For the velocity, &lt;code&gt;zeroGradient&lt;/code&gt; boundary condition type should be applied to
 both the inlet and the outlet of the domain:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;dimensions      [&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;];
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;dimensions      [&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;];
 
 internalField   &lt;span style=&#34;color:#50fa7b&#34;&gt;uniform&lt;/span&gt; (&lt;span style=&#34;color:#bd93f9&#34;&gt;0.03&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;);
 
@@ -639,7 +639,7 @@ has all case files up until this point. The git tag for this stage is
 &lt;h2 id=&#34;numerical-schemes-and-solution-settings&#34;&gt;Numerical schemes and solution settings&lt;/h2&gt;
 &lt;p&gt;As for the numerical schemes used, let&amp;rsquo;s use the same ones from the manual
 approach:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// File: system/fvSchemes
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// File: system/fvSchemes
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;
 ddtSchemes
 {
@@ -689,7 +689,7 @@ not in this simple one!!&lt;/p&gt;
 surface-normal gradients) for now, so, just leave them as they are.&lt;/p&gt;
 &lt;p&gt;After using these schemes to derive the matrix to solve, OpenFOAM will need to
 actually solve it:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// File: system/fvSolution
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// File: system/fvSolution
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;
 &lt;span style=&#34;color:#6272a4&#34;&gt;// A dictionary for linear solvers
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;solvers
@@ -745,7 +745,7 @@ The git tag for this stage is &lt;strong&gt;NSAndSolConfigured&lt;/strong&gt;. C
 &lt;h2 id=&#34;running-the-simulation&#34;&gt;Running the simulation&lt;/h2&gt;
 &lt;p&gt;We only need to tweak &lt;code&gt;system/controlDict&lt;/code&gt; so that it reflects what we did back
 in the manual approach (previous unit):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// File: system/controldict
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// File: system/controldict
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;
 application     scalarTransportFoam;
 
@@ -770,7 +770,7 @@ if you use any other value for this keyword, however you can see that
 &lt;code&gt;writeInterval&lt;/code&gt; would have a different effect.&lt;/p&gt;
 &lt;p&gt;The remaining settings are less relevant, and we can ignore them for the time
 being. So, let&amp;rsquo;s start the simulation:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# Create the mesh and check its quality&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# Create the mesh and check its quality&lt;/span&gt;
 &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; blockMesh &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; checkMesh
 &lt;span style=&#34;color:#6272a4&#34;&gt;# Run the solver and keep a log file&lt;/span&gt;
 &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:intro&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; scalarTransportFoam | tee log.scalarTransportFoam
@@ -924,11 +924,11 @@ There is also a git tag for this stage (&lt;strong&gt;RunReady&lt;/strong&gt;) i
 &lt;/table&gt;
 &lt;p&gt;But don&amp;rsquo;t just take my word for it; you can produce such tables with a single
 bash command (By looking for &amp;ldquo;nonuniform&amp;rdquo; into the &lt;code&gt;T&lt;/code&gt; file for all iterations):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; i in &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;1..37&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; i in &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;1..37&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
     &lt;span style=&#34;color:#ff79c6&#34;&gt;do&lt;/span&gt; grep nonuniform &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$i&lt;/span&gt;/T | sed &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;s/.*(\(.*\)).*/&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$i&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;\t\1/g&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#ff79c6&#34;&gt;done&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;internalField&lt;/code&gt; of &lt;code&gt;37/T&lt;/code&gt; for example would look like this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;internalField   nonuniform List&amp;lt;scalar&amp;gt; 9(0.98896731 ...);
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;internalField   nonuniform List&amp;lt;scalar&amp;gt; 9(0.98896731 ...);
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;so we just take what&amp;rsquo;s inside the round brackets (as a bonus, the &lt;code&gt;sed&lt;/code&gt; commands
 adds the iteration number at the start of each line (&lt;code&gt;$i&lt;/code&gt;)).&lt;/p&gt;
 &lt;h2 id=&#34;what-now&#34;&gt;What now?&lt;/h2&gt;
@@ -1008,7 +1008,7 @@ at these positions, so, a line plot is the best visualization option; but let&am
 not do that. Instead, let&amp;rsquo;s take advantage of ParaView&amp;rsquo;s native data format
 (VTK) to visualize the data on a &lt;strong&gt;mesh&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;The (legacy-) VTK file has a simple format:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;# vtk DataFile Version 3.0
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;# vtk DataFile Version 3.0
 &lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;&lt;/span&gt;Manual visualization
 ASCII
 DATASET RECTILINEAR_GRID

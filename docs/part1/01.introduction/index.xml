@@ -65,9 +65,9 @@ Where:&lt;/p&gt;
 &lt;p&gt;There is a standard OpenFOAM solver called &lt;code&gt;laplacianFoam&lt;/code&gt; which solves, well,
 Laplacian equations. You can run the solver on a prepared set of files
 (describing the diffusion problem)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;user@machine&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; laplacianFoam
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;user@machine&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; laplacianFoam
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And its log would look like (trimmed a little bit):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;===================== BANNER =============================
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;===================== BANNER =============================
 Build  : 7-1ff648926f77
 Exec   : laplacianFoam
 Date   : Oct 19 2020
@@ -275,7 +275,7 @@ be ready in no time! (Note the IP address of your machine)&lt;/li&gt;
 &lt;li&gt;Now, assuming you&amp;rsquo;ve downloaded the key file to your downloads folder, you
 need to run these commands on your local machine:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# This is a shell on your local machine, acting as regular user&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# This is a shell on your local machine, acting as regular user&lt;/span&gt;
 &lt;span style=&#34;color:#6272a4&#34;&gt;# 1. Move key file to SSH configuration directory&lt;/span&gt;
 &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;loc:~&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; mv ~/Downloads/remotesshkey.pem ~/.ssh/
 &lt;span style=&#34;color:#6272a4&#34;&gt;# 2. Set correct permissions on the file (read-only to the file owner)&lt;/span&gt;
@@ -287,7 +287,7 @@ need to run these commands on your local machine:&lt;/li&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;Once logged in, on the remote machine, run:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# This is a shell on remote machine, acting as regular user (linux1)&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# This is a shell on remote machine, acting as regular user (linux1)&lt;/span&gt;
 &lt;span style=&#34;color:#6272a4&#34;&gt;# 1. Store the installation script URL as a variable&lt;/span&gt;
 &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;rem:~&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;GIST_URL&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;https://gist.githubusercontent.com/FoamScience/c5e1363cee5b0a402151045247eb4f9f/raw/create-s390x-openfoam-container.sh&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#6272a4&#34;&gt;# 2. Download the script and run it&lt;/span&gt;
@@ -296,7 +296,7 @@ need to run these commands on your local machine:&lt;/li&gt;
 &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;rem:~&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; sudo su
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The script sets up Docker and download the necessary images for the OpenFOAM
 containers. Its output should be similar to the following:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;# Download and install Docker ...
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;# Download and install Docker ...
 # Add current user to docker&amp;#39;s group ...
 # Enable and start the docker service ...
 # Spinup an OpenFOAM container ...
@@ -304,7 +304,7 @@ containers. Its output should be similar to the following:&lt;/p&gt;
 &lt;li&gt;You should then be able to run a bash shell from the container
 (named openfoam):&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;rem:~&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; docker &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;exec&lt;/span&gt; -it openfoam sudo su
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;rem:~&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; docker &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;exec&lt;/span&gt; -it openfoam sudo su
 &lt;span style=&#34;color:#6272a4&#34;&gt;# The previous command will open a shell on the container&lt;/span&gt;
 &lt;span style=&#34;color:#6272a4&#34;&gt;# To close it, type &amp;#34;exit&amp;#34; (Or press Ctrl+D), and you&amp;#39;re back&lt;/span&gt;
 &lt;span style=&#34;color:#6272a4&#34;&gt;# to the remote machine&lt;/span&gt;
@@ -371,7 +371,7 @@ of the software, thus, making some tasks harder than they should be.&lt;/p&gt;
 &lt;p&gt;Convincing you, that GUIs are not (probably) the right way to approach OpenFOAM, is
 not that hard!&lt;/p&gt;
 &lt;p&gt;Just try the following Linux commands yourself:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cd&lt;/span&gt; /tmp
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cd&lt;/span&gt; /tmp
 mkdir imagesByMonths
 &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cd&lt;/span&gt; imagesByMonth
 mkdir 20&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;20..30&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;01..12&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
@@ -583,7 +583,7 @@ binaries. Usually, the user will winstall it under his home directory
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;To discover where OpenFOAM is installed on your system:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:run&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$FOAM_INST_DIR&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;of@con:run&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$FOAM_INST_DIR&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class=&#34;alert alert-success&#34; role=&#34;alert&#34;&gt;
@@ -776,7 +776,7 @@ it makes sense to store them only one in a central location.&lt;/p&gt;
 &lt;h3 id=&#34;1-the-openfoam-file-header&#34;&gt;1. The OpenFOAM file header&lt;/h3&gt;
 &lt;p&gt;All OpenFOAM files (dictionaries) start with a sub-dictionary called the file
 header:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// File Header for the pressure object
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// File Header for the pressure object
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;FoamFile
 {
   version &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;;               &lt;span style=&#34;color:#6272a4&#34;&gt;// file format version, changed once in +20 yrs
@@ -791,13 +791,13 @@ the &amp;ldquo;pressure&amp;rdquo; field.&lt;/p&gt;
 &lt;p&gt;Note that dictionary contents are delimited by curly braces &lt;code&gt;{&lt;/code&gt;, and &lt;code&gt;}&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Each entry is of the form:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;keyword    value;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;keyword    value;
 &lt;span style=&#34;color:#6272a4&#34;&gt;//        |
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;//        |------ eveything from here to the last &amp;#34;;&amp;#34; is the value
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;
 &lt;span style=&#34;color:#6272a4&#34;&gt;// This is a comment by the way
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;More examples:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;   phases    (water oil gas);
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;   phases    (water oil gas);
 &lt;span style=&#34;color:#6272a4&#34;&gt;//    |      |             |
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;//    |      |-------------|
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;//    |             |
@@ -826,7 +826,7 @@ let&amp;rsquo;s take it as an example (File: &lt;code&gt;0/p&lt;/code&gt;).&lt;/
 &lt;li&gt;First it starts with a &amp;ldquo;Banner&amp;rdquo;. It serves no real purpose other than
 prettifying things a little.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;/*--------------------------------*- C++ -*---------------------------*\
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;/*--------------------------------*- C++ -*---------------------------*\
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;| =========                 |                                          |
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;| \\      /  F ield         | foam-extend: Open Source CFD             |
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;|  \\    /   O peration     | Version:     4.0                         |
@@ -842,7 +842,7 @@ prettifying things a little.&lt;/li&gt;
 of the field. Its value is an ordered array of unit exponents:&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;dimensions  [&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;    &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;      &lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;   &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;           &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;        &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;       &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;];
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;dimensions  [&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;    &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;      &lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;   &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;           &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;        &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;       &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;];
 &lt;span style=&#34;color:#6272a4&#34;&gt;//          [Mass Length Time Temperature Quantity Current Luminous intensity];
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;Note that these (Length squared, divided by time squared) are NOT the actual
@@ -853,13 +853,13 @@ by fluid density&lt;/strong&gt;. It&amp;rsquo;s a convention in OpenFOAM&amp;rsq
 &lt;li&gt;The following keyword is &lt;code&gt;internalField&lt;/code&gt; which specifies the &lt;strong&gt;list&lt;/strong&gt;
 of pressure values in mesh cells&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// Initialize p in all mesh cells to 0
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// Initialize p in all mesh cells to 0
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;internalField   uniform &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;The last keyword is called &lt;code&gt;boundaryField&lt;/code&gt;, which defines boundary conditions
 for the pressure field:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// boundaryField is subdictionary, no need to add at the end &amp;#34;;&amp;#34;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// boundaryField is subdictionary, no need to add at the end &amp;#34;;&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    boundaryField
     {
         movingWall              &lt;span style=&#34;color:#6272a4&#34;&gt;// Mesh boundary name
@@ -874,14 +874,14 @@ for the pressure field:&lt;/li&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;more-advanced-file-format-features&#34;&gt;More advanced file format features&lt;/h3&gt;
 &lt;h4 id=&#34;reusing-values-in-a-dictionary&#34;&gt;Reusing values in a dictionary&lt;/h4&gt;
 &lt;p&gt;One can define a custom keyword to hold the value of a certain variable:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;d           &lt;span style=&#34;color:#bd93f9&#34;&gt;5&lt;/span&gt;;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;d           &lt;span style=&#34;color:#bd93f9&#34;&gt;5&lt;/span&gt;;
 &lt;span style=&#34;color:#6272a4&#34;&gt;// Here is how to use it
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;someKeyword $d;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;regular-expressions-in-keywords&#34;&gt;Regular expressions in keywords&lt;/h4&gt;
 &lt;p&gt;Keyword and dictionary names can be &amp;ldquo;(POSIX) regular expressions&amp;rdquo; instead of
 literal strings. The following examples select multiple (matching) mesh
 boundaries instead of a specific one:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;    boundaryField
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;    boundaryField
     {
         &lt;span style=&#34;color:#6272a4&#34;&gt;// Zero Gradient for all boundaries ending with &amp;#34;Wall&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;.*Wall&amp;#34;&lt;/span&gt;
@@ -896,7 +896,7 @@ boundaries instead of a specific one:&lt;/p&gt;
     }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;include-other-dictionaries&#34;&gt;Include other dictionaries&lt;/h4&gt;
 &lt;p&gt;The file format also allows for dictionay inclusion at any point:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// The file is looked up in case directory
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// The file is looked up in case directory
 &lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;customKeywords.cfg&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;practice-what-youve-learned-about-openfoams-file-format&#34;&gt;Practice what you&amp;rsquo;ve learned about OpenFOAM&amp;rsquo;s file format&lt;/h3&gt;
 &lt;blockquote&gt;

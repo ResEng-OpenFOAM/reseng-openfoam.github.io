@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.83.1" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
@@ -25,13 +25,13 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/part1/02.openfoam-simulation-in-a-nutshell/03-openfoam-solution-for-transport-equation/" /><meta property="article:section" content="docs" />
-<meta property="article:published_time" content="2020-10-29T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-06-05T17:27:07&#43;01:00" /><meta property="og:site_name" content="Reservoir Engineering With OpenFOAM" />
+<meta property="article:published_time" content="2020-10-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-06-05T17:27:07+01:00" /><meta property="og:site_name" content="Reservoir Engineering With OpenFOAM" />
 
 <meta itemprop="name" content="03 - OpenFOAM Solution for the transport problem">
 <meta itemprop="description" content="Build OpenFOAM cases to reflect the transport problem.
-"><meta itemprop="datePublished" content="2020-10-29T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2021-06-05T17:27:07&#43;01:00" />
+"><meta itemprop="datePublished" content="2020-10-29T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-06-05T17:27:07+01:00" />
 <meta itemprop="wordCount" content="1999">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="03 - OpenFOAM Solution for the transport problem"/>
@@ -42,8 +42,8 @@
 
 
 
-<link rel="preload" href="/scss/main.min.966558819004a20a15de202b80019d683d5e52a93f0d75258e69e1f2086a412f.css" as="style">
-<link href="/scss/main.min.966558819004a20a15de202b80019d683d5e52a93f0d75258e69e1f2086a412f.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.10c9f5d63d1d0868e87230f0d7e3f32eadbdbbb9207736b87785ccb31e108bfd.css" as="style">
+<link href="/scss/main.min.10c9f5d63d1d0868e87230f0d7e3f32eadbdbbb9207736b87785ccb31e108bfd.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -56,6 +56,21 @@
 
 
 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.20/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.20/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.20/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
 
 
   </head>
@@ -781,11 +796,11 @@ just <strong>nod along</strong> and</p>
 <li>The <code>pitzDaily</code> tutorial case is the closest one to our problem, but its
 mesh is a bit complicated for our purpose, thus, one can grab the mesh from
 another case:
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">(</span>of@con:intro<span style="color:#ff79c6">)</span> cp <span style="color:#8be9fd;font-style:italic">$FOAM_TUTORIALS</span>/incompressible/icoFoam/cavity/cavity/system/blockMeshDict system/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">(</span>of@con:intro<span style="color:#ff79c6">)</span> cp <span style="color:#8be9fd;font-style:italic">$FOAM_TUTORIALS</span>/incompressible/icoFoam/cavity/cavity/system/blockMeshDict system/
 </code></pre></div></li>
 <li>This dictionary usually starts off with a list of block vertices, where each
 mesh block point is labeled in the order it appears in:
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"></code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"></code></pre></div></li>
 </ol>
 <p>vertices
 (
@@ -798,7 +813,7 @@ mesh block point is labeled in the order it appears in:
 ( 0.9 0.1 0.1 )
 ( 0   0.1 0.1 )
 );</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">3. Then, a set of hexagonal blocks is specified (in this case, just one,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">3. Then, a set of hexagonal blocks is specified (in this case, just one,
 connects points 0 through 7 and split into 9 cells in the x-direction)
 ```cpp
 blocks
@@ -810,7 +825,7 @@ Also, the <code>simpleGrading (1 1 1)</code> bit specifies a uniform cell size i
 three directions.
 4. We also have the option to specfy any <strong>curved</strong> block edges in the <code>edges</code>
 list, but we&rsquo;ll leave that alone for now:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">edges
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">edges
 (
 );
 </code></pre></div><ol start="5">
@@ -818,7 +833,7 @@ list, but we&rsquo;ll leave that alone for now:</p>
 we will have the far left face (<code>$f_0$</code>) constinute the <code>inlet</code> boundary
 patch. Its type should generic (<code>patch</code>), and we specify the face as a list
 of its vertices' labels.
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"></code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"></code></pre></div></li>
 </ol>
 <p>boundary
 (
@@ -838,21 +853,21 @@ type empty ;             // No flow in perpendicular direc.
 faces ( ( 3 7 6 2 ) ( 1 5 4 0 ) ( 0 3 2 1 ) ( 4 5 6 7 ) ) ;
 }
 );</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">The outlet is treated similarly, taking the face on the other end of the
-mesh (`$f_9$`). The remaining faces are collected into a `noFlow` patch
-with an `empty` type.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">The outlet <span style="color:#ff79c6">is</span> treated similarly, taking the face <span style="color:#ff79c6">on</span> the other end of the
+<span style="color:#50fa7b">mesh</span> (<span style="color:#ff79c6">`</span>$f_9$<span style="color:#ff79c6">`</span>). The remaining faces are collected <span style="color:#ff79c6">into</span> a <span style="color:#ff79c6">`</span>noFlow<span style="color:#ff79c6">`</span> patch
+<span style="color:#ff79c6">with</span> an <span style="color:#ff79c6">`</span>empty<span style="color:#ff79c6">`</span> type.
 
-&gt; The `empty` patch type is a way of saying: Ignore these faces when summing
-&gt; integrals cell faces (Revisit the previous unit). In this case, It&#39;s a simple
-&gt; way to say that the flow is unidirectional.
-
-That&#39;s all, all we need to do is to run the meshing command in the case&#39;s
-directory:
-```bash
-(of@con:intro) blockMesh
-</code></pre></div><p>To visualize the mesh, one should move the initial directory away because it&rsquo;s
+<span style="color:#ff79c6">&gt;</span> The <span style="color:#ff79c6">`</span>empty<span style="color:#ff79c6">`</span> patch type <span style="color:#ff79c6">is</span> a way of saying: <span style="color:#ff79c6">Ignore</span> these faces <span style="color:#ff79c6">when</span> summing
+<span style="color:#ff79c6">&gt;</span> integrals cell <span style="color:#50fa7b">faces</span> (Revisit the previous unit). <span style="color:#ff79c6">In</span> this <span style="color:#ff79c6">case</span>, It<span style="color:#f1fa8c">&#39;s a simple
+</span><span style="color:#f1fa8c">&gt; way to say that the flow is unidirectional.
+</span><span style="color:#f1fa8c">
+</span><span style="color:#f1fa8c">That&#39;</span>s <span style="color:#ff79c6">all</span>, <span style="color:#ff79c6">all</span> we need <span style="color:#ff79c6">to</span> do <span style="color:#ff79c6">is</span> <span style="color:#ff79c6">to</span> run the meshing command <span style="color:#ff79c6">in</span> the <span style="color:#ff79c6">case</span><span style="color:#f1fa8c">&#39;s
+</span><span style="color:#f1fa8c">directory:
+</span><span style="color:#f1fa8c">```bash
+</span><span style="color:#f1fa8c">(of@con:intro) blockMesh
+</span></code></pre></div><p>To visualize the mesh, one should move the initial directory away because it&rsquo;s
 not (yet) compatible with the generated mesh:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">(</span>of@con:intro<span style="color:#ff79c6">)</span> blockMesh
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">(</span>of@con:intro<span style="color:#ff79c6">)</span> blockMesh
 <span style="color:#ff79c6">(</span>of@con:intro<span style="color:#ff79c6">)</span> touch intro.foam
 <span style="color:#ff79c6">(</span>of@con:intro<span style="color:#ff79c6">)</span> paraview intro.foam
 </code></pre></div><p><img src="/course/part-1/img/02.OpenFOAM-Simulation-in-a-nutshell/03-openfoam-mesh.png" alt="OpenFOAM 1D mesh"></p>
@@ -871,7 +886,7 @@ compare (<code>git diff</code>) your work with the contents of the tag.</p>
 <h2 id="solver-and-governing-equations">Solver and governing equations</h2>
 <p>The next step is to pick the corresponding solver for our flow equation which is
 <code>scalaTransportFoam</code>, where the solved governing equation has three terms:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">solve
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">solve
 (
     fvm<span style="color:#ff79c6">::</span>ddt(T)                 <span style="color:#6272a4">// dT/dt, null in our stead_state case
 </span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">+</span> fvm<span style="color:#ff79c6">::</span>div(phi, T)          <span style="color:#6272a4">// divergence(U T)
@@ -907,7 +922,7 @@ it should reflect the boundary conditions from the previous unit (fixed values:
 1 at the inlet, 0 at the outlet).</p>
 <p>Initial values for the <code>T</code> field will also take zeroed values to compare the
 numerical method with the manual approach.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">dimensions      [<span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">1</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span>];
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">dimensions      [<span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">1</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span>];
 
 internalField   uniform <span style="color:#bd93f9">0</span>;
 
@@ -930,7 +945,7 @@ boundaryField
 }
 </code></pre></div><p>For the velocity, <code>zeroGradient</code> boundary condition type should be applied to
 both the inlet and the outlet of the domain:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">dimensions      [<span style="color:#bd93f9">0</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span>];
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">dimensions      [<span style="color:#bd93f9">0</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span>];
 
 internalField   <span style="color:#50fa7b">uniform</span> (<span style="color:#bd93f9">0.03</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span>);
 
@@ -966,7 +981,7 @@ has all case files up until this point. The git tag for this stage is
 <h2 id="numerical-schemes-and-solution-settings">Numerical schemes and solution settings</h2>
 <p>As for the numerical schemes used, let&rsquo;s use the same ones from the manual
 approach:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// File: system/fvSchemes
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// File: system/fvSchemes
 </span><span style="color:#6272a4"></span>
 ddtSchemes
 {
@@ -1016,7 +1031,7 @@ not in this simple one!!</p>
 surface-normal gradients) for now, so, just leave them as they are.</p>
 <p>After using these schemes to derive the matrix to solve, OpenFOAM will need to
 actually solve it:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// File: system/fvSolution
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// File: system/fvSolution
 </span><span style="color:#6272a4"></span>
 <span style="color:#6272a4">// A dictionary for linear solvers
 </span><span style="color:#6272a4"></span>solvers
@@ -1072,7 +1087,7 @@ The git tag for this stage is <strong>NSAndSolConfigured</strong>. Check it out 
 <h2 id="running-the-simulation">Running the simulation</h2>
 <p>We only need to tweak <code>system/controlDict</code> so that it reflects what we did back
 in the manual approach (previous unit):</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// File: system/controldict
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// File: system/controldict
 </span><span style="color:#6272a4"></span>
 application     scalarTransportFoam;
 
@@ -1097,7 +1112,7 @@ if you use any other value for this keyword, however you can see that
 <code>writeInterval</code> would have a different effect.</p>
 <p>The remaining settings are less relevant, and we can ignore them for the time
 being. So, let&rsquo;s start the simulation:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># Create the mesh and check its quality</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># Create the mesh and check its quality</span>
 <span style="color:#ff79c6">(</span>of@con:intro<span style="color:#ff79c6">)</span> blockMesh <span style="color:#ff79c6">&amp;&amp;</span> checkMesh
 <span style="color:#6272a4"># Run the solver and keep a log file</span>
 <span style="color:#ff79c6">(</span>of@con:intro<span style="color:#ff79c6">)</span> scalarTransportFoam | tee log.scalarTransportFoam
@@ -1251,11 +1266,11 @@ There is also a git tag for this stage (<strong>RunReady</strong>) in the case&r
 </table>
 <p>But don&rsquo;t just take my word for it; you can produce such tables with a single
 bash command (By looking for &ldquo;nonuniform&rdquo; into the <code>T</code> file for all iterations):</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">for</span> i in <span style="color:#ff79c6">{</span>1..37<span style="color:#ff79c6">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">for</span> i in <span style="color:#ff79c6">{</span>1..37<span style="color:#ff79c6">}</span>
     <span style="color:#ff79c6">do</span> grep nonuniform <span style="color:#8be9fd;font-style:italic">$i</span>/T | sed <span style="color:#f1fa8c">&#34;s/.*(\(.*\)).*/</span><span style="color:#8be9fd;font-style:italic">$i</span><span style="color:#f1fa8c">\t\1/g&#34;</span>
 <span style="color:#ff79c6">done</span>
 </code></pre></div><p>The <code>internalField</code> of <code>37/T</code> for example would look like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">internalField   nonuniform List&lt;scalar&gt; 9(0.98896731 ...);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">internalField   nonuniform List&lt;scalar&gt; 9(0.98896731 ...);
 </code></pre></div><p>so we just take what&rsquo;s inside the round brackets (as a bonus, the <code>sed</code> commands
 adds the iteration number at the start of each line (<code>$i</code>)).</p>
 <h2 id="what-now">What now?</h2>

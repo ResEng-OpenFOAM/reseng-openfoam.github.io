@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.83.1" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
@@ -25,13 +25,13 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/part1/03.openfoam-workflow-the-meshing-step/03-meshing-utilities/" /><meta property="article:section" content="docs" />
-<meta property="article:published_time" content="2020-11-19T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-06-05T17:27:07&#43;01:00" /><meta property="og:site_name" content="Reservoir Engineering With OpenFOAM" />
+<meta property="article:published_time" content="2020-11-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-06-05T17:27:07+01:00" /><meta property="og:site_name" content="Reservoir Engineering With OpenFOAM" />
 
 <meta itemprop="name" content="03 - Meshing Utilities">
 <meta itemprop="description" content="Generating and manupulating quality meshes with the least effort possible using different meshing tools!
-"><meta itemprop="datePublished" content="2020-11-19T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2021-06-05T17:27:07&#43;01:00" />
+"><meta itemprop="datePublished" content="2020-11-19T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-06-05T17:27:07+01:00" />
 <meta itemprop="wordCount" content="1091">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="03 - Meshing Utilities"/>
@@ -42,8 +42,8 @@
 
 
 
-<link rel="preload" href="/scss/main.min.966558819004a20a15de202b80019d683d5e52a93f0d75258e69e1f2086a412f.css" as="style">
-<link href="/scss/main.min.966558819004a20a15de202b80019d683d5e52a93f0d75258e69e1f2086a412f.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.10c9f5d63d1d0868e87230f0d7e3f32eadbdbbb9207736b87785ccb31e108bfd.css" as="style">
+<link href="/scss/main.min.10c9f5d63d1d0868e87230f0d7e3f32eadbdbbb9207736b87785ccb31e108bfd.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -59,6 +59,21 @@
 
 
 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.20/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.20/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.20/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
 
 
   </head>
@@ -830,13 +845,13 @@ present in the surface file, so, we remove those faces from our surface:</p>
 </li>
 <li>
 <p>The <code>system/meshDict</code> should then look like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">surfaceFile <span style="color:#f1fa8c">&#34;porousMedia2D.stl&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">surfaceFile <span style="color:#f1fa8c">&#34;porousMedia2D.stl&#34;</span>;
 minCellSize <span style="color:#bd93f9">0.5</span>;
 maxCellSize <span style="color:#bd93f9">3.5</span>;
 </code></pre></div></li>
 <li>
 <p>All that remains is to actually running the meshing command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">(</span>of@case<span style="color:#ff79c6">)</span> cartesian2DMesh | tee log.mesh
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">(</span>of@case<span style="color:#ff79c6">)</span> cartesian2DMesh | tee log.mesh
 </code></pre></div></li>
 <li>
 <p>To finally produce something like:</p>
@@ -864,7 +879,7 @@ maxCellSize <span style="color:#bd93f9">3.5</span>;
 <p>You can control at which workflow step the meshing utility stops using an
 entry in <code>system/meshDict</code> (You can also resume from previous meshing
 operations):</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">workflowControls
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">workflowControls
 {
     stopAfter templateGeneration;
     restartFromLatestStep <span style="color:#bd93f9">1</span>;

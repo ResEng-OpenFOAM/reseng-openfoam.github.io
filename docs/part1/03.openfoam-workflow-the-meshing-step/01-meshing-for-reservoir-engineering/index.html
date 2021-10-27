@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.83.1" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
@@ -25,13 +25,13 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/part1/03.openfoam-workflow-the-meshing-step/01-meshing-for-reservoir-engineering/" /><meta property="article:section" content="docs" />
-<meta property="article:published_time" content="2020-11-15T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-06-05T17:27:07&#43;01:00" /><meta property="og:site_name" content="Reservoir Engineering With OpenFOAM" />
+<meta property="article:published_time" content="2020-11-15T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-06-05T17:27:07+01:00" /><meta property="og:site_name" content="Reservoir Engineering With OpenFOAM" />
 
 <meta itemprop="name" content="01 - Meshing for Reservoir Engineering tasks">
 <meta itemprop="description" content="Common meshing practices in Reservoir Engineering and their relation to OpenFOAM-based meshes.
-"><meta itemprop="datePublished" content="2020-11-15T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2021-06-05T17:27:07&#43;01:00" />
+"><meta itemprop="datePublished" content="2020-11-15T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-06-05T17:27:07+01:00" />
 <meta itemprop="wordCount" content="1196">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="01 - Meshing for Reservoir Engineering tasks"/>
@@ -42,8 +42,8 @@
 
 
 
-<link rel="preload" href="/scss/main.min.966558819004a20a15de202b80019d683d5e52a93f0d75258e69e1f2086a412f.css" as="style">
-<link href="/scss/main.min.966558819004a20a15de202b80019d683d5e52a93f0d75258e69e1f2086a412f.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.10c9f5d63d1d0868e87230f0d7e3f32eadbdbbb9207736b87785ccb31e108bfd.css" as="style">
+<link href="/scss/main.min.10c9f5d63d1d0868e87230f0d7e3f32eadbdbbb9207736b87785ccb31e108bfd.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -59,6 +59,21 @@
 
 
 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.20/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.20/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.20/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
 
 
   </head>
@@ -821,7 +836,7 @@ graph LR;
 <div class="alert alert-success" role="alert">
 <h4 class="alert-heading">Example</h4>
 <p>Assume <code>constant/polyMesh/points</code> starts with:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#bd93f9">2142</span>        <span style="color:#6272a4">// Number of mesh points
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#bd93f9">2142</span>        <span style="color:#6272a4">// Number of mesh points
 </span><span style="color:#6272a4"></span>(
 (<span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span>)     <span style="color:#6272a4">// Vertex 0
 </span><span style="color:#6272a4"></span>(<span style="color:#bd93f9">0.5</span> <span style="color:#bd93f9">0</span> <span style="color:#bd93f9">0</span>)   <span style="color:#6272a4">// Vertex 1
@@ -830,7 +845,7 @@ graph LR;
 (<span style="color:#bd93f9">25</span> <span style="color:#bd93f9">10</span> <span style="color:#bd93f9">0.1</span>) <span style="color:#6272a4">// Vertex 2141
 </span><span style="color:#6272a4"></span>);
 </code></pre></div><p>A face list can then specify any type of faces:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#bd93f9">4071</span>              <span style="color:#6272a4">// Number of mesh faces
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#bd93f9">4071</span>              <span style="color:#6272a4">// Number of mesh faces
 </span><span style="color:#6272a4"></span>(
 <span style="color:#bd93f9">4</span>(<span style="color:#bd93f9">1</span> <span style="color:#bd93f9">52</span> <span style="color:#bd93f9">1123</span> <span style="color:#bd93f9">1072</span>) <span style="color:#6272a4">// face 0 from vertices 1, 52, 1123 and 1072
 </span><span style="color:#6272a4"></span>.....
@@ -839,7 +854,7 @@ graph LR;
 </span><span style="color:#6272a4"></span>);
 </code></pre></div><p>And each face will have at least an owner cell
 (and potentially a neighbor cell):</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#bd93f9">4071</span>              <span style="color:#6272a4">// Number of mesh faces
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#bd93f9">4071</span>              <span style="color:#6272a4">// Number of mesh faces
 </span><span style="color:#6272a4"></span>(
 <span style="color:#bd93f9">0</span>                 <span style="color:#6272a4">// face 0 has cell 0 as its owner
 </span><span style="color:#6272a4"></span><span style="color:#bd93f9">0</span>                 <span style="color:#6272a4">// face 1 also has cell 0 as its owner

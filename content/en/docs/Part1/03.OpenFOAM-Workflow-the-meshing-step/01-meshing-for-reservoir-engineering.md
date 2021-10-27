@@ -165,7 +165,7 @@ There is no general rule but:
 - The more you increase it, the __even more__ accuracy will be lost.
 - In transient simulations, mesh size is closly related to time step length.
   - It's common practice to fix the mesh size, then decide on a good 
-    `$\Delta t$`
+    $\Delta t$
 
 To illustrate, let's go through a simplified problem for seismic waves.
 
@@ -174,8 +174,8 @@ These waves can propagate at a speed of 3 km/s, with a maximum frequency on 1Hz:
 ![Visualization of Global Seismic Wave Propagation
 Simulation](/course/part-1/img/03.OpenFOAM-Workflow-the-meshing-step/01-seismic-waves.gif)
 
-From `$c = \lambda f$`, we deduce that the wave's length
-`$\lambda = 3 \mathrm{m}$`. Now, let's assume we have a PDE modeling how such
+From $c = \lambda f$, we deduce that the wave's length
+$\lambda = 3 \mathrm{m}$. Now, let's assume we have a PDE modeling how such
 waves propagate; and the domain on which the study is performed is the 
 __"whole planet Earth"__.
 
@@ -189,7 +189,7 @@ Now we face a number of problems:
 
 {{% alert title="Problem 1" color="danger" %}}
 
-Recall that the wave's propagation speed is `$c = 3 \mathrm{km.s^{-1}}$`
+Recall that the wave's propagation speed is $c = 3 \mathrm{km.s^{-1}}$
 
 - After __1 second__, the wave would have passed by __10 grid cells__
   - This will surely generate continuity errors and all sorts of numerical
@@ -202,17 +202,17 @@ Recall that the wave's propagation speed is `$c = 3 \mathrm{km.s^{-1}}$`
 
 Simply put, choose a smaller time step length
 
-- `$\Delta t = 0.1 \mathrm{s}$` seems a reasonable maximum value
+- $\Delta t = 0.1 \mathrm{s}$ seems a reasonable maximum value
 
 {{% /alert %}}
 
 {{% alert title="Problem 2" color="danger" %}}
 
-Cell volumes would have the value of `$V_c = 0.3^3 \mathrm{km^3}$`
+Cell volumes would have the value of $V_c = 0.3^3 \mathrm{km^3}$
 
-- Earch Volume: `$V_E = \frac{4}{3} \pi (6371)^3 \mathrm{km^3}$`
+- Earch Volume: $V_E = \frac{4}{3} \pi (6371)^3 \mathrm{km^3}$
 - Number of cells needed to mesh the whole earth:
-  `$\frac{V_E}{V_c} \approx 4 \times 10^{13}$`
+  $\frac{V_E}{V_c} \approx 4 \times 10^{13}$
   - So, for __each__ scalar field (assuming C's double), we would need around
   __320 TeraBytes__ as storage space (RAM & Hard Disk)!
 
